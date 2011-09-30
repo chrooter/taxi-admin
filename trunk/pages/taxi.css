@@ -32,4 +32,6 @@ body {
         color: #fff; /* Цвет текста */
         clear: left; /* Отменяем действие float */
        }
-      
+       #in input {
+        width: 200px;
+       } 
