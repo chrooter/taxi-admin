@@ -13,16 +13,38 @@ and open the template in the editor.
       <div id="header"><h1>Taxi requests</h1></div>
       <div id="sidebar">
           <form action="create.jsp">
-              <input style="width: 200px" value="Create request" type="submit">
+              <input style="width: 35%" value="Create request" type="submit">
           </form>
           <form action="edit.jsp">
-              <input style="width: 200px" value="Edit request" type="submit">
+              <input style="width: 35%" value="Edit request" type="submit">
           </form>
-          <form action="navigation.jsp">
-              <input style="width: 200px" value="Delete request" type="submit"><br><br>
-              <input style="width: 200px" value="Copy request" type="submit"><br><br>
-              <input style="width: 200px" value="Search request" type="submit"><br><br>
-              <input style="width: 200px" value="Sort request" type="submit">
+          <form action="navigationServlet">
+              <input style="width: 35%" value="Delete request" type="submit"><br><br>
+              <input style="width: 35%" value="Copy request" type="submit"><br><br>
+              <input style="width: 35%" value="Sort request" type="submit">
+              <select style="width: 50%;">
+               <option value="t1" selected>Time of receipt</option>
+               <option value="t2">Time of execution</option>
+               <option value="t3">Departure adress</option>
+               <option value="t4">Arrival adress</option>
+               <option value="t4">Passenger's count</option>
+               <option value="t4">Status</option>
+               <option value="t4">Distance</option>
+               <option value="t4">Cost</option>
+              </select>
+              <br><br>
+              <input style="width: 35%" value="Search request" type="submit">
+               <select style="width: 50%;">
+               <option value="t1" selected>Time of receipt</option>
+               <option value="t2">Time of execution</option>
+               <option value="t3">Departure adress</option>
+               <option value="t4">Arrival adress</option>
+               <option value="t4">Passenger's count</option>
+               <option value="t4">Status</option>
+               <option value="t4">Distance</option>
+               <option value="t4">Cost</option>
+              </select> <br><br>
+              <input type="text" id="search" style="width: 100%;"/>
           </form>
       </div>
       <div id="content">
@@ -41,7 +63,7 @@ and open the template in the editor.
             </tr>
             <tr>
                 <td>
-                    <input type="checkbox" id="requestId1">
+                    <input type="checkbox" name="requestId1">
                 </td>
                 <td>23:12</td>
                 <td>00:00</td>
@@ -54,7 +76,7 @@ and open the template in the editor.
             </tr>
              <tr>
                 <td>
-                    <input type="checkbox" id="requestId1">
+                    <input type="checkbox" name="requestId2">
                 </td>
                 <td>12:12</td>
                 <td>14:00</td>
@@ -68,5 +90,4 @@ and open the template in the editor.
         </table>
       </div>
       <div id="footer">&copy; DreamJTeam</div>
-  </body>
-</html>
+  </body></html>
