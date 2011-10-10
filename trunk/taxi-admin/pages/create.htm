@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+	<meta name="author" content="" />
+    <link rel="stylesheet" type="text/css" href="taxi.css">
+	<title>create page</title>
+</head>
+<body>
+      <div id="header"><h1>Create new request</h1></div>
+      <div id="sidebar" style="width: 30%;">
+        <form action="CreateServlet" method="post">
+        <table id="in">
+        <tr>
+         <td>Time of receipt</td>
+         <td><input type="text" name="Time of receipt"/></td>
+        </tr>
+        <tr>
+         <td>Time of execution</td>
+         <td><input type="text" name="Time of execution"/></td>
+        </tr>
+        <tr>
+         <td>Departure adress</td>
+         <td><input type="text" name="Departure adress"/></td>
+        </tr>
+        <tr>
+         <td>Arrival adress</td>
+         <td><input type="text" name="Arrival adress"/></td>
+        </tr>
+        <tr>
+         <td>Status</td>
+         <td><input type="text" name="Status"/></td>
+        </tr>
+        <tr>
+         <td>Distance</td>
+         <td><input type="text" name="Distance"/></td>
+        </tr>
+         <tr>
+         <td>Cost</td>
+         <td><input type="text" name="Cost"/></td>
+        </tr>
+        </table>
+        <input type="submit" name="create" value="Create request"/>
+        </form>
+      </div>
+      <div id="footer">&copy; DreamJTeam</div>
+</body>
+</html>

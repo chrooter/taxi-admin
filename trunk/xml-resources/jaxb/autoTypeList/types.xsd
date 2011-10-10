@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<xs:element name="types" type="typesType"/>
+	<xs:element name="single_type" type="singleTypeType"/>
+	
+	<xs:complexType name="typesType">
+		<xs:sequence>
+			<xs:element ref="single_type" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="singleTypeType">
+		<xs:sequence>
+			<xs:element name="type_id" type="xs:int"/>
+			<xs:element name="name" type="xs:string"/>
+			<xs:element name="seating_capacity" type="xs:int"/>
+			<xs:element name="capacity" type="xs:int"/>
+			<xs:element name="cost_per_km" type="xs:int"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+</xs:schema>

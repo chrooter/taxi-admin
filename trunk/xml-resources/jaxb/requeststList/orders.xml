@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<xs:element name="orders" type="ordersType"/>
+	<xs:element name="single_order" type="singleOrderType"/>
+	
+	<xs:complexType name="ordersType">
+		<xs:sequence>
+			<xs:element ref="single_order" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="singleOrderType">
+		<xs:sequence>
+			<xs:element name="order_id" type="xs:int"/>
+			<xs:element name="time_ord" type="xs:time"/>
+			<xs:element name="time_dest" type="xs:time"/>
+			<xs:element name="addr_dep" type="xs:string"/>
+			<xs:element name="addr_dest" type="xs:string"/>
+			<xs:element name="passenger" type="xs:int"/>
+			<xs:element name="status" type="StyleType">
+				<xs:simpleType>
+					<xs:restriction base="xs:int"/>
+						<xs:enumeration value="0"/>
+						<xs:enumeration value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+                        </xs:element>
+			<xs:element name="dist_appr" type="xs:int"/>
+			<xs:element name="dist_infact" type="xs:int"/>
+			<xs:element name="cost" type="xs:int"/>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:ID" use="required"/>
+	</xs:complexType>
+</xs:schema>

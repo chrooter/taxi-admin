@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <system systemId="file:/C:/Users/Артём/Documents/NetBeansProjects/TaxiXML/orders.xml" uri="xml-resources/jaxb/requestsList/orders.xml.xsd"/>
+    <system systemId="file:/C:/Users/Артём/Documents/NetBeansProjects/TaxiXML/orders.xsd" uri="xml-resources/jaxb/requestsList/orders.xsd"/>
+    <system systemId="file:/C:/Users/Артём/Documents/NetBeansProjects/TaxiXML/cars.xsd" uri="xml-resources/jaxb/autoList/cars.xsd"/>
+    <system systemId="file:/C:/Users/Артём/Documents/NetBeansProjects/TaxiXML/types.xsd" uri="xml-resources/jaxb/autoTypeList/types.xsd"/>
+</catalog>

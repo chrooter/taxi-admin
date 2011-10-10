@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<xs:element name="cars" type="carsType"/>
+	<xs:element name="single_car" type="singleCarType"/>
+	
+	<xs:complexType name="carsType">
+		<xs:sequence>
+			<xs:element ref="single_car" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="singleCarType">
+		<xs:sequence>
+			<xs:element name="car_id" type="xs:int"/>
+			<xs:element name="ref_type" type="xs:int"/>
+			<xs:element name="gov_number" type="xs:string"/>
+			<xs:element name="running" type="xs:int"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+</xs:schema>
