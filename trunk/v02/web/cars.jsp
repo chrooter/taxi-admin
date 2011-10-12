@@ -25,7 +25,7 @@
 					</div>
 				</div></div></div>
 				<div class="text_content box">
-					<jsp:include page="/newRequests.jsp"/>
+					<jsp:include page="/newOrders.jsp"/>
 					<div class="box txt_wrap">
 						<div class="txt pr zoom after">
 							<div class="zoom after pr menu1">

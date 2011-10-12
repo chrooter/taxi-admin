@@ -4,6 +4,10 @@
            xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
 		  http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
            version="2.5">
+	<filter>
+		<filter-name>NewRequestsFilter</filter-name>
+		<filter-class>ru.dreamjteam.servlets.NewOrdersFilter</filter-class>
+	</filter>
 	<servlet>
 		<servlet-name>CreateCarType</servlet-name>
 		<servlet-class>ru.dreamjteam.servlets.CreateCarTypeServlet</servlet-class>
@@ -13,8 +17,8 @@
 		<servlet-class>ru.dreamjteam.servlets.CreateCarServlet</servlet-class>
 	</servlet>
 	<servlet>
-		<servlet-name>CreateRequest</servlet-name>
-		<servlet-class>ru.dreamjteam.servlets.CreateRequestServlet</servlet-class>
+		<servlet-name>CreateOrder</servlet-name>
+		<servlet-class>ru.dreamjteam.servlets.CreateOrderServlet</servlet-class>
 	</servlet>
 	<servlet>
 		<servlet-name>EditCarType</servlet-name>
@@ -25,8 +29,8 @@
 		<servlet-class>ru.dreamjteam.servlets.EditCarServlet</servlet-class>
 	</servlet>
 	<servlet>
-		<servlet-name>EditRequest</servlet-name>
-		<servlet-class>ru.dreamjteam.servlets.EditRequestServlet</servlet-class>
+		<servlet-name>EditOrder</servlet-name>
+		<servlet-class>ru.dreamjteam.servlets.EditOrderServlet</servlet-class>
 	</servlet>
 	<servlet>
 		<servlet-name>DeleteCarType</servlet-name>
@@ -37,8 +41,8 @@
 		<servlet-class>ru.dreamjteam.servlets.DeleteCarServlet</servlet-class>
 	</servlet>
 	<servlet>
-		<servlet-name>DeleteRequest</servlet-name>
-		<servlet-class>ru.dreamjteam.servlets.DeleteRequestServlet</servlet-class>
+		<servlet-name>DeleteOrder</servlet-name>
+		<servlet-class>ru.dreamjteam.servlets.DeleteOrderServlet</servlet-class>
 	</servlet>
 	<servlet>
 		<servlet-name>ViewCarTypeList</servlet-name>
@@ -61,7 +65,7 @@
 		<url-pattern>/CreateCarType</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
-		<servlet-name>CreateRequest</servlet-name>
+		<servlet-name>CreateOrder</servlet-name>
 		<url-pattern>/CreateRequest</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
@@ -73,7 +77,7 @@
 		<url-pattern>/EditCarType</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
-		<servlet-name>EditRequest</servlet-name>
+		<servlet-name>EditOrder</servlet-name>
 		<url-pattern>/EditRequest</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
@@ -85,7 +89,7 @@
 		<url-pattern>/DeleteCarType</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
-		<servlet-name>DeleteRequest</servlet-name>
+		<servlet-name>DeleteOrder</servlet-name>
 		<url-pattern>/DeleteRequest</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
@@ -100,4 +104,8 @@
 		<servlet-name>ViewRequestList</servlet-name>
 		<url-pattern>/ViewRequestList</url-pattern>
 	</servlet-mapping>
+	<filter-mapping>
+		<filter-name>NewRequestsFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
 </web-app>
