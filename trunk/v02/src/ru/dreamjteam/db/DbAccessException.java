@@ -1,15 +1,11 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-package tdb;
+package ru.dreamjteam.db;
 
 import java.sql.SQLException;
 import javax.naming.NamingException;
 
 /**
  *
- * @author Сергей
+ * @author Senya
  */
 class DbAccessException extends Exception {
 
