@@ -50,8 +50,9 @@ public class ObjectGenerator {
 				Car sct = new Car();
 				sct.setId(rs.getInt(1));
 				sct.setCarTypeId(rs.getInt(2));
-				sct.setGovNumber(rs.getString(3));
-				sct.setRunning(rs.getInt(4));
+				sct.setCarModel(rs.getString(3));
+				sct.setGovNumber(rs.getString(4));
+				sct.setRunning(rs.getInt(5));
 				ct.getCar().add(sct);
 			}
 			return XMLGenerator.toXML(ct);
