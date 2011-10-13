@@ -1,4 +1,3 @@
-
 package ru.dreamjteam.xml.binds.orders;
 
 import javax.xml.bind.annotation.*;
@@ -22,8 +21,10 @@ import javax.xml.bind.annotation.*;
  *         &lt;element name="passengers" type="{http://www.w3.org/2001/XMLSchema}int"/>
  *         &lt;element name="status">
  *           &lt;simpleType>
- *             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}int">
- *               &lt;pattern value="[0-1]"/>
+ *             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
+ *               &lt;enumeration value="new"/>
+ *               &lt;enumeration value="executing"/>
+ *               &lt;enumeration value="done"/>
  *             &lt;/restriction>
  *           &lt;/simpleType>
  *         &lt;/element>
@@ -64,7 +65,8 @@ public class Order {
     @XmlElement(required = true)
     protected String addrDest;
     protected int passengers;
-    protected int status;
+    @XmlElement(required = true)
+    protected String status;
     protected int distAppr;
     protected int distInfact;
     protected int cost;
@@ -200,16 +202,24 @@ public class Order {
     /**
      * Gets the value of the status property.
      * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
      */
-    public int getStatus() {
+    public String getStatus() {
         return status;
     }
 
     /**
      * Sets the value of the status property.
      * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
      */
-    public void setStatus(int value) {
+    public void setStatus(String value) {
         this.status = value;
     }
 

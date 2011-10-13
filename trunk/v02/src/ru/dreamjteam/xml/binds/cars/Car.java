@@ -1,4 +1,3 @@
-
 package ru.dreamjteam.xml.binds.cars;
 
 import javax.xml.bind.annotation.*;
@@ -16,6 +15,7 @@ import javax.xml.bind.annotation.*;
  *       &lt;sequence>
  *         &lt;element name="id" type="{http://www.w3.org/2001/XMLSchema}int"/>
  *         &lt;element name="carTypeId" type="{http://www.w3.org/2001/XMLSchema}int"/>
+ *         &lt;element name="carModel" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="govNumber" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="running" type="{http://www.w3.org/2001/XMLSchema}int"/>
  *       &lt;/sequence>
@@ -30,6 +30,7 @@ import javax.xml.bind.annotation.*;
 @XmlType(name = "car", propOrder = {
     "id",
     "carTypeId",
+    "carModel",
     "govNumber",
     "running"
 })
@@ -38,6 +39,8 @@ public class Car {
 
     protected int id;
     protected int carTypeId;
+    @XmlElement(required = true)
+    protected String carModel;
     @XmlElement(required = true)
     protected String govNumber;
     protected int running;
@@ -72,6 +75,30 @@ public class Car {
      */
     public void setCarTypeId(int value) {
         this.carTypeId = value;
+    }
+
+    /**
+     * Gets the value of the carModel property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getCarModel() {
+        return carModel;
+    }
+
+    /**
+     * Sets the value of the carModel property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setCarModel(String value) {
+        this.carModel = value;
     }
 
     /**
