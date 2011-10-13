@@ -8,17 +8,13 @@ import ru.dreamjteam.xml.binds.types.CarType;
 import ru.dreamjteam.xml.binds.types.CarTypes;
 
 import java.sql.*;
-import java.io.ByteArrayOutputStream;
 
 public class ObjectGenerator {
-
-	XMLGenerator xg = new XMLGenerator();
-
 	private static String sqlGetOrders = "SELECT * FROM orders";
 	private static String sqlGetCars = "SELECT * FROM cars";
 	private static String sqlGetTypes = "SELECT * FROM types";
 
-	public ByteArrayOutputStream generateListOrders(Connection con) {
+	public String generateListOrders(Connection con) {
 		Orders ot = new Orders();
 		try {
 			PreparedStatement st = con.prepareStatement(sqlGetOrders);
@@ -37,7 +33,7 @@ public class ObjectGenerator {
 				sot.setCost(rs.getInt(10));
 				ot.getOrder().add(sot);
 			}
-			return xg.generateXMLOrders(ot);
+			return XMLGenerator.toXML(ot);
 		}
 		catch (SQLException ex) {
 			ex.printStackTrace();
@@ -45,7 +41,7 @@ public class ObjectGenerator {
 		return null;
 	}
 
-	public ByteArrayOutputStream generateListCars(Connection con) {
+	public String generateListCars(Connection con) {
 		Cars ct = new Cars();
 		try {
 			PreparedStatement st = con.prepareStatement(sqlGetCars);
@@ -58,7 +54,7 @@ public class ObjectGenerator {
 				sct.setRunning(rs.getInt(4));
 				ct.getCar().add(sct);
 			}
-			return xg.generateXMLCars(ct);
+			return XMLGenerator.toXML(ct);
 		}
 		catch (SQLException ex) {
 			ex.printStackTrace();
@@ -67,7 +63,7 @@ public class ObjectGenerator {
 	}
 
 
-	public ByteArrayOutputStream generateListTypes(Connection con) {
+	public String generateListTypes(Connection con) {
 		CarTypes tt = new CarTypes();
 		try {
 			PreparedStatement st = con.prepareStatement(sqlGetTypes);
@@ -81,7 +77,7 @@ public class ObjectGenerator {
 				stt.setCostPerKm(rs.getInt(5));
 				tt.getCarType().add(stt);
 			}
-			return xg.generateXMLTypes(tt);
+			return XMLGenerator.toXML(tt);
 		}
 		catch (SQLException ex) {
 			ex.printStackTrace();
