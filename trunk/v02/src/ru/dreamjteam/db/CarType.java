@@ -1,8 +1,4 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-package tdb;
+package ru.dreamjteam.db;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -149,10 +145,10 @@ public class CarType {
             return rows;
         
         } catch (NamingException ex) {
-            Logger.getLogger(DBAccess.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CarType.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         } catch (SQLException ex) {
-            Logger.getLogger(DBAccess.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CarType.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
     }
@@ -185,10 +181,10 @@ public class CarType {
             return "Запись изменена";
         
         } catch (NamingException ex) {
-            Logger.getLogger(DBAccess.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CarType.class.getName()).log(Level.SEVERE, null, ex);
             return "Ошибка доступа к базе";
         } catch (SQLException ex) {
-            Logger.getLogger(DBAccess.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CarType.class.getName()).log(Level.SEVERE, null, ex);
             return "Something went wrong";
         }
     }
