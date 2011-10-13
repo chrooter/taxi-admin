@@ -27,7 +27,7 @@ public class ObjectGenerator {
 				sot.setAddrDep(rs.getString(4));
 				sot.setAddrDest(rs.getString(5));
 				sot.setPassengers(rs.getInt(6));
-				sot.setStatus(rs.getInt(7));
+				sot.setStatus(rs.getString(7));
 				sot.setDistAppr(rs.getInt(8));
 				sot.setDistInfact(rs.getInt(9));
 				sot.setCost(rs.getInt(10));
