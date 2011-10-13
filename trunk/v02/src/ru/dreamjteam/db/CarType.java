@@ -1,5 +1,7 @@
-package ru.dreamjteam.db;
+package tdb;
 
+import types.*;
+import java.io.ByteArrayOutputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,13 +14,16 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
+import xml.XMLGenerator;
 
 /**
  *
  * @author Senya
  */
 public class CarType {
-    public static String Insert (List<String> row) {
+    
+    public static void insert (types.CarType row) throws DbAccessException {
+        
         try {
             Context initContext = new InitialContext();
             Context envContext  = (Context)initContext.lookup("java:/comp/env");
@@ -28,30 +33,27 @@ public class CarType {
             String query = "INSERT INTO CAR_TYPE VALUES (CAR_TYPE_SEQ.nextval, ?, ?, ?, ?)";
             PreparedStatement ps = conn.prepareStatement(query);
             
-            ps.setString(1, row.get(0));
-            ps.setInt(2, Integer.parseInt(row.get(1)));
-            ps.setInt(3, Integer.parseInt(row.get(2)));
-            ps.setInt(4, Integer.parseInt(row.get(3)));
+            ps.setString(1, row.getName());
+            ps.setInt(2, row.getSeatCap());
+            ps.setInt(3, row.getMassCap());
+            ps.setInt(4, row.getCostPerKm());
                     
             ps.executeUpdate();
             ps.close();
             initContext.close();
-            return "Запись добавлена";
-            
+
         }
         catch (SQLException ex) {
-            return "Ошибка (БД)";
+            throw new DbAccessException(ex);
             //Logger.getLogger(DBAccess.class.getName()).log(Level.SEVERE, null, ex);
         }        
         catch (NamingException ex) {
-            return "Something went wrong";
+            throw new DbAccessException(ex);
             //Logger.getLogger(DBAccess.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-//------------------------------------------------------------------------------      
     
-//------------------------------------------------------------------------------       
-    public static String Delete (int id) {
+    public static void delete (int id) throws DbAccessException {
         try {
             Context initContext = new InitialContext();
             Context envContext  = (Context)initContext.lookup("java:/comp/env");
@@ -66,96 +68,117 @@ public class CarType {
             ps.executeUpdate();
             ps.close();
             initContext.close();
-            return "Запись удалена";
         }
         catch (SQLException ex) {
-            return "Запрещено. Существуют машины такого типа";
+            throw new DbAccessException(ex);
             //Logger.getLogger(DBAccess.class.getName()).log(Level.SEVERE, null, ex);
         }        
         catch (NamingException ex) {
-            return "Ошибка в коде";
+            throw new DbAccessException(ex);
             //Logger.getLogger(DBAccess.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-//------------------------------------------------------------------------------    
-   public static List<Object> Select () {
-        return Select ("ID_TYPE", null);
+   
+    public static String select () throws DbAccessException {
+        types.CarType ct = new types.CarType();
+        ct.setId(0);
+        ct.setName(null);
+        ct.setMassCap(0);
+        ct.setSeatCap(0);
+        ct.setCostPerKm(0);        
+        
+        return select ("ID_TYPE", ct);
     }
-//------------------------------------------------------------------------------    
-    public static List<Object> Select (String orderBy) {
-        return Select (orderBy, null);
-    }
-//------------------------------------------------------------------------------
     
-//------------------------------------------------------------------------------            
-    public static List<Object>/*String*/ Select (String orderBy, List<String> find) {
+    public static String select (String orderBy) throws DbAccessException {
+        types.CarType ct = new types.CarType();
+        ct.setId(0);
+        ct.setName(null);
+        ct.setMassCap(0);
+        ct.setSeatCap(0);
+        ct.setCostPerKm(0);
+        
+        return select (orderBy, ct);
+    }
+    
+    public static String select (String orderBy, int id) throws DbAccessException {
+        types.CarType ct = new types.CarType();
+        ct.setId(id);
+        ct.setName(null);
+        ct.setMassCap(0);
+        ct.setSeatCap(0);
+        ct.setCostPerKm(0);
+        
+        return select (orderBy, ct);
+    }
+                      
+    public static String select (String orderBy, types.CarType ct) throws DbAccessException {
         try {
             int conditions = 1;
-            
-            List<Object> rows = new ArrayList<Object>();
+           
             Context initContext = new InitialContext();
             Context envContext  = (Context)initContext.lookup("java:/comp/env");
             DataSource ds = (DataSource)envContext.lookup("sampdb");
             Connection conn = ds.getConnection();
 
             String query = "SELECT * FROM CAR_TYPE ";
-            // лист 0 - ид, 1 - имя, 2 - посадочные месста, 3 - грузоподьемность, 4 - цена
             
-            if (find != null) query += "WHERE ID_TYPE = ID_TYPE ";
-            if (!find.get(0).isEmpty()) 
+            query += "WHERE ID_TYPE = ID_TYPE ";
+            if (ct.getId() != 0) 
                 query += "AND CAR_TYPE.ID_TYPE = ? ";
-            if (!find.get(1).isEmpty()) 
+            if (ct.getName() != null) 
                 query += "AND CAR_TYPE.NAME LIKE ? ";
-            if (!find.get(2).isEmpty()) 
+            if (ct.getSeatCap() != 0) 
                 query += "AND CAR_TYPE.SEATING_CAPASITY = ? ";
-            if (!find.get(3).isEmpty()) 
+            if (ct.getMassCap() != 0) 
                 query += "AND CAR_TYPE.CAPASITY = ? ";
-            if (!find.get(4).isEmpty()) 
+            if (ct.getCostPerKm() != 0) 
                 query += "AND CAR_TYPE.COST_PER_KM = ? ";
             query += "ORDER BY " + orderBy;
 
             PreparedStatement ps = conn.prepareStatement(query);
 
-            if (!find.get(0).isEmpty())
-                ps.setInt(conditions++, Integer.parseInt(find.get(0)));
-            if (!find.get(1).isEmpty()) 
-                ps.setString(conditions++, find.get(1));
-            if (!find.get(2).isEmpty()) 
-                ps.setInt(conditions++, Integer.parseInt(find.get(2)));
-            if (!find.get(3).isEmpty()) 
-                ps.setInt(conditions++, Integer.parseInt(find.get(3)));
-            if (!find.get(4).isEmpty()) 
-                ps.setInt(conditions++, Integer.parseInt(find.get(4)));
+            if (ct.getId() != 0) 
+                ps.setInt(conditions++, ct.getId());
+            if (ct.getName() != null)
+                ps.setString(conditions++, ct.getName());
+            if (ct.getSeatCap() != 0)
+                ps.setInt(conditions++, ct.getSeatCap());
+            if (ct.getMassCap() != 0)
+                ps.setInt(conditions++, ct.getMassCap());
+            if (ct.getCostPerKm() != 0) 
+                ps.setInt(conditions++, ct.getCostPerKm());
 
             ResultSet rs = ps.executeQuery();
-        
-            while (rs.next()) {
-                List<String> row = new ArrayList<String>(); 
-                row.add(rs.getRow()+"");  
-                row.add(rs.getString("ID_TYPE"));
-                row.add(rs.getString("NAME"));
-                row.add(rs.getString("SEATING_CAPASITY"));
-                row.add(rs.getString("CAPASITY"));
-                row.add(rs.getString("COST_PER_KM"));
-            rows.add(row);
+            
+            CarTypes rows = new CarTypes();
+            while (rs.next())
+            {
+                types.CarType row = new types.CarType();
+                row.setId(rs.getInt(1));
+                row.setName(rs.getString(2));
+                row.setSeatCap(rs.getInt(3));
+                row.setMassCap(rs.getInt(4));
+                row.setCostPerKm(rs.getInt(5));
+                rows.getCarType().add(row);
             }
- 
+
             rs.close();
             initContext.close();
-            return rows;
+            return XMLGenerator.toXML(rows);
         
         } catch (NamingException ex) {
-            Logger.getLogger(CarType.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
+            Logger.getLogger(DBAccess.class.getName()).log(Level.SEVERE, null, ex);
+            throw new DbAccessException(ex);
+            //return null;
         } catch (SQLException ex) {
-            Logger.getLogger(CarType.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
+            Logger.getLogger(DBAccess.class.getName()).log(Level.SEVERE, null, ex);
+            throw new DbAccessException(ex);
+            //return null;
         }
     }
-//------------------------------------------------------------------------------
-    
-//------------------------------------------------------------------------------
-        public static String Update (int id, List<String> row) {
+ 
+    public static void update (types.CarType row) throws DbAccessException {
         try {
             Context initContext = new InitialContext();
             Context envContext  = (Context)initContext.lookup("java:/comp/env");
@@ -168,24 +191,26 @@ public class CarType {
             
             PreparedStatement ps = conn.prepareStatement(query);
             
-            ps.setString(1, row.get(0));
-            ps.setInt(2, Integer.parseInt(row.get(1)));
-            ps.setInt(3, Integer.parseInt(row.get(2)));
-            ps.setInt(4, Integer.parseInt(row.get(3)));
-            ps.setInt(5, id);
+            ps.setString(1, row.getName());
+            ps.setInt(2, row.getSeatCap());
+            ps.setInt(3, row.getMassCap());
+            ps.setInt(4, row.getCostPerKm());
+            ps.setInt(5, row.getId());
             
             ResultSet rs = ps.executeQuery();
  
             rs.close();
             initContext.close();
-            return "Запись изменена";
+
         
         } catch (NamingException ex) {
-            Logger.getLogger(CarType.class.getName()).log(Level.SEVERE, null, ex);
-            return "Ошибка доступа к базе";
+            throw new DbAccessException(ex);
+            //Logger.getLogger(DBAccess.class.getName()).log(Level.SEVERE, null, ex);
+
         } catch (SQLException ex) {
-            Logger.getLogger(CarType.class.getName()).log(Level.SEVERE, null, ex);
-            return "Something went wrong";
+            throw new DbAccessException(ex);
+            //Logger.getLogger(DBAccess.class.getName()).log(Level.SEVERE, null, ex);
+
         }
     }
 }
