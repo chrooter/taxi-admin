@@ -1,10 +1,7 @@
 
 package ru.dreamjteam.xml.binds.orders;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.*;
 
 
 /**
@@ -54,6 +51,7 @@ import javax.xml.bind.annotation.XmlType;
     "distInfact",
     "cost"
 })
+@XmlRootElement
 public class Order {
 
     protected int id;

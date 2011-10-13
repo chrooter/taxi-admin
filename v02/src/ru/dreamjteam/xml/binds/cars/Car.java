@@ -1,10 +1,7 @@
 
 package ru.dreamjteam.xml.binds.cars;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.*;
 
 
 /**
@@ -36,6 +33,7 @@ import javax.xml.bind.annotation.XmlType;
     "govNumber",
     "running"
 })
+@XmlRootElement
 public class Car {
 
     protected int id;
