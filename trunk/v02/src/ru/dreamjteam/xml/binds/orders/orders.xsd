@@ -20,8 +20,10 @@
 			<xs:element name="passengers" type="xs:int"/>
 			<xs:element name="status">
 				<xs:simpleType>
-					<xs:restriction base="xs:int">
-						<xs:pattern value="[0-1]"/>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="new"/>
+						<xs:enumeration value="executing"/>
+						<xs:enumeration value="done"/>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:element>
