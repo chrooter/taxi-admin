@@ -1,10 +1,10 @@
 package ru.dreamjteam.xml.binds.carReports;
 
-
-import javax.xml.bind.annotation.*;
-
 import java.util.ArrayList;
 import java.util.List;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlType;
 
 
 /**
