@@ -9,6 +9,7 @@ import ru.dreamjteam.xml.binds.types.CarTypes;
 
 import java.sql.*;
 
+//TODO: класс все-еще кому то нужен или это deprecated?
 public class ObjectGenerator {
 	private static String sqlGetOrders = "SELECT * FROM orders";
 	private static String sqlGetCars = "SELECT * FROM cars";

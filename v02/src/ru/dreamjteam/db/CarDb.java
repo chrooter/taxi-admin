@@ -19,6 +19,8 @@ public class CarDb {
        
     public static void insert (Car row) throws DbAccessException {
         try {
+
+	        //TODO: КОПИПАСТа detected! (1)
             Context initContext = new InitialContext();
 
             Context envContext  = (Context)initContext.lookup("java:/comp/env");
@@ -27,7 +29,7 @@ public class CarDb {
 
             String query = "INSERT INTO CAR VALUES (CAR_SEQ.nextval, ?, ?, ?, ?)";
             PreparedStatement ps = conn.prepareStatement(query);
-        
+
             ps.setInt(1, row.getCarTypeId());       // тип
             ps.setString(2, row.getGovNumber());    // номер
             ps.setString(3, row.getCarModel());     // модель
@@ -44,9 +46,10 @@ public class CarDb {
             //Logger.getLogger(DBAccess.class.getName()).log(Level.SEVERE, null, ex);
         }        
     }
-       
+
     public static void delete (int id) throws DbAccessException {
         try {
+	        //TODO: КОПИПАСТа detected! (2)
             Context initContext = new InitialContext();
             Context envContext  = (Context)initContext.lookup("java:/comp/env");
             DataSource ds = (DataSource)envContext.lookup("sampdb");
@@ -70,6 +73,7 @@ public class CarDb {
     
     public static void update (Car row) throws DbAccessException {
         try {
+	        //TODO: КОПИПАСТа detected! (3)
             Context initContext = new InitialContext();
 
             Context envContext  = (Context)initContext.lookup("java:/comp/env");
@@ -99,9 +103,9 @@ public class CarDb {
             //Logger.getLogger(DBAccess.class.getName()).log(Level.SEVERE, null, ex);
         }        
     }   
-    
-    
-    
+
+
+
     public static String select () throws DbAccessException {
         Car cr = new Car();
         cr.setId(0);
@@ -135,7 +139,7 @@ public class CarDb {
     public static String select (String orderBy, Car cr) throws DbAccessException {
         try {
             int conditions = 1;
-            
+
             Context initContext = new InitialContext();
 
             Context envContext  = (Context)initContext.lookup("java:/comp/env");
@@ -148,9 +152,12 @@ public class CarDb {
                 query += "AND CAR.ID_CAR = ? ";
             if (cr.getCarTypeId() != 0) 
                 query += "AND CAR.REF_TYPE = ? ";
-            if (cr.getGovNumber() != null) 
+	        //TODO: а если гос.номер пустая сторка? смысл будет у выражения?
+	        //TODO: такой запрос найдет точное совпадени, что зачастую не нужно.
+            if (cr.getGovNumber() != null)
                 query += "AND CAR.GOV_NUMBER LIKE ? ";
-            if (cr.getCarModel() != null) 
+            if (cr.getCarModel() != null)
+            //TODO: аналогично, сделай поиск по части названия, а не точное совпадение
                 query += "AND CAR.MODEL LIKE ? ";
             if (cr.getRunning() != 0) 
                 query += "AND CAR.RUNNING = ? ";
