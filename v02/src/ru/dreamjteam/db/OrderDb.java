@@ -89,11 +89,11 @@ public class OrderDb {
             Connection conn = ds.getConnection();
             
             String query = "UPDATE ORDERS "
-                    + "ORD_TIME = to_date(?,'dd-mm-yyyy hh24:mi'), "
-                    + "DEST_TIME = to_date(?,'dd-mm-yyyy hh24:mi'), "
-                    + "DEP_ADDR = ?, "
-                    + "DEST_ADDR = ?, "
-                    + "PASSANGER = ?, "
+                    + "TIME_ORD = to_date(?,'dd-mm-yyyy hh24:mi'), "
+                    + "TIME_DEST = to_date(?,'dd-mm-yyyy hh24:mi'), "
+                    + "ADDR_DEP = ?, "
+                    + "ADDR_DEST = ?, "
+                    + "PASSENGER = ?, "
                     + "STATUS = ?, "
                     + "DIST_APPR = ?, "
                     + "DIST_INFACT = ?, "
@@ -126,7 +126,7 @@ public class OrderDb {
     }   
         
     public static String select () throws DbAccessException {
-        return select("ID_ORDER", null);
+        return select("ORDER_ID", null);
     }
     
     public static String select (String orderBy) throws DbAccessException {
@@ -149,11 +149,11 @@ public class OrderDb {
 
             String query = "SELECT "
                     + "ID_ORDER, "
-                    + "TO_CHAR(ORD_TIME, 'dd-mm-yyyy hh24:mi') ORD_TIME,"
-                    + "TO_CHAR(DEST_TIME, 'dd-mm-yyyy hh24:mi') DEST_TIME,"
-                    + "DEP_ADDR,"
-                    + "DEST_ADDR,"
-                    + "PASSANGER,"
+                    + "TO_CHAR(ORD_TIME, 'dd-mm-yyyy hh24:mi') TIME_ORD,"
+                    + "TO_CHAR(DEST_TIME, 'dd-mm-yyyy hh24:mi') TIME_DEST,"
+                    + "ADDR_DEP,"
+                    + "ADDR_DEST,"
+                    + "PASSENGER,"
                     + "STATUS,"
                     + "DIST_APPR,"
                     + "DIST_INFACT,"
@@ -161,20 +161,20 @@ public class OrderDb {
                     + "FROM ORDERS ORDER BY " + orderBy;
             
             if (ord != null) {            
-                query += "WHERE ID_ORDER = ID_ORDER";
+                query += "WHERE ORDER_ID = ORDER_ID";
             
                 if (ord.getId() != 0)
-                    query += "AND ID_ORDER = ? ";
+                    query += "AND ORDER_ID = ? ";
                 if (ord.getTimeOrd() != null)
-                    query += "AND ORD_TIME = ? ";
+                    query += "AND TIME_ORD = ? ";
                 if (ord.getTimeDest() != null)
-                    query += "AND DEST_TIME = ? ";
+                    query += "AND TIME_DEST = ? ";
                 if (ord.getAddrDep() != null)
-                    query += "AND DEP_ADDR = ? ";
+                    query += "AND ADDR_DER = ? ";
                 if (ord.getAddrDest() != null)
-                    query += "AND DEST_ADDR = ? ";
+                    query += "AND ADDR_DEST = ? ";
                 if (ord.getPassengers() != 0)
-                    query += "AND PASSANGER = ? ";
+                    query += "AND PASSENGER = ? ";
                 if (ord.getStatus() != null)
                     query += "AND STATUS = ? ";
                 if (ord.getDistAppr() != 0)
@@ -218,11 +218,11 @@ public class OrderDb {
             while (rs.next()) {
                 Order row = new Order(); 
                 row.setId(rs.getInt("ORDER_ID"));
-                row.setTimeOrd(rs.getString("ORD_TIME"));
-                row.setTimeDest(rs.getString("DEST_TIME"));
-                row.setAddrDep(rs.getString("DEP_ADDR"));
-                row.setAddrDest(rs.getString("DEST_ADDR"));
-                row.setPassengers(rs.getInt("PASSANGER"));
+                row.setTimeOrd(rs.getString("TIME_ORD"));
+                row.setTimeDest(rs.getString("TIME_DEST"));
+                row.setAddrDep(rs.getString("ADDR_DEP"));
+                row.setAddrDest(rs.getString("ADDR_DEST"));
+                row.setPassengers(rs.getInt("PASSENGER"));
                 row.setStatus(rs.getString("STATUS"));
                 row.setDistAppr(rs.getInt("DIST_APPR"));
                 row.setDistInfact(rs.getInt("DIST_INFACT"));
