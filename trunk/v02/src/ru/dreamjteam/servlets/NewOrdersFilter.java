@@ -24,7 +24,7 @@ public class NewOrdersFilter implements Filter {
 		order.setAddrDest("какой-то адрес назначения будет тут");
 		order.setPassengers(4);
 		order.setId(1);
-		order.setStatus(1);
+		order.setStatus("Новый");
 		Date now = new Date();
 		order.setTimeOrd(now.toString());
 		order.setTimeDest(now.toString());
@@ -35,7 +35,7 @@ public class NewOrdersFilter implements Filter {
 		order.setAddrDest("какой-то ДРУГОЙ адрес назначения будет тут");
 		order.setPassengers(2);
 		order.setId(2);
-		order.setStatus(1);
+		order.setStatus("Новый");
 		now = new Date();
 		order.setTimeOrd(now.toString());
 		order.setTimeDest(now.toString());
