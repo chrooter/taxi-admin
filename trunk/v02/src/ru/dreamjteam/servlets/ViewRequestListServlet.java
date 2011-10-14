@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package servlets;
+package ru.dreamjteam.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
