@@ -27,7 +27,7 @@ public class CarTypeDb {
             DataSource ds = (DataSource)envContext.lookup("sampdb");
             Connection conn = ds.getConnection();
 
-            String query = "INSERT INTO CAR_TYPE VALUES (CAR_TYPE_SEQ.nextval, ?, ?, ?, ?)";
+            String query = "INSERT INTO TYPES VALUES (TYPES_SEQ.nextval, ?, ?, ?, ?)";
             PreparedStatement ps = conn.prepareStatement(query);
             
             ps.setString(1, row.getName());
@@ -57,7 +57,7 @@ public class CarTypeDb {
             DataSource ds = (DataSource)envContext.lookup("sampdb");
             Connection conn = ds.getConnection();
 
-            String query = "DELETE FROM CAR_TYPE WHERE CAR_TYPE.ID_TYPE = ?";
+            String query = "DELETE FROM TYPES WHERE ID_TYPE = ?";
             PreparedStatement ps = conn.prepareStatement(query);
             
             ps.setInt(1, id);
@@ -84,7 +84,7 @@ public class CarTypeDb {
         ct.setSeatCap(0);
         ct.setCostPerKm(0);        
         
-        return select ("ID_TYPE", ct);
+        return select ("TYPE_ID", ct);
     }
     
     public static String select (String orderBy) throws DbAccessException {
@@ -98,7 +98,7 @@ public class CarTypeDb {
         return select (orderBy, ct);
     }
     
-    public static String select (String orderBy, int id) throws DbAccessException {
+    public static String select (int id) throws DbAccessException {
         CarType ct = new CarType();
         ct.setId(id);
         ct.setName(null);
@@ -106,7 +106,7 @@ public class CarTypeDb {
         ct.setSeatCap(0);
         ct.setCostPerKm(0);
         
-        return select (orderBy, ct);
+        return select ("TYPE_ID", ct);
     }
                       
     public static String select (String orderBy, CarType ct) throws DbAccessException {
@@ -118,19 +118,19 @@ public class CarTypeDb {
             DataSource ds = (DataSource)envContext.lookup("sampdb");
             Connection conn = ds.getConnection();
 
-            String query = "SELECT * FROM CAR_TYPE ";
+            String query = "SELECT * FROM TYPES ";
             
-            query += "WHERE ID_TYPE = ID_TYPE ";
+            query += "WHERE TYPE_ID = TYPE_ID ";
             if (ct.getId() != 0) 
-                query += "AND CAR_TYPE.ID_TYPE = ? ";
+                query += "AND TYPE_ID = ? ";
             if (ct.getName() != null) 
-                query += "AND CAR_TYPE.NAME LIKE ? ";
+                query += "AND NAME LIKE ? ";
             if (ct.getSeatCap() != 0) 
-                query += "AND CAR_TYPE.SEATING_CAPASITY = ? ";
+                query += "AND SEATING_CAPASITY = ? ";
             if (ct.getMassCap() != 0) 
-                query += "AND CAR_TYPE.CAPASITY = ? ";
+                query += "AND CAPASITY = ? ";
             if (ct.getCostPerKm() != 0) 
-                query += "AND CAR_TYPE.COST_PER_KM = ? ";
+                query += "AND COST_PER_KM = ? ";
             query += "ORDER BY " + orderBy;
 
             PreparedStatement ps = conn.prepareStatement(query);
@@ -182,9 +182,9 @@ public class CarTypeDb {
             DataSource ds = (DataSource)envContext.lookup("sampdb");
             Connection conn = ds.getConnection();
 
-            String query = "UPDATE CAR_TYPE "
+            String query = "UPDATE TYPES "
                     + "SET NAME = ?, SEATING_CAPASITY = ?, CAPASITY = ?, COST_PER_KM = ? "
-                    + "WHERE ID_TYPE = ?";
+                    + "WHERE TYPE_ID = ?";
             
             PreparedStatement ps = conn.prepareStatement(query);
             

@@ -16,7 +16,7 @@ import ru.dreamjteam.xml.XMLGenerator;
  * @author Senya
  */
 //TODO: опечатка в названии класса
-public class ExecuionDb {
+public class ExecutionDb {
 
     public static void insert (int carId, int orderId) throws DbAccessException {
         try {
@@ -26,7 +26,7 @@ public class ExecuionDb {
             DataSource ds = (DataSource)envContext.lookup("sampdb");
             Connection conn = ds.getConnection();
 
-            String query = "INSERT INTO DEMO.CAR_ORD VALUES (?, ?)";
+            String query = "INSERT INTO CAR_ORD VALUES (?, ?)";
 
             PreparedStatement ps = conn.prepareStatement(query);
             ps.setInt(1, carId);
