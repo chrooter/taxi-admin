@@ -1,21 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
-	<xs:element name="cars" type="cars"/>
-	<xs:element name="car" type="car"/>
+	<xs:element name="carReports" type="carReports"/>
+	<xs:element name="carReport" type="carReport"/>
 	
-	<xs:complexType name="cars">
+	<xs:complexType name="carReports">
 		<xs:sequence>
-			<xs:element ref="car" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="carReport" minOccurs="0" maxOccurs="unbounded"/>
 		</xs:sequence>
 	</xs:complexType>
-	
-	<xs:complexType name="car">
+
+	<xs:complexType name="carReport">
 		<xs:sequence>
-			<xs:element name="id" type="xs:int"/>
-			<xs:element name="carTypeId" type="xs:int"/>
+			<xs:element name="idCar" type="xs:int"/>
+                        <xs:element name="idOrder" type="xs:int"/>
+			<xs:element name="carModel" type="xs:string"/>
 			<xs:element name="govNumber" type="xs:string"/>
-			<xs:element name="running" type="xs:int"/>
+			<xs:element name="seatCap" type="xs:int"/>
+                        <xs:element name="running" type="xs:int"/>
+                        <xs:element name="status" type="xs:string"/>
 		</xs:sequence>
 	</xs:complexType>
 	
