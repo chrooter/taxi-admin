@@ -57,7 +57,7 @@ public class CarTypeDb {
             DataSource ds = (DataSource)envContext.lookup("sampdb");
             Connection conn = ds.getConnection();
 
-            String query = "DELETE FROM TYPES WHERE ID_TYPE = ?";
+            String query = "DELETE FROM TYPES WHERE TYPE_ID = ?";
             PreparedStatement ps = conn.prepareStatement(query);
             
             ps.setInt(1, id);
@@ -77,35 +77,17 @@ public class CarTypeDb {
     }
    
     public static String select () throws DbAccessException {
-        CarType ct = new CarType();
-        ct.setId(0);
-        ct.setName(null);
-        ct.setMassCap(0);
-        ct.setSeatCap(0);
-        ct.setCostPerKm(0);        
-        
-        return select ("TYPE_ID", ct);
+        return select ("TYPE_ID", null);
     }
     
     public static String select (String orderBy) throws DbAccessException {
         CarType ct = new CarType();
-        ct.setId(0);
-        ct.setName(null);
-        ct.setMassCap(0);
-        ct.setSeatCap(0);
-        ct.setCostPerKm(0);
-        
-        return select (orderBy, ct);
+        return select (orderBy, null);
     }
     
     public static String select (int id) throws DbAccessException {
         CarType ct = new CarType();
         ct.setId(id);
-        ct.setName(null);
-        ct.setMassCap(0);
-        ct.setSeatCap(0);
-        ct.setCostPerKm(0);
-        
         return select ("TYPE_ID", ct);
     }
                       
@@ -120,32 +102,36 @@ public class CarTypeDb {
 
             String query = "SELECT * FROM TYPES ";
             
-            query += "WHERE TYPE_ID = TYPE_ID ";
-            if (ct.getId() != 0) 
-                query += "AND TYPE_ID = ? ";
-            if (ct.getName() != null) 
-                query += "AND NAME LIKE ? ";
-            if (ct.getSeatCap() != 0) 
-                query += "AND SEATING_CAPASITY = ? ";
-            if (ct.getMassCap() != 0) 
-                query += "AND CAPASITY = ? ";
-            if (ct.getCostPerKm() != 0) 
-                query += "AND COST_PER_KM = ? ";
+            if (ct != null) {
+                query += "WHERE TYPE_ID = TYPE_ID ";
+                if (ct.getId() != 0) 
+                    query += "AND TYPE_ID = ? ";
+                if (ct.getName() != null) 
+                    query += "AND NAME LIKE ? ";
+                if (ct.getSeatCap() != 0) 
+                    query += "AND SEATING_CAPACITY = ? ";
+                if (ct.getMassCap() != 0) 
+                    query += "AND CAPACITY = ? ";
+                if (ct.getCostPerKm() != 0) 
+                    query += "AND COST_PER_KM = ? ";
+            }    
             query += "ORDER BY " + orderBy;
 
             PreparedStatement ps = conn.prepareStatement(query);
 
-            if (ct.getId() != 0) 
-                ps.setInt(conditions++, ct.getId());
-            if (ct.getName() != null)
-                ps.setString(conditions++, ct.getName());
-            if (ct.getSeatCap() != 0)
-                ps.setInt(conditions++, ct.getSeatCap());
-            if (ct.getMassCap() != 0)
-                ps.setInt(conditions++, ct.getMassCap());
-            if (ct.getCostPerKm() != 0) 
-                ps.setInt(conditions++, ct.getCostPerKm());
-
+            if (ct != null) {
+                if (ct.getId() != 0) 
+                    ps.setInt(conditions++, ct.getId());
+                if (ct.getName() != null)
+                    ps.setString(conditions++, "%"+ct.getName()+"%");
+                if (ct.getSeatCap() != 0)
+                    ps.setInt(conditions++, ct.getSeatCap());
+                if (ct.getMassCap() != 0)
+                    ps.setInt(conditions++, ct.getMassCap());
+                if (ct.getCostPerKm() != 0) 
+                    ps.setInt(conditions++, ct.getCostPerKm());
+            }
+            
             ResultSet rs = ps.executeQuery();
             
             CarTypes rows = new CarTypes();
@@ -183,7 +169,7 @@ public class CarTypeDb {
             Connection conn = ds.getConnection();
 
             String query = "UPDATE TYPES "
-                    + "SET NAME = ?, SEATING_CAPASITY = ?, CAPASITY = ?, COST_PER_KM = ? "
+                    + "SET NAME = ?, SEATING_CAPACITY = ?, CAPACITY = ?, COST_PER_KM = ? "
                     + "WHERE TYPE_ID = ?";
             
             PreparedStatement ps = conn.prepareStatement(query);
