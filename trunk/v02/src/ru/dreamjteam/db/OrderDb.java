@@ -148,9 +148,9 @@ public class OrderDb {
             Connection conn = ds.getConnection();
 
             String query = "SELECT "
-                    + "ID_ORDER, "
-                    + "TO_CHAR(ORD_TIME, 'dd-mm-yyyy hh24:mi') TIME_ORD,"
-                    + "TO_CHAR(DEST_TIME, 'dd-mm-yyyy hh24:mi') TIME_DEST,"
+                    + "ORDER_ID, "
+                    + "TO_CHAR(TIME_ORD, 'dd-mm-yyyy hh24:mi') TIME_ORD,"
+                    + "TO_CHAR(TIME_DEST, 'dd-mm-yyyy hh24:mi') TIME_DEST,"
                     + "ADDR_DEP,"
                     + "ADDR_DEST,"
                     + "PASSENGER,"
@@ -184,7 +184,7 @@ public class OrderDb {
                 if (ord.getCost() != 0)
                     query += "AND COST = ? ";
                 if (ord.getId() != 0)
-                    query += "AND ID_ORDER = ? ";
+                    query += "AND ORDER_ID = ? ";
             }
             query += "ORDER BY " + orderBy;
                         
