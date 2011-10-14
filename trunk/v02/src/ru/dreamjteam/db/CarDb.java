@@ -27,7 +27,7 @@ public class CarDb {
             DataSource ds = (DataSource)envContext.lookup("sampdb");
             Connection conn = ds.getConnection();
 
-            String query = "INSERT INTO CAR VALUES (CAR_SEQ.nextval, ?, ?, ?, ?)";
+            String query = "INSERT INTO CARS VALUES (CARS_SEQ.nextval, ?, ?, ?, ?)";
             PreparedStatement ps = conn.prepareStatement(query);
 
             ps.setInt(1, row.getCarTypeId());       // тип
@@ -55,7 +55,7 @@ public class CarDb {
             DataSource ds = (DataSource)envContext.lookup("sampdb");
             Connection conn = ds.getConnection();
 
-            String query = "DELETE FROM CAR WHERE CAR.ID_CAR = ?";
+            String query = "DELETE FROM CARS WHERE CAR_ID = ?";
             PreparedStatement ps = conn.prepareStatement(query);
             ps.setInt(1, id);
             ps.executeUpdate();
@@ -80,9 +80,9 @@ public class CarDb {
             DataSource ds = (DataSource)envContext.lookup("sampdb");
             Connection conn = ds.getConnection();
 
-            String query = "UPDATE CAR "
+            String query = "UPDATE CARS "
                     + "SET REF_TYPE = ?, GOV_NUMBER = ?, MODEL = ?, RUNNING = ? "
-                    + "WHERE ID_CAR = ?";
+                    + "WHERE CAR_ID = ?";
             
             PreparedStatement ps = conn.prepareStatement(query);
         
@@ -113,27 +113,17 @@ public class CarDb {
         cr.setGovNumber(null);
         cr.setCarModel(null);
         cr.setRunning(0);
-        return select ("ID_CAR", cr);
+        return select ("CAR_ID", cr);
     }
     
     public static String select (String orderBy) throws DbAccessException {
-        Car cr = new Car();
-        cr.setId(0);
-        cr.setCarTypeId(0);
-        cr.setGovNumber(null);
-        cr.setCarModel(null);
-        cr.setRunning(0);
-        return select (orderBy, cr);
+        return select (orderBy, null);
     }
-    
-    public static String select (String orderBy, int id) throws DbAccessException {
+        
+    public static String select (int id) throws DbAccessException {
         Car cr = new Car();
         cr.setId(id);
-        cr.setCarTypeId(0);
-        cr.setGovNumber(null);
-        cr.setCarModel(null);
-        cr.setRunning(0);        
-        return select (orderBy, cr);
+        return select ("CAR_ID", cr);
     }
         
     public static String select (String orderBy, Car cr) throws DbAccessException {
@@ -146,43 +136,42 @@ public class CarDb {
             DataSource ds = (DataSource)envContext.lookup("sampdb");
             Connection conn = ds.getConnection();
 
-            String query = "SELECT * FROM CAR ";
-            query += "WHERE ID_CAR = ID_CAR ";
-            if (cr.getId() != 0)
-                query += "AND CAR.ID_CAR = ? ";
-            if (cr.getCarTypeId() != 0) 
-                query += "AND CAR.REF_TYPE = ? ";
-	        //TODO: а если гос.номер пустая сторка? смысл будет у выражения?
-	        //TODO: такой запрос найдет точное совпадени, что зачастую не нужно.
-            if (cr.getGovNumber() != null)
-                query += "AND CAR.GOV_NUMBER LIKE ? ";
-            if (cr.getCarModel() != null)
-            //TODO: аналогично, сделай поиск по части названия, а не точное совпадение
-                query += "AND CAR.MODEL LIKE ? ";
-            if (cr.getRunning() != 0) 
-                query += "AND CAR.RUNNING = ? ";
-           
+            String query = "SELECT * FROM CARS ";
+            if (cr != null) {
+                query += "WHERE CAR_ID = CAR_ID ";
+                if (cr.getId() != 0)
+                    query += "AND CAR_ID = ? ";
+                if (cr.getCarTypeId() != 0) 
+                    query += "AND REF_TYPE = ? ";
+                if (cr.getGovNumber() != null)
+                    query += "AND GOV_NUMBER LIKE ? ";
+                if (cr.getCarModel() != null)
+                    query += "AND MODEL LIKE ? ";
+                if (cr.getRunning() != 0) 
+                    query += "AND RUNNING = ? ";
+            }
             query += "ORDER BY " + orderBy;
 
             PreparedStatement ps = conn.prepareStatement(query);
         
-            if (cr.getId() != 0)
-                ps.setInt(conditions++, cr.getId());
-            if (cr.getCarTypeId() != 0) 
-                ps.setInt(conditions++, cr.getCarTypeId());
-            if (cr.getGovNumber() != null)  
-                ps.setString(conditions++, cr.getGovNumber());
-            if (cr.getCarModel() != null) 
-                ps.setString(conditions++, cr.getCarModel());
-            if (cr.getRunning() != 0) 
-                ps.setInt(conditions++, cr.getRunning());     
-
+            if (cr != null) {
+                if (cr.getId() != 0)
+                    ps.setInt(conditions++, cr.getId());
+                if (cr.getCarTypeId() != 0) 
+                    ps.setInt(conditions++, cr.getCarTypeId());
+                if (cr.getGovNumber() != null)  
+                    ps.setString(conditions++, "%"+cr.getGovNumber()+"%");
+                if (cr.getCarModel() != null) 
+                    ps.setString(conditions++, "%"+cr.getCarModel()+"%");
+                if (cr.getRunning() != 0) 
+                    ps.setInt(conditions++, cr.getRunning());     
+            }
+            
             ResultSet rs = ps.executeQuery();
             Cars rows = new Cars();
             while (rs.next()) {
                 Car row = new Car();
-                  
-                row.setId(rs.getInt("ID"));
+                row.setId(rs.getInt("CAR_ID"));
                 row.setCarTypeId(rs.getInt("REF_TYPE"));
                 row.setGovNumber(rs.getString("GOV_NUMBER"));
                 row.setCarModel(rs.getString("MODEL"));
@@ -202,89 +191,4 @@ public class CarDb {
             throw new DbAccessException(ex);
         }
     }
-/*    
-    public static Select selectCars (String orderBy, Car find) {
-        try {
-            int conditions = 1;
-            
-            Context initContext = new InitialContext();
-
-            Context envContext  = (Context)initContext.lookup("java:/comp/env");
-            DataSource ds = (DataSource)envContext.lookup("sampdb");
-            Connection conn = ds.getConnection();
-
-            String query = "SELECT "
-                + "ID_CAR ID, NAME, GOV_NUMBER,  SEATING_CAPASITY, CAPASITY, "
-                + "COST_PER_KM, RUNNING "
-                + "FROM CAR_TYPE INNER JOIN CAR ON CAR_TYPE.ID_TYPE = CAR.ID_CAR ";
-            
-            //0 - ид, 1 - тип, 2 - модель 3 - гос номер, 4 - посадочные места, 5 - груз, 6 - цена - 7 пробег
-            if (find != null) query += "WHERE ID_CAR = ID_CAR ";
-            if (!find.get(0).isEmpty()) 
-                query += "AND CAR_TYPE.ID_CAR = ? ";
-            if (!find.get(1).isEmpty()) 
-                query += "AND CAR_TYPE.NAME LIKE ? ";
-            if (!find.get(2).isEmpty()) 
-                query += "AND CAR_TYPE.MODEL LIKE ? ";
-            if (!find.get(3).isEmpty()) 
-                query += "AND CAR_TYPE.GOV_NUMBER LIKE ? ";
-            if (!find.get(4).isEmpty()) 
-                query += "AND CAR_TYPE.SEATING_CAPASITY = ? ";
-            if (!find.get(5).isEmpty()) 
-                query += "AND CAR_TYPE.CAPASITY = ? ";
-            if (!find.get(6).isEmpty()) 
-                query += "AND CAR_TYPE.COST_PER_KM = ? ";
-            if (!find.get(7).isEmpty()) 
-                query += "AND CAR_TYPE.COST_PER_KM = ? ";
-            query += "ORDER BY " + orderBy;
-
-            PreparedStatement ps = conn.prepareStatement(query);
-        
-            if (!find.get(0).isEmpty())
-                ps.setInt(conditions++, Integer.parseInt(find.get(0)));
-            if (!find.get(1).isEmpty()) 
-                ps.setString(conditions++, find.get(1));
-            if (!find.get(2).isEmpty()) 
-                ps.setString(conditions++, find.get(2));
-            if (!find.get(3).isEmpty()) 
-                ps.setString(conditions++, find.get(3));
-            if (!find.get(4).isEmpty()) 
-                ps.setInt(conditions++, Integer.parseInt(find.get(4)));
-            if (!find.get(5).isEmpty()) 
-                ps.setInt(conditions++, Integer.parseInt(find.get(5)));
-            if (!find.get(6).isEmpty()) 
-                ps.setInt(conditions++, Integer.parseInt(find.get(6)));
-            if (!find.get(7).isEmpty()) 
-                ps.setInt(conditions++, Integer.parseInt(find.get(7)));            
-
-            ResultSet rs = ps.executeQuery();
-            Cars rows = new Cars();
-            while (rs.next()) {
-                Car row = new Car();
-                //List<String> row = new ArrayList<String>(); 
-                  
-                row.setId(rs.getInt("ID"));
-                row.add(rs.getString("NAME"));
-                row.add(rs.getString("MODEL"));
-                row.add(rs.getString("GOV_NUMBER"));
-                row.add(rs.getString("SEATING_CAPASITY"));
-                row.add(rs.getString("CAPASITY"));
-                row.add(rs.getString("COST_PER_KM"));
-                row.add(rs.getString("RUNNING"));
-                rows.add(row);
-            }
- 
-            ps.close();
-            return rows;
-        
-        } catch (NamingException ex) {
-            //Logger.getLogger(DBAccess.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
-        } catch (SQLException ex) {
-            //Logger.getLogger(DBAccess.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
-        }
-    }
-//------------------------------------------------------------------------------    
-*/
 }

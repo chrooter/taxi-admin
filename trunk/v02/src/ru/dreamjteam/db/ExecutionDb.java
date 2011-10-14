@@ -26,7 +26,7 @@ public class ExecutionDb {
             DataSource ds = (DataSource)envContext.lookup("sampdb");
             Connection conn = ds.getConnection();
 
-            String query = "INSERT INTO CAR_ORD VALUES (?, ?)";
+            String query = "INSERT INTO ORD_CAR VALUES (?, ?)";
 
             PreparedStatement ps = conn.prepareStatement(query);
             ps.setInt(1, carId);
@@ -53,7 +53,7 @@ public class ExecutionDb {
             DataSource ds = (DataSource)envContext.lookup("sampdb");
             Connection conn = ds.getConnection();
 
-            String query = "DELETE FROM CAR_ORD "
+            String query = "DELETE FROM ORD_CAR "
                     + "WHERE REF_CAR = ? AND REF_ORDER = ?";
             PreparedStatement ps = conn.prepareStatement(query);
             
@@ -82,7 +82,7 @@ public class ExecutionDb {
             DataSource ds = (DataSource)envContext.lookup("sampdb");
             Connection conn = ds.getConnection();
 
-            String query = "UPDATE CAR_TYPE "
+            String query = "UPDATE ORD_CAR "
                     + "SET REF_CAR = ?, REF_ORDER = ? "
                     + "WHERE REF_CAR = ? AND REF_ORDER = ?";
             

@@ -62,7 +62,7 @@ public class OrderDb {
             DataSource ds = (DataSource)envContext.lookup("sampdb");
             Connection conn = ds.getConnection();
 
-            String query = "DELETE FROM ORDERS WHERE ORDERS.ID_ORDER = ?";
+            String query = "DELETE FROM ORDERS WHERE ORDER_ID = ?";
             PreparedStatement ps = conn.prepareStatement(query);
             
             ps.setInt(1, id);
@@ -98,7 +98,7 @@ public class OrderDb {
                     + "DIST_APPR = ?, "
                     + "DIST_INFACT = ?, "
                     + "COST = ? "
-                    + "WHERE ID_ORDER = ?";
+                    + "WHERE ORDER_ID = ?";
             
             PreparedStatement ps = conn.prepareStatement(query);
         
@@ -133,10 +133,10 @@ public class OrderDb {
         return select(orderBy, null);
     }
     
-    public static String select (String orderBy, int id) throws DbAccessException {
+    public static String select (int id) throws DbAccessException {
         Order ord = new Order();
         ord.setId(id);        
-        return select(orderBy, ord);
+        return select("ORDER_ID", ord);
     }
     
     public static String select (String orderBy, Order ord) throws DbAccessException {
@@ -190,33 +190,34 @@ public class OrderDb {
                         
             PreparedStatement ps = conn.prepareStatement(query);
             
-             if (ord.getId() != 0)
-                ps.setInt(conditions++, ord.getId());
-            if (ord.getTimeOrd() != null)
-                ps.setString(conditions++, ord.getTimeOrd());
-            if (ord.getTimeDest() != null)
-                ps.setString(conditions++, ord.getTimeDest());
-            if (ord.getAddrDep() != null)
-                ps.setString(conditions++, ord.getAddrDep());
-            if (ord.getAddrDest() != null)
-                ps.setString(conditions++, ord.getAddrDest());
-            if (ord.getPassengers() != 0)
-                ps.setInt(conditions++, ord.getPassengers());
-            if (ord.getStatus() != null)
-                ps.setString(conditions++, ord.getStatus());
-            if (ord.getDistAppr() != 0)
-                ps.setInt(conditions++, ord.getDistAppr());
-            if (ord.getDistInfact() != 0)
-                ps.setInt(conditions++,ord.getDistInfact());
-            if (ord.getCost() != 0)
-                ps.setInt(conditions++, ord.getCost());
-                                             
+            if (ord != null) {
+                if (ord.getId() != 0)
+                    ps.setInt(conditions++, ord.getId());
+                if (ord.getTimeOrd() != null)
+                    ps.setString(conditions++, "%"+ord.getTimeOrd()+"%");
+                if (ord.getTimeDest() != null)
+                    ps.setString(conditions++, "%"+ord.getTimeDest()+"%");
+                if (ord.getAddrDep() != null)
+                    ps.setString(conditions++, "%"+ord.getAddrDep()+"%");
+                if (ord.getAddrDest() != null)
+                    ps.setString(conditions++, "%"+ord.getAddrDest()+"%");
+                if (ord.getPassengers() != 0)
+                    ps.setInt(conditions++, ord.getPassengers());
+                if (ord.getStatus() != null)
+                    ps.setString(conditions++, ord.getStatus());
+                if (ord.getDistAppr() != 0)
+                    ps.setInt(conditions++, ord.getDistAppr());
+                if (ord.getDistInfact() != 0)
+                    ps.setInt(conditions++,ord.getDistInfact());
+                if (ord.getCost() != 0)
+                    ps.setInt(conditions++, ord.getCost());
+            }                                 
             ResultSet rs = ps.executeQuery();            
 
             Orders rows = new Orders();
             while (rs.next()) {
                 Order row = new Order(); 
-                row.setId(rs.getInt("ID_ORDER"));
+                row.setId(rs.getInt("ORDER_ID"));
                 row.setTimeOrd(rs.getString("ORD_TIME"));
                 row.setTimeDest(rs.getString("DEST_TIME"));
                 row.setAddrDep(rs.getString("DEP_ADDR"));
