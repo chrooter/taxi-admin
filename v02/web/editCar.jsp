@@ -1,4 +1,3 @@
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="ru.dreamjteam.xml.binds.carReports.*,ru.dreamjteam.xml.XMLParser,ru.dreamjteam.db.CarReportDb"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
@@ -28,7 +27,7 @@
              CarReports car = XMLParser.parseXML(CarReportDb.select("TYPE_id",null),CarReports.class);
              
              model = car.getCarReport().get(0).getCarModel();
-
+             ref_type =  car.getCarReport().get(0).getCarTypeId();
              gov_number = car.getCarReport().get(0).getGovNumber();
              running = car.getCarReport().get(0).getRunning();
             }
@@ -75,7 +74,7 @@
 											<th><div class="nobr table_div">Действия</div></th>
 										</tr>
 										<tr class="tr_1">
-                                                                                    <td><div class="r_div"><input type="text" value="?" name="ref_type" /></div></td>
+                                                                                    <td><div class="r_div"><input type="text" value="<%=ref_type%>" name="ref_type" /></div></td>
 											<td><div class="r_div"><input type="text" value="<%=gov_number%>" name="GOV_NUMBER" /></div></td>
 											<td><div class="r_div"><input type="text" value="<%=running%>" name="RUNNING" /></div></td>
                                                                                         <td><div class="r_div"><input type="text" value="<%=model%>" name="model" /></div></td>
