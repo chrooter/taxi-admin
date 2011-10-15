@@ -59,7 +59,8 @@ public class CarReport {
     protected int running;
     @XmlElement(required = true)
     protected String status;
-
+    protected int carTypeId;
+    
     /**
      * Gets the value of the idCar property.
      * 
@@ -194,6 +195,22 @@ public class CarReport {
      */
     public void setStatus(String value) {
         this.status = value;
+    }
+    
+        /**
+     * Gets the value of the carTypeId property.
+     * 
+     */
+    public int getCarTypeId() {
+        return carTypeId;
+    }
+
+    /**
+     * Sets the value of the carTypeId property.
+     * 
+     */
+    public void setCarTypeId(int value) {
+        this.carTypeId = value;
     }
 
 }
