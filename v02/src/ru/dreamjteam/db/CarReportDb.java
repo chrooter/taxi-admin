@@ -46,7 +46,7 @@ public class CarReportDb {
             Connection conn = ds.getConnection();
 
             String query = "SELECT CAR_ID, ORDER_ID, MODEL, SEATING_CAPACITY, "
-                    + "GOV_NUMBER, RUNNING, STATUS "
+                    + "GOV_NUMBER, RUNNING, STATUS, REF_TYPE "
                     + "FROM CAR "
                     + "LEFT JOIN TYPES ON TYPE_ID = REF_TYPE "
                     + "LEFT JOIN ORD_CAR ON REF_CAR = CAR_ID "
@@ -65,6 +65,8 @@ public class CarReportDb {
                     query += "AND GOV_NUMBER LIKE ? ";
                 if (find.getRunning() != 0) 
                     query += "AND RUNNING = ?";
+                if (find.getCarTypeId() != 0) 
+                    query += "AND CAR_TYPE = ?";
             }
             query += "ORDER BY " + orderBy;
 
@@ -81,6 +83,8 @@ public class CarReportDb {
                     ps.setString(conditions++, find.getGovNumber());
                 if (find.getRunning() != 0) 
                     ps.setInt(conditions++, find.getRunning());
+                if (find.getCarTypeId() != 0) 
+                    ps.setInt(conditions++, find.getCarTypeId());
             }           
 
             ResultSet rs = ps.executeQuery();
@@ -94,6 +98,7 @@ public class CarReportDb {
                 row.setSeatCap(rs.getInt("SEATING_CAPASITY"));
                 row.setRunning(rs.getInt("RUNNING"));
                 row.setStatus(rs.getString("STATUS"));
+                row.setStatus(rs.getString("REF_TYPE"));
                 rows.getCarReport().add(row);
             }
  
