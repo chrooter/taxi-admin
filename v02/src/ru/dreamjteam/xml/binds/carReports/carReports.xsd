@@ -11,22 +11,23 @@
 	</xs:complexType>
 
 	<xs:complexType name="carReport">
-		<xs:sequence>
-			<xs:element name="idCar" type="xs:int"/>
-            <xs:element name="idOrder" type="xs:int"/>
-			<xs:element name="carModel" type="xs:string"/>
-			<xs:element name="govNumber" type="xs:string"/>
-			<xs:element name="seatCap" type="xs:int"/>
-            <xs:element name="running" type="xs:int"/>
-            <xs:element name="status"/>
-				<xs:simpleType>
-					<xs:restriction base="xs:string">
-						<xs:enumeration value="new"/>
-						<xs:enumeration value="executing"/>
-						<xs:enumeration value="done"/>
-					</xs:restriction>
-				</xs:simpleType>
-		</xs:sequence>
+            <xs:sequence>
+                <xs:element name="idCar" type="xs:int"/>
+                <xs:element name="idOrder" type="xs:int"/>
+                <xs:element name="carModel" type="xs:string"/>
+                <xs:element name="govNumber" type="xs:string"/>
+                <xs:element name="seatCap" type="xs:int"/>
+                <xs:element name="running" type="xs:int"/>
+                <xs:element name="status">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="new"/>
+                        <xs:enumeration value="executing"/>
+                        <xs:enumeration value="done"/>
+                    </xs:restriction>
+                </xs:simpleType>
+                </xs:element>
+            </xs:sequence>
 	</xs:complexType>
 	
 </xs:schema>

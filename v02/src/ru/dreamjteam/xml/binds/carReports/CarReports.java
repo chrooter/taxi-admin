@@ -28,6 +28,7 @@ import javax.xml.bind.annotation.*;
 @XmlType(name = "carReports", propOrder = {
     "carReport"
 })
+@XmlRootElement
 public class CarReports {
 
     protected List<CarReport> carReport;
