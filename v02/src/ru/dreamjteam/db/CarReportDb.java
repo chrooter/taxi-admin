@@ -66,7 +66,7 @@ public class CarReportDb {
                 if (find.getRunning() != 0) 
                     query += "AND RUNNING = ?";
                 if (find.getCarTypeId() != 0) 
-                    query += "AND CAR_TYPE = ?";
+                    query += "AND REF_TYPE = ?";
             }
             query += "ORDER BY " + orderBy;
 
