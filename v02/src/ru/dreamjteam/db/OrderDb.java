@@ -157,11 +157,11 @@ public class OrderDb {
                     + "STATUS,"
                     + "DIST_APPR,"
                     + "DIST_INFACT,"
-                    + "COST"
-                    + "FROM ORDERS ORDER BY " + orderBy;
+                    + "COST "
+                    + "FROM ORDERS ";
             
             if (ord != null) {            
-                query += "WHERE ORDER_ID = ORDER_ID";
+                query += "WHERE ORDER_ID = ORDER_ID ";
             
                 if (ord.getId() != 0)
                     query += "AND ORDER_ID = ? ";
