@@ -50,7 +50,7 @@ public class CarReportDb {
                     + "FROM CAR "
                     + "LEFT JOIN TYPES ON TYPE_ID = REF_TYPE "
                     + "LEFT JOIN ORD_CAR ON REF_CAR = CAR_ID "
-                    + "LEFT JOIN ORDERS ON REF_ORDER = ORDER_ID";
+                    + "LEFT JOIN ORDERS ON REF_ORDER = ORDER_ID ";
             
             if (find != null) { 
                 query += "WHERE CAR_ID = CAR_ID ";
@@ -64,9 +64,9 @@ public class CarReportDb {
                 if (find.getGovNumber() != null)
                     query += "AND GOV_NUMBER LIKE ? ";
                 if (find.getRunning() != 0) 
-                    query += "AND RUNNING = ?";
+                    query += "AND RUNNING = ? ";
                 if (find.getCarTypeId() != 0) 
-                    query += "AND REF_TYPE = ?";
+                    query += "AND REF_TYPE = ? ";
             }
             query += "ORDER BY " + orderBy;
 
