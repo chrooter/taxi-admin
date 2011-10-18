@@ -9,7 +9,8 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 import ru.dreamjteam.xml.XMLGenerator;
-import ru.dreamjteam.xml.binds.cars.*;
+import ru.dreamjteam.xml.binds.Car;
+import ru.dreamjteam.xml.binds.Cars;
 
 /**
  *
@@ -19,15 +20,10 @@ public class CarDb {
        
     public static void insert (Car row) throws DbAccessException {
         try {
-
 	        //TODO: КОПИПАСТа detected! (1)
-            Context initContext = new InitialContext();
+	        final Connection conn = getConnection();
 
-            Context envContext  = (Context)initContext.lookup("java:/comp/env");
-            DataSource ds = (DataSource)envContext.lookup("sampdb");
-            Connection conn = ds.getConnection();
-
-            String query = "INSERT INTO CARS VALUES (CARS_SEQ.nextval, ?, ?, ?, ?)";
+	        String query = "INSERT INTO CARS VALUES (CARS_SEQ.nextval, ?, ?, ?, ?)";
             PreparedStatement ps = conn.prepareStatement(query);
 
             ps.setInt(1, row.getCarTypeId());       // тип
@@ -44,16 +40,21 @@ public class CarDb {
         } catch (SQLException ex) {
             throw new DbAccessException(ex);
             //Logger.getLogger(DBAccess.class.getName()).log(Level.SEVERE, null, ex);
-        }        
+        }
     }
 
-    public static void delete (int id) throws DbAccessException {
+	private static Connection getConnection() throws NamingException, SQLException {
+		Context initContext = new InitialContext();
+
+		Context envContext  = (Context)initContext.lookup("java:/comp/env");
+		DataSource ds = (DataSource)envContext.lookup("sampdb");
+		return ds.getConnection();
+	}
+
+	public static void delete (int id) throws DbAccessException {
         try {
 	        //TODO: КОПИПАСТа detected! (2)
-            Context initContext = new InitialContext();
-            Context envContext  = (Context)initContext.lookup("java:/comp/env");
-            DataSource ds = (DataSource)envContext.lookup("sampdb");
-            Connection conn = ds.getConnection();
+	        Connection conn = getConnection();
 
             String query = "DELETE FROM CARS WHERE CAR_ID = ?";
             PreparedStatement ps = conn.prepareStatement(query);
@@ -74,11 +75,7 @@ public class CarDb {
     public static void update (Car row) throws DbAccessException {
         try {
 	        //TODO: КОПИПАСТа detected! (3)
-            Context initContext = new InitialContext();
-
-            Context envContext  = (Context)initContext.lookup("java:/comp/env");
-            DataSource ds = (DataSource)envContext.lookup("sampdb");
-            Connection conn = ds.getConnection();
+	        Connection conn = getConnection();
 
             String query = "UPDATE CARS "
                     + "SET REF_TYPE = ?, GOV_NUMBER = ?, MODEL = ?, RUNNING = ? "
@@ -131,7 +128,6 @@ public class CarDb {
             int conditions = 1;
 
             Context initContext = new InitialContext();
-
             Context envContext  = (Context)initContext.lookup("java:/comp/env");
             DataSource ds = (DataSource)envContext.lookup("sampdb");
             Connection conn = ds.getConnection();

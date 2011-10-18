@@ -9,20 +9,20 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import ru.dreamjteam.db.CarDb;
 import ru.dreamjteam.xml.XMLParser;
-import ru.dreamjteam.xml.binds.carReports.*;
-import ru.dreamjteam.db.CarReportDb;
+import ru.dreamjteam.xml.binds.Cars;
+
 /**
  *
  * @author диман
  */
 public class ViewCarListServlet extends HttpServlet {
-   
-    /** 
+    /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      * @param request servlet request
      * @param response servlet response
@@ -33,14 +33,13 @@ public class ViewCarListServlet extends HttpServlet {
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        CarReports cars;
+	    Cars cars;
         try {
             String orderBy = request.getParameter("orderBy");
             if (orderBy == null) {
-                cars = XMLParser.parseXML(CarReportDb.select(),CarReports.class);
-
+	            cars = XMLParser.parseXML(CarDb.select(), Cars.class);
             } else {
-                cars = XMLParser.parseXML(CarReportDb.select(request.getParameter("orderBy"),null),CarReports.class);
+                cars = XMLParser.parseXML(CarDb.select(request.getParameter("orderBy"),null),Cars.class);
             }
             request.setAttribute("cars", cars);
             RequestDispatcher dispatcher = request.getRequestDispatcher("navigationCar.jsp");

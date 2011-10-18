@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<xs:element name="cars" type="cars"/>
+	<xs:element name="car" type="car"/>
+
+	<xs:element name="orders" type="orders"/>
+	<xs:element name="order" type="order"/>
+
+	<xs:element name="carTypes" type="carTypes"/>
+	<xs:element name="carType" type="carType"/>
+
+	<xs:complexType name="orders">
+		<xs:sequence minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="order" type="order"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="cars">
+		<xs:sequence minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="car" type="car"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="carTypes">
+		<xs:sequence minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="carType" type="carType"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="order">
+		<xs:sequence>
+			<xs:element ref="car"/>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:int"/>
+		<xs:attribute name="carId" type="xs:int"/>
+		<xs:attribute name="timeOrd" type="xs:string"/>
+		<xs:attribute name="timeDest" type="xs:string"/>
+		<xs:attribute name="addrDep" type="xs:string"/>
+		<xs:attribute name="addrDest" type="xs:string"/>
+		<xs:attribute name="passengers" type="xs:int"/>
+		<xs:attribute name="status">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="new"/>
+					<xs:enumeration value="executing"/>
+					<xs:enumeration value="done"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="distAppr" type="xs:int"/>
+		<xs:attribute name="distInfact" type="xs:int"/>
+		<xs:attribute name="cost" type="xs:int"/>
+	</xs:complexType>
+
+	<xs:complexType name="car">
+		<xs:sequence>
+			<xs:element ref="orders" minOccurs="1" maxOccurs="1"/>
+			<xs:element ref="carType" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:int"/>
+		<xs:attribute name="carTypeId" type="xs:int"/>
+		<xs:attribute name="carModel" type="xs:string"/>
+		<xs:attribute name="govNumber" type="xs:string"/>
+		<xs:attribute name="running" type="xs:int"/>
+	</xs:complexType>
+
+	<xs:complexType name="carType">
+		<xs:sequence>
+			<xs:element ref="cars" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:int"/>
+		<xs:attribute name="name" type="xs:string"/>
+		<xs:attribute name="seatCap" type="xs:int"/>
+		<xs:attribute name="massCap" type="xs:int"/>
+		<xs:attribute name="costPerKm" type="xs:int"/>
+	</xs:complexType>
+
+</xs:schema>
