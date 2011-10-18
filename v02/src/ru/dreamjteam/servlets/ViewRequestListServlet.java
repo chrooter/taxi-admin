@@ -8,8 +8,9 @@ package ru.dreamjteam.servlets;
 import java.io.IOException;
 import java.io.PrintWriter;
 import ru.dreamjteam.xml.XMLParser;
-import ru.dreamjteam.xml.binds.orders.*;
 import ru.dreamjteam.db.OrderDb;
+import ru.dreamjteam.xml.binds.Orders;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -37,7 +38,7 @@ public class ViewRequestListServlet extends HttpServlet {
         try {
             String orderBy = request.getParameter("orderBy");
             if (orderBy == null) {
-                orders = XMLParser.parseXML(OrderDb.select(),Orders.class);
+                orders = XMLParser.parseXML(OrderDb.select(), Orders.class);
 
             } else {
                 orders = XMLParser.parseXML(OrderDb.select(request.getParameter("orderBy")),Orders.class);

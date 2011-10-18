@@ -7,13 +7,8 @@ import javax.naming.NamingException;
  *
  * @author Senya
  */
-class DbAccessException extends Exception {
-
-    public DbAccessException(SQLException ex) {
-    }
-
-    public DbAccessException(NamingException ex) {
-        
-    }
-    
+public class DbAccessException extends Exception {
+	public DbAccessException(Throwable cause) {
+		super(cause);
+	}
 }

@@ -1,12 +1,11 @@
 package ru.dreamjteam.servlets;
 
-import ru.dreamjteam.xml.binds.orders.Order;
+import ru.dreamjteam.xml.binds.Order;
 
 import javax.servlet.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Random;
 
 /**
  * @author abolmasov (11.10.2011 16:28:07)

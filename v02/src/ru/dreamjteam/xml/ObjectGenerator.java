@@ -1,11 +1,6 @@
 package ru.dreamjteam.xml;
 
-import ru.dreamjteam.xml.binds.cars.Car;
-import ru.dreamjteam.xml.binds.cars.Cars;
-import ru.dreamjteam.xml.binds.orders.Order;
-import ru.dreamjteam.xml.binds.orders.Orders;
-import ru.dreamjteam.xml.binds.types.CarType;
-import ru.dreamjteam.xml.binds.types.CarTypes;
+import ru.dreamjteam.xml.binds.*;
 
 import java.sql.*;
 

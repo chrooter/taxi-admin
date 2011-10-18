@@ -1,17 +1,16 @@
 package ru.dreamjteam.db;
 
-import ru.dreamjteam.xml.binds.types.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 import ru.dreamjteam.xml.XMLGenerator;
+import ru.dreamjteam.xml.binds.CarType;
+import ru.dreamjteam.xml.binds.CarTypes;
 
 /**
  *
@@ -19,7 +18,7 @@ import ru.dreamjteam.xml.XMLGenerator;
  */
 public class CarTypeDb {
     
-    public static void insert (CarType row) throws DbAccessException {
+    public static void insert ( CarType row) throws DbAccessException {
         
         try {
             Context initContext = new InitialContext();

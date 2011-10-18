@@ -1,10 +1,5 @@
 package ru.dreamjteam.xml;
 
-
-import ru.dreamjteam.xml.binds.cars.Cars;
-import ru.dreamjteam.xml.binds.orders.Orders;
-import ru.dreamjteam.xml.binds.types.CarTypes;
-
 import java.io.*;
 import javax.xml.bind.*;
 

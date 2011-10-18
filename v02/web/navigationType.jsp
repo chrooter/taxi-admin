@@ -15,7 +15,7 @@
         <title>navigation car</title>
         	<link rel="stylesheet" href="css/style.css" type="text/css" />
 		<!--[if IE]><link rel="stylesheet" type="text/css" href="css/ie.css" /><![endif]-->
-		<script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
+		<script type="text/javascript" src="js/jquery.min.js"></script>
 		<!--[if IE]><script type="text/javascript" src="js/pie.js"></script>
 		<script type="text/javascript" src="js/ie.js"></script><![endif]-->
     </head>
