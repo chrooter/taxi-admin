@@ -1,5 +1,14 @@
 package ru.dreamjteam.xml;
 
+<<<<<<< .mine
+
+import ru.dreamjteam.xml.binds.cars.Cars;
+import ru.dreamjteam.xml.binds.orders.Orders;
+import ru.dreamjteam.xml.binds.types.CarTypes;
+import ru.dreamjteam.xml.binds.carReports.CarReports;
+
+=======
+>>>>>>> .r84
 import java.io.*;
 import javax.xml.bind.*;
 
