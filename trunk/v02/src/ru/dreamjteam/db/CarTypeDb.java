@@ -30,8 +30,8 @@ public class CarTypeDb {
         try {
             Connection conn = getConnection();
 
-      // TODO String query = "INSERT INTO TYPES VALUES (TYPES_SEQ.nextval, ?, ?, ?, ?)";
-            String query = "INSERT INTO TYPES VALUES (CAR_TYPE_SEQ.nextval, ?, ?, ?, ?)";
+      	String query = "INSERT INTO TYPES VALUES (TYPES_SEQ.nextval, ?, ?, ?, ?)";
+           // String query = "INSERT INTO TYPES VALUES (CAR_TYPE_SEQ.nextval, ?, ?, ?, ?)";
             PreparedStatement ps = conn.prepareStatement(query);
             
             ps.setString(1, row.getName());
