@@ -10,21 +10,23 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
-import ru.dreamjteam.xml.XMLGenerator;
 /**
  *
  * @author Senya
  */
-//TODO: опечатка в названии класса
+
 public class ExecutionDb {
 
+    private static Connection getConnection() throws NamingException, SQLException {
+	Context initContext = new InitialContext();
+	Context envContext  = (Context)initContext.lookup("java:/comp/env");
+	DataSource ds = (DataSource)envContext.lookup("sampdb");
+	return ds.getConnection();
+    }
+    
     public static void insert (int carId, int orderId) throws DbAccessException {
         try {
-            Context initContext = new InitialContext();
-
-            Context envContext  = (Context)initContext.lookup("java:/comp/env");
-            DataSource ds = (DataSource)envContext.lookup("sampdb");
-            Connection conn = ds.getConnection();
+            Connection conn = getConnection();
 
             String query = "INSERT INTO ORD_CAR VALUES (?, ?)";
 
@@ -34,7 +36,7 @@ public class ExecutionDb {
                 
             ps.executeUpdate();
             ps.close();
-            initContext.close();
+            conn.close();
             
         } catch (NamingException ex) {
             throw new DbAccessException(ex);
@@ -48,10 +50,7 @@ public class ExecutionDb {
     
     public static void delete (int carId, int orderId ) throws DbAccessException {
         try {
-            Context initContext = new InitialContext();
-            Context envContext  = (Context)initContext.lookup("java:/comp/env");
-            DataSource ds = (DataSource)envContext.lookup("sampdb");
-            Connection conn = ds.getConnection();
+            Connection conn = getConnection();
 
             String query = "DELETE FROM ORD_CAR "
                     + "WHERE REF_CAR = ? AND REF_ORDER = ?";
@@ -61,7 +60,7 @@ public class ExecutionDb {
             ps.setInt(2, orderId);
                     
             ps.executeUpdate();
-            initContext.close();
+            conn.close();
             ps.close();
 
         }
@@ -77,10 +76,7 @@ public class ExecutionDb {
     
         public static void update (int getCarId, int getOrderId, int setCarId, int setOrderId) throws DbAccessException {
         try {
-            Context initContext = new InitialContext();
-            Context envContext  = (Context)initContext.lookup("java:/comp/env");
-            DataSource ds = (DataSource)envContext.lookup("sampdb");
-            Connection conn = ds.getConnection();
+            Connection conn = getConnection();
 
             String query = "UPDATE ORD_CAR "
                     + "SET REF_CAR = ?, REF_ORDER = ? "
@@ -96,7 +92,7 @@ public class ExecutionDb {
             ResultSet rs = ps.executeQuery();
  
             rs.close();
-            initContext.close();
+            conn.close();
         
         } catch (NamingException ex) {
             throw new DbAccessException(ex);
