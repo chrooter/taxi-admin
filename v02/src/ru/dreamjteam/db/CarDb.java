@@ -27,9 +27,10 @@ public class CarDb {
     
     public static void insert (Car row) throws DbAccessException {
         try {
-	    Connection conn = getConnection();
+	        //TODO: КОПИПАСТа detected! (1)
+	        final Connection conn = Connect.GetConnect();
 
-	    String query = "INSERT INTO CARS VALUES (CARS_SEQ.nextval, ?, ?, ?, ?)";
+	        String query = "INSERT INTO CARS VALUES (CARS_SEQ.nextval, ?, ?, ?, ?)";
             PreparedStatement ps = conn.prepareStatement(query);
 
             ps.setInt(1, row.getCarTypeId());       // тип
@@ -49,7 +50,6 @@ public class CarDb {
             //Logger.getLogger(DBAccess.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
 
     public static void delete (int id) throws DbAccessException {
         try {
@@ -153,38 +153,25 @@ public class CarDb {
     
     public static void update (Car row) throws DbAccessException {
         try {
-	    int conditions = 1;
-            Connection conn = getConnection();
+	        //TODO: КОПИПАСТа detected! (3)
+	        Connection conn = Connect.GetConnect();
 
-            if ((row != null) && (row.getId() != null)) {
-                String query = "UPDATE CARS SET CAR_ID = CAR_ID ";
-                if (row.getCarTypeId() != null)
-                    query += ", REF_TYPE = ? ";
-                if (row.getGovNumber() != null)
-                    query += ", GOV_NUMBER = ? ";
-                if (row.getCarModel() != null)
-                    query += ", CAPACITY = ? ";
-                if (row.getRunning() != null)
-                    query += ", COST_PER_KM = ? ";
-                
-                query += "WHERE CAR_ID = ?";
+            String query = "UPDATE CARS "
+                    + "SET REF_TYPE = ?, GOV_NUMBER = ?, MODEL = ?, RUNNING = ? "
+                    + "WHERE CAR_ID = ?";
             
-                PreparedStatement ps = conn.prepareStatement(query);
+            PreparedStatement ps = conn.prepareStatement(query);
         
-                if (row.getCarTypeId() != null)
-                    ps.setInt(conditions++, row.getCarTypeId());       // тип
-                if (row.getGovNumber() != null)
-                    ps.setString(conditions++, row.getGovNumber());    // номер
-                if (row.getCarModel() != null)
-                    ps.setString(conditions++, row.getCarModel());     // модель
-                if (row.getRunning() != null)
-                    ps.setInt(conditions++, row.getRunning());         // пробег
-                ps.setInt(conditions, row.getId());                     // ид
+            ps.setInt(1, row.getCarTypeId());       // тип
+            ps.setString(2, row.getGovNumber());    // номер
+            ps.setString(3, row.getCarModel());     // модель
+            ps.setInt(4, row.getRunning());         // пробег
+            ps.setInt(5, row.getId());              // ид
                 
-                ps.executeUpdate();
-                ps.close();
-                conn.close();
-            }
+            ps.executeUpdate();
+            ps.close();
+            conn.close();
+
         } catch (NamingException ex) {
             throw new DbAccessException(ex);
             //Logger.getLogger(DBAccess.class.getName()).log(Level.SEVERE, null, ex);
@@ -192,5 +179,5 @@ public class CarDb {
             throw new DbAccessException(ex);
             //Logger.getLogger(DBAccess.class.getName()).log(Level.SEVERE, null, ex);
         }        
-    }   
-}
+    } 
+ }
