@@ -19,10 +19,7 @@ import ru.dreamjteam.xml.binds.Orders;
 public class OrderDb {
     public static void insert (Order row) throws DbAccessException {
         try {
-            Context initContext = new InitialContext();
-            Context envContext  = (Context)initContext.lookup("java:/comp/env");
-            DataSource ds = (DataSource)envContext.lookup("sampdb");
-            Connection conn = ds.getConnection();
+            Connection conn = Connect.GetConnect();
 
             String query = "INSERT INTO "
                     + "ORDERS "
@@ -38,12 +35,13 @@ public class OrderDb {
             ps.setString(4, row.getAddrDest());
             ps.setInt(5, row.getPassengers());
             ps.setString(6, row.getStatus());
-            ps.setInt(7, row.getDistAppr());
+            ps.setInt(7, row.getDistInfact());
             ps.setInt(8, row.getDistInfact());
             ps.setInt(9, row.getCost());
                 
             ps.executeUpdate();
             ps.close();
+            conn.close();
 
         } catch (NamingException ex) {
             throw new DbAccessException(ex);
@@ -81,14 +79,11 @@ public class OrderDb {
         }
     }
 
-    public static void update (Order row) throws DbAccessException {
+   public static void update (Order row) throws DbAccessException {
         try {
-            Context initContext = new InitialContext();
-            Context envContext  = (Context)initContext.lookup("java:/comp/env");
-            DataSource ds = (DataSource)envContext.lookup("sampdb");
-            Connection conn = ds.getConnection();
+            Connection conn = Connect.GetConnect();
             
-            String query = "UPDATE ORDERS "
+            String query = "UPDATE ORDERS SET "
                     + "TIME_ORD = to_date(?,'dd-mm-yyyy hh24:mi'), "
                     + "TIME_DEST = to_date(?,'dd-mm-yyyy hh24:mi'), "
                     + "ADDR_DEP = ?, "
@@ -108,12 +103,14 @@ public class OrderDb {
             ps.setString(4, row.getAddrDest());
             ps.setInt(5, row.getPassengers());
             ps.setString(6, row.getStatus());
-            ps.setInt(7, row.getDistAppr());
+            ps.setInt(7, row.getDistInfact());
             ps.setInt(8, row.getDistInfact());
             ps.setInt(9, row.getCost());
+            ps.setInt(10, row.getId());
                 
             ps.executeUpdate();
             ps.close();
+            conn.close();
 
         } catch (NamingException ex) {
             throw new DbAccessException(ex);
@@ -123,8 +120,8 @@ public class OrderDb {
             //Logger.getLogger(DBAccess.class.getName()).log(Level.SEVERE, null, ex);
         }    
         
-    }   
-        
+    } 
+    
     public static String select () throws DbAccessException {
         return select("ORDER_ID", null);
     }
@@ -139,13 +136,10 @@ public class OrderDb {
         return select("ORDER_ID", ord);
     }
     
-    public static String select (String orderBy, Order ord) throws DbAccessException {
+   public static String select (String orderBy, Order ord) throws DbAccessException {
         try {
             int conditions = 1;
-            Context initContext = new InitialContext();
-            Context envContext  = (Context)initContext.lookup("java:/comp/env");
-            DataSource ds = (DataSource)envContext.lookup("sampdb");
-            Connection conn = ds.getConnection();
+            Connection conn = Connect.GetConnect();
 
             String query = "SELECT "
                     + "ORDER_ID, "
@@ -173,18 +167,17 @@ public class OrderDb {
                     query += "AND ADDR_DER = ? ";
                 if (ord.getAddrDest() != null)
                     query += "AND ADDR_DEST = ? ";
-                if (ord.getPassengers() != 0)
+                if (ord.getPassengers() != null)
                     query += "AND PASSENGER = ? ";
                 if (ord.getStatus() != null)
                     query += "AND STATUS = ? ";
-                if (ord.getDistAppr() != 0)
+                if (ord.getDistAppr() != null)
                     query += "AND DIST_APPR = ? ";
-                if (ord.getDistInfact() != 0)
+                if (ord.getDistInfact() != null)
                     query += "AND DIST_INFACT = ? ";
-                if (ord.getCost() != 0)
+                if (ord.getCost() != null)
                     query += "AND COST = ? ";
-                if (ord.getId() != 0)
-                    query += "AND ORDER_ID = ? ";
+                
             }
             query += "ORDER BY " + orderBy;
                         
@@ -201,15 +194,15 @@ public class OrderDb {
                     ps.setString(conditions++, "%"+ord.getAddrDep()+"%");
                 if (ord.getAddrDest() != null)
                     ps.setString(conditions++, "%"+ord.getAddrDest()+"%");
-                if (ord.getPassengers() != 0)
+                if (ord.getPassengers() != null)
                     ps.setInt(conditions++, ord.getPassengers());
                 if (ord.getStatus() != null)
                     ps.setString(conditions++, ord.getStatus());
-                if (ord.getDistAppr() != 0)
+                if (ord.getDistAppr() != null)
                     ps.setInt(conditions++, ord.getDistAppr());
-                if (ord.getDistInfact() != 0)
+                if (ord.getDistInfact() != null)
                     ps.setInt(conditions++,ord.getDistInfact());
-                if (ord.getCost() != 0)
+                if (ord.getCost() != null)
                     ps.setInt(conditions++, ord.getCost());
             }                                 
             ResultSet rs = ps.executeQuery();            
@@ -230,7 +223,7 @@ public class OrderDb {
                 rows.getOrder().add(row);
             }
             ps.close();
-            initContext.close();
+            conn.close();
             return XMLGenerator.toXML(rows);
         }
         catch (SQLException ex) {
