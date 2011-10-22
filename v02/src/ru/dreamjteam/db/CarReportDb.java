@@ -46,20 +46,22 @@ public class CarReportDb {
             Integer position;
             Car row;
 
-            Context initContext = new InitialContext();
-            Context envContext  = (Context)initContext.lookup("java:/comp/env");
-            DataSource ds = (DataSource)envContext.lookup("sampdb");
-            Connection conn = ds.getConnection();
+
+
+            Connection conn = Connect.GetConnect();
+
 
             String query = "SELECT CAR_ID, ORDER_ID, MODEL, SEATING_CAPACITY, "
                     + "GOV_NUMBER, RUNNING, STATUS, REF_TYPE "
-                    + "FROM CAR "
+                    + "FROM CARS "
                     + "LEFT JOIN TYPES ON TYPE_ID = REF_TYPE "
                     + "LEFT JOIN ORD_CAR ON REF_CAR = CAR_ID "
                     + "LEFT JOIN ORDERS ON REF_ORDER = ORDER_ID ";
 
+
             if (find != null) {
                 query += "WHERE CAR_ID = CAR_ID ";
+
 
                 if (find.getId() != null)
                     query += "AND CAR_ID = ? ";
@@ -80,7 +82,9 @@ public class CarReportDb {
             }
             query += "ORDER BY " + orderBy;
 
+
             PreparedStatement ps = conn.prepareStatement(query);
+
 
             if (find != null) {
                 if (find.getId() != null)
@@ -101,10 +105,11 @@ public class CarReportDb {
                     ps.setString(conditions++, find.getOrders().getOrder().get(0).getStatus());
             }
 
-            
+
+
             Map<Integer, Integer> mp = new HashMap<Integer, Integer>();
-            
-            
+
+
             ResultSet rs = ps.executeQuery();
             Cars rows = new Cars();
             while (rs.next()) {
@@ -125,20 +130,21 @@ public class CarReportDb {
                     row.getOrders().getOrder().get(0).setStatus(rs.getString("STATUS"));
                     row.getCarType().setId(rs.getInt("REF_TYPE"));
                     mp.put(id, rows.getCar().size());  // при добавлении новой машины, запоминаем её ИД и номер строки в сете
-                    rows.getCar().add(row);                    
+                    rows.getCar().add(row);
                 } else {
                     row = rows.getCar().get(position.intValue());
                     row.getOrders().getOrder().add(new Order());
                     i = row.getOrders().getOrder().size() - 1;
                     row.getOrders().getOrder().get(i).setId(rs.getInt("ORDER_ID"));
                     row.getOrders().getOrder().get(i).setCar(new Car());
-                    row.getOrders().getOrder().get(i).setStatus(rs.getString("STATUS"));                    
+                    row.getOrders().getOrder().get(i).setStatus(rs.getString("STATUS"));
                 }
-                
+
             }
             ps.close();
             conn.close();
             return XMLGenerator.toXML(rows);
+
 
         } catch (NamingException ex) {
             //Logger.getLogger(DBAccess.class.getName()).log(Level.SEVERE, null, ex);
@@ -147,7 +153,6 @@ public class CarReportDb {
             //Logger.getLogger(DBAccess.class.getName()).log(Level.SEVERE, null, ex);
             throw new DbAccessException(ex);
         }
-    }
-  
+    }  
 
 }
