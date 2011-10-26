@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE ejb-jar PUBLIC '-//Sun Microsystems, Inc.//DTD Enterprise JavaBeans 2.0//EN'
+		'http://java.sun.com/dtd/ejb-jar_2_0.dtd'>
+<ejb-jar>
+	<enterprise-beans>
+		<entity>
+			<ejb-name>CarEntityEJB</ejb-name>
+			<local-home>ru.dreamjteam.entity.LocalCarEntityHome</local-home>
+			<local>ru.dreamjteam.entity.LocalCarEntity</local>
+			<ejb-class>ru.dreamjteam.entity.CarEntityBean</ejb-class>
+			<persistence-type>Bean</persistence-type>
+			<prim-key-class>java.lang.Integer</prim-key-class>
+			<reentrant>True</reentrant>
+		</entity>
+		<entity>
+			<ejb-name>OrderEntityEJB</ejb-name>
+			<local-home>ru.dreamjteam.entity.LocalOrderEntityHome</local-home>
+			<local>ru.dreamjteam.entity.LocalOrderEntity</local>
+			<ejb-class>ru.dreamjteam.entity.OrderEntityBean</ejb-class>
+			<persistence-type>Bean</persistence-type>
+			<prim-key-class>java.lang.Integer</prim-key-class>
+			<reentrant>True</reentrant>
+		</entity>
+		<entity>
+			<ejb-name>CarTypeEntityEJB</ejb-name>
+			<local-home>ru.dreamjteam.entity.LocalCarTypeEntityHome</local-home>
+			<local>ru.dreamjteam.entity.LocalCarTypeEntity</local>
+			<ejb-class>ru.dreamjteam.entity.CarTypeEntityBean</ejb-class>
+			<persistence-type>Bean</persistence-type>
+			<prim-key-class>java.lang.Integer</prim-key-class>
+			<reentrant>True</reentrant>
+		</entity>
+	</enterprise-beans>
+	<assembly-descriptor>
+	</assembly-descriptor>
+</ejb-jar>

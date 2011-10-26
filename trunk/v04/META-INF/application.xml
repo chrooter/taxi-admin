@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application version="1.4" xmlns="http://java.sun.com/xml/ns/j2ee" 
+                       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                       xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/application_1_4.xsd">
+	<description>Taxi administration panel</description>
+	<display-name>taxi-admin</display-name>
+	<module id="taxi-admin-2g-Web">
+		<web>
+			<web-uri>TaxiAdmin2Gweb.war</web-uri>
+			<context-root>taxi2g</context-root>
+		</web>
+	</module>
+    <module id="Taxi-admin-2g-EJB">
+        <ejb>TaxiAdmin2Gejb.jar</ejb>
+    </module>
+    <security-role>
+		<description>Allow add car and car type</description>
+		<role-name>ADMIN</role-name>
+	</security-role>
+	<security-role>
+		<description>Allow operations with orders</description>
+		<role-name>OPERATOR</role-name>
+	</security-role>
+
+</application>
