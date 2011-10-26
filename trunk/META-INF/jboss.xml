@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE jboss PUBLIC "-//JBoss//DTD JBOSS 4.2//EN"
+        "http://www.jboss.org/j2ee/dtd/jboss_4_2.dtd">
+<jboss>
+	<enterprise-beans>
+		<entity>
+			<ejb-name>CarEntityEJB</ejb-name>
+			<local-jndi-name>ejb/LocalCarEntityEJB</local-jndi-name>
+            <jndi-name>ejb/CarEntityEJB</jndi-name>
+		</entity>
+		<entity>
+			<ejb-name>CarTypeEntityEJB</ejb-name>
+			<local-jndi-name>ejb/LocalCarTypeEntityEJB</local-jndi-name>
+            <jndi-name>ejb/CarTypeEntityEJB</jndi-name>
+		</entity>
+		<entity>
+			<ejb-name>OrderEntityEJB</ejb-name>
+			<local-jndi-name>ejb/LocalOrderEntityEJB</local-jndi-name>
+            <jndi-name>ejb/OrderEntityEJB</jndi-name>
+		</entity>
+	</enterprise-beans>
+</jboss>
