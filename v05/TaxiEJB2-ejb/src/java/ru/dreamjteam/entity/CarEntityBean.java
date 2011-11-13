@@ -1,0 +1,308 @@
+package ru.dreamjteam.entity;
+
+
+import javax.ejb.*;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Locale;
+
+
+public class CarEntityBean implements EntityBean {
+    
+	private Integer id;
+        private String model;
+	private String govNumber;
+	private String color;
+	private Integer carTypeId;
+        
+	private EntityContext context;
+	private DataSource dataSource;
+        private Connection conn;
+
+
+	public Integer ejbFindByPrimaryKey(Integer key) throws FinderException {
+		PreparedStatement st = null;
+		try {
+			openConnection();
+			st = conn.prepareStatement("SELECT ID FROM CARS WHERE ID = ?");
+			st.setInt(1, key);
+			ResultSet rs = st.executeQuery();
+			if (!rs.next())
+				throw new ObjectNotFoundException();
+			return key;
+		} catch (SQLException e) {
+			throw new EJBException(e);
+		} finally {
+			closeConnection(st);
+		}
+	}
+
+	public Integer ejbFindByGovNumber(String govNumber) throws FinderException {
+		
+		PreparedStatement st = null;
+		try {
+			openConnection();
+			st = conn.prepareStatement("SELECT ID FROM CARS WHERE GOV_NUMBER = ?");
+			st.setString(1, govNumber);
+			ResultSet rs = st.executeQuery();
+			if (!rs.next())
+				throw new ObjectNotFoundException();
+			return rs.getInt(1);
+		} catch (SQLException e) {
+			throw new EJBException(e);
+		} finally {
+			closeConnection(st);
+		}
+	}
+        
+        public Collection ejbFindByType(Integer carTypeId) throws FinderException {
+		
+		PreparedStatement st = null;
+		try {
+			openConnection();
+			st = conn.prepareStatement("SELECT ID FROM CARS WHERE TYPE_ID = ?");
+			st.setInt(1, carTypeId);
+			ResultSet rs = st.executeQuery();
+			Collection<Integer> result = new ArrayList<Integer>();
+			while (rs.next())
+				result.add(rs.getInt("ID"));
+			return result;
+		} catch (SQLException e) {
+			throw new EJBException(e);
+		} finally {
+			closeConnection(st);
+		}
+	}
+        
+        public Collection ejbFindAll() throws FinderException {
+		
+		PreparedStatement st = null;
+		try {
+			openConnection();
+			st = conn.prepareStatement("SELECT ID FROM CARS");
+			ResultSet rs = st.executeQuery();
+			Collection<Integer> result = new ArrayList<Integer>();
+			while (rs.next())
+				result.add(rs.getInt("ID"));
+			return result;
+		} catch (SQLException e) {
+			throw new EJBException(e);
+		} finally {
+			closeConnection(st);
+		}
+	}
+
+	public void setEntityContext(EntityContext context) throws EJBException {
+		this.context = context;
+		try {
+			final InitialContext ic = new InitialContext();
+			dataSource = (DataSource) ic.lookup("java:comp/env/taxiref");
+		} catch (Exception e) {
+			throw new EJBException(e);
+		}
+	}
+
+        public void unsetEntityContext() throws EJBException {
+            context = null;
+	}
+
+	public void ejbActivate() throws EJBException {
+	}
+
+	public void ejbPassivate() throws EJBException {
+	}
+        
+        public Integer ejbCreateCar(String govNumber, String color, String model, Integer carTypeId) throws CreateException {
+		this.govNumber = govNumber;
+		this.color = color;
+		this.carTypeId = carTypeId;
+		this.model = model;
+		
+		PreparedStatement st = null;
+		try {
+			openConnection();
+			st = conn.prepareStatement("INSERT INTO CARS (ID, MODEL, GOV_NUMBER, COLOR, TYPE_ID) VALUES(taxiseq.nextval, ?, ?, ?, ?)");
+			st.setString(1, govNumber);
+			st.setString(2, color);
+			st.setInt(3, carTypeId);
+			st.setString(4, model);
+			if (st.executeUpdate() != 1)
+				throw new CreateException();
+			st = conn.prepareStatement("select cars_seq.currval from dual");
+			final ResultSet rs = st.executeQuery();
+			if (!rs.next())
+				throw new CreateException();
+			return rs.getInt(1);
+		} catch (SQLException e) {
+			throw new EJBException(e);
+		} finally {
+			closeConnection(st);
+		}
+	}
+        
+        public void ejbPostCreateCar(String govNumber, String color, String model, Integer cartypeId) throws CreateException {
+	}
+        
+	public void ejbRemove() throws RemoveException, EJBException {
+		
+		PreparedStatement st = null;
+		try {
+			openConnection();
+			st = conn.prepareStatement("DELETE FROM CARS WHERE ID = ?");
+			st.setInt(1, id);
+			if (st.executeUpdate() < 1)
+				throw new RemoveException();
+		} catch (SQLException e) {
+			throw new EJBException(e);
+		} finally {
+			closeConnection(st);
+		}
+	}
+
+	public void ejbLoad() throws EJBException {
+		id = ((Integer) context.getPrimaryKey());
+		
+		PreparedStatement st = null;
+		try {
+			openConnection();
+			st = conn.prepareStatement("SELECT GOV_NUMBER, COLOR, MODEL, TYPE_ID FROM CARS WHERE ID = ?");
+			st.setInt(1, id);
+			ResultSet rs = st.executeQuery();
+			if (!rs.next())
+				throw new NoSuchEntityException("Row for id " + id + " not found in database");
+			govNumber = rs.getString("GOV_NUMBER");
+			color = rs.getString("COLOR");
+			model = rs.getString("MODEL");
+			carTypeId = rs.getInt("TYPE_ID");
+		} catch (SQLException e) {
+			throw new EJBException(e);
+		} finally {
+			closeConnection(st);
+		}
+	}
+
+	public void ejbStore() throws EJBException {
+		id = (Integer) context.getPrimaryKey();
+		
+		PreparedStatement st = null;
+		try {
+			openConnection();
+			st = conn.prepareStatement("UPDATE CARS SET GOV_NUMBER = ?, COLOR = ?, MODEL = ?, TYPE_ID = ? WHERE ID = ?");
+			st.setString(1, govNumber);
+			st.setString(2, color);
+			st.setString(3, model);
+			st.setInt(4, carTypeId);
+			st.setInt(5, id);
+			if (st.executeUpdate() < 1)
+				throw new NoSuchEntityException("Row for id " + id + " not found in database");
+		} catch (SQLException e) {
+			throw new EJBException(e);
+		} finally {
+			closeConnection(st);
+		}
+	}
+
+	public String getGovNumber() {
+		return govNumber;
+	}
+
+	public void setGovNumber(String govNumber) {
+		this.govNumber = govNumber;
+	}
+
+	public String getColor() {
+		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getModel() {
+		return model;
+	}
+
+	public void setModel(String model) {
+		this.model = model;
+	}
+
+	public Integer getCarTypeId() {
+		return carTypeId;
+	}
+
+	public void setCarTypeId(Integer carTypeId) {
+		this.carTypeId = carTypeId;
+	}
+
+	
+
+        private void openConnection(){
+                try{
+                    Locale.setDefault(Locale.ENGLISH);
+                    conn = dataSource.getConnection();
+                }catch(Exception ex){
+                    throw new EJBException("Unable to connect to database. " + ex.getMessage());
+                }
+            }
+        
+	private void closeConnection(Statement st) {
+		try {
+			if (st != null)
+				st.close();
+		} catch (SQLException ex) {
+			throw new EJBException("Unable to connect to database. " + ex.getMessage());
+		}
+		try {
+			if (conn != null)
+				conn.close();
+		} catch (SQLException ex) {
+			throw new EJBException("Unable to connect to database. " + ex.getMessage());
+		}
+	}
+
+	
+
+	
+
+	public CarVO getCarVO(Boolean withDependences) throws NamingException, FinderException {
+		final CarVO carVO = new CarVO(id, model, govNumber, color, carTypeId);
+		/*if (!withDependences) return carVO;
+		final LocalCarTypeEntityHome carTypeHome = BeanProvider.getCarTypeHome();
+		final LocalCarTypeEntity carTypeEntity = carTypeHome.findByPrimaryKey(carTypeId);
+		carVO.setCarTypeVO(carTypeEntity.getCarTypeVO(false));
+		final LocalOrderEntityHome orderHome = BeanProvider.getOrderHome();
+		Collection list = orderHome.findByCar(id);
+		ArrayList<OrderVO> orders = new ArrayList<OrderVO>(list.size());
+		for (Object o : list)
+			orders.add(((LocalOrderEntity) o).getOrderVO(false));
+		carVO.setOrderVOs(Collections.unmodifiableList(orders));
+		orders.clear();
+		list = orderHome.findByCarAndCompleted(id, false);
+		orders = new ArrayList<OrderVO>(list.size()); 
+		for (Object o : list)
+			orders.add(((LocalOrderEntity) o).getOrderVO(false));
+		carVO.setCurrentOrderVOs(Collections.unmodifiableList(orders));*/
+		return carVO;
+	}
+
+	public void setCarVO(CarVO value) {
+		setGovNumber(value.getGovNumber());
+		setColor(value.getColor());
+		setId(value.getId());
+		setModel(value.getModel());
+		setCarTypeId(value.getCarTypeId());
+	}
+	
+}
