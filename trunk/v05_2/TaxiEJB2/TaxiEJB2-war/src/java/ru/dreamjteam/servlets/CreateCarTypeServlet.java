@@ -1,8 +1,7 @@
 package ru.dreamjteam.servlets;
 
-import ru.dreamjteam.TaxiBeanEmulator;
+import ru.dreamjteam.beans.TaxiBeanEmulator;
 import ru.dreamjteam.entity.CarTypeVO;
-import ru.dreamjteam.entity.LocalCarTypeEntityHome;
 
 import javax.ejb.CreateException;
 import javax.ejb.DuplicateKeyException;

@@ -19,8 +19,10 @@
                     %>
 					<div class="fr l_side_div_lnk"><a href="#" class="l_side_div_lnk_numb">(<c:out value="${pageScope.waitingFor}"/> мин)</a><a href="#"><img
 							src="i/qwest.jpg" alt=""/></a></div>
-					<div class="box"><c:out value="${order.addrDest}"/><div class="l_side_div_date"><c:out value="${order.passengers}"/></div>
-						Ждет с <fmt:formatDate value="${order.timeOrd}" pattern="dd.MM.yyyy HH:mm"/>
+					<div class="box">
+                                            Номер заявки: <fmt:formatNumber groupingUsed="false" value="${order.id}" minIntegerDigits="4"/>
+                                            Адрес: <c:out value="${order.startPoint}"/>
+                                            <div class="l_side_div_date">Ждет с <fmt:formatDate value="${order.timeOrd}" pattern="dd.MM.yyyy HH:mm"/></div>
 					</div>
 				</div>
 			</div>

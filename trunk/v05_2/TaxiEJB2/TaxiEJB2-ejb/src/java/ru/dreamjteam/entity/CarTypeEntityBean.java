@@ -1,13 +1,17 @@
 package ru.dreamjteam.entity;
 
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.*;
+import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Locale;
 
 
@@ -234,13 +238,13 @@ public class CarTypeEntityBean implements EntityBean {
 
 	public CarTypeVO getCarTypeVO(Boolean withDependences) throws NamingException, FinderException {
 		final CarTypeVO carTypeVO = new CarTypeVO(id, capacity, costPerKm, name);
-		/*if (!withDependences) return carTypeVO;
-		final LocalCarEntityHome carHome = BeanProvider.getCarHome();
+		if (!withDependences) return carTypeVO;
+		final CarEntityBeanLocalHome carHome = lookupCarEntityBeanLocal();
 		final Collection list = carHome.findByType(id);
 		ArrayList<CarVO> cars = new ArrayList<CarVO>(list.size());
 		for (Object o : list)
-			cars.add(((LocalCarEntity) o).getCarVO(false));
-		carTypeVO.setCarVOs(Collections.unmodifiableList(cars));*/
+			cars.add(((CarEntityBeanLocal) o).getCarVO(false));
+		carTypeVO.setCarVOs(Collections.unmodifiableList(cars));
 		return carTypeVO;
 	}
 
@@ -250,4 +254,15 @@ public class CarTypeEntityBean implements EntityBean {
 		setCostPerKm(value.getCostPerKm());
 		setName(value.getName());
 	}
+
+        private CarEntityBeanLocalHome lookupCarEntityBeanLocal() {
+        try {
+            Context c = new InitialContext();
+            CarEntityBeanLocalHome rv = (CarEntityBeanLocalHome) c.lookup("java:comp/env/CarEntityBean");
+            return rv;
+        } catch (NamingException ne) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
+            throw new RuntimeException(ne);
+        }
+    }
 }

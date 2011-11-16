@@ -43,7 +43,7 @@
 				</div></div></div>
 				<div class="text_content box">
 					<div id="neworders_list">
-						<%--<jsp:include page="newOrders.jsp"/>--%>
+						<jsp:include page="newOrders.jsp"/>
 					</div>
 					<div class="box txt_wrap">
 						<div class="txt pr zoom after">
@@ -66,6 +66,7 @@
 										<tr>
 											<th><div class="th_div b_div">Гос. Номер</div></th>
 											<th><div class="th_div b_div">Модель</div></th>
+                                                                                        <th><div class="th_div b_div">Цвет</div></th>
 											<th><div class="th_div b_div">Тип</div></th>
 											<th><div class="th_div b_div">Вместимость</div></th>
 											<th><div class="b_div">Активные заказы</div></th>
@@ -76,24 +77,25 @@
 										<tr class="<%=(i++ % 2) == 0 ? "tr_1" : "tr_2"%> autotest" id="at${car.id}">
 											<td><c:out value="${car.govNumber}"/></td>
 											<td><c:out value="${car.model}"/></td>
-											<%--<td><c:out value="${car.carTypeVO.name}"/></td>--%> <td>Ooops</td>
-											<%--<td><c:out value="${car.carTypeVO.seatCapacity}"/></td>--%> <td>Ooops</td>
+                                                                                        <td><c:out value="${car.color}"/></td>
+											<td><c:out value="${car.carTypeVO.name}"/></td>
+											<td><c:out value="${car.carTypeVO.capacity}"/></td>
 											<td class="b_div">
 												<a href="#" class="b_div_link close_b_div_link" title="Развернуть"></a>
 												<div class="box close_b_div">
-													<%--<c:if test="${!empty car.currentOrderVOs}">
+													<c:if test="${!empty car.currentOrderVOs}">
 														<c:forEach var="order" items="${car.currentOrderVOs}">
-															<div><a href="<%=request.getContextPath()%>/EditOrder?id=${order.id}">Заказ # <c:out value="${order.id}"/></a> (<c:out value="${order.addrDep}"/>)</div>
+															<div><a href="<%=request.getContextPath()%>/EditOrder?id=${order.id}">Заказ # <c:out value="${order.id}"/></a> (<c:out value="${order.startPoint}"/>)</div>
 														</c:forEach>
 													</c:if>
 													<c:if test="${empty car.currentOrderVOs}">
 														Нет заказов
-													</c:if>--%>
+													</c:if>
 												</div>
 											</td>
 											<td class="b_div b_table_l_td">
 												<c:if test="${pageScope.isAdmin}">
-													<a href="<%=request.getContextPath()%>/EditCar?id=${car.id}" class="green_edit" title="Редактировать"></a>
+													<a href="<%=request.getContextPath()%>/EditCar?id=${car.id}" class="blue_edit" title="Редактировать"></a>
 													<a href="<%=request.getContextPath()%>/DeleteCar?id=${car.id}" class="red_del" onclick="return confirm('Хотите удалить автомобиль?')" title="Удалить"></a>
 												</c:if>
 											</td>
@@ -118,7 +120,7 @@
 			</div>
 		</div>
 		<div class="footer"></div>
-		<%--<script type="text/javascript">
+		<script type="text/javascript">
 			$(function() {
 				UpdateNewOrderList('<%=request.getContextPath()%>/newOrders.jsp');
 			});
@@ -136,6 +138,6 @@
 					buttons.addClass('close_b_div_link');
 				});
 			});
-		</script>--%>
+		</script>
 	</body>
 </html>

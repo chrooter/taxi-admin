@@ -14,6 +14,8 @@ import java.util.List;
 
 public class TaxiBeanEmulator {
     
+        //--------------------------- Cars --------------------------
+    
 	private static boolean checkCar(CarVO car) throws NamingException {
 		final CarEntityBeanLocalHome home = BeanProvider.getCarHome();
 		try {
@@ -23,8 +25,7 @@ public class TaxiBeanEmulator {
 			return true;
 		}
 	}
-        
-	        
+                
 	public static CarVO getCar(Integer Id) throws FinderException, NamingException {
 		final CarEntityBeanLocalHome home = BeanProvider.getCarHome();
 		final CarEntityBeanLocal carEntity = home.findByPrimaryKey(Id);
@@ -61,6 +62,8 @@ public class TaxiBeanEmulator {
 		carEntity.remove();
 	}
         
+        //--------------------------- Types --------------------------
+        
         private static boolean checkCarType(CarTypeVO carType) throws NamingException {
 		final CarTypeEntityBeanLocalHome home = BeanProvider.getCarTypeHome();
 		try {
@@ -92,6 +95,7 @@ public class TaxiBeanEmulator {
 		final CarTypeEntityBeanLocalHome home = BeanProvider.getCarTypeHome();
 		home.createCarType(carType.getName(), carType.getCostPerKm(), carType.getCapacity());
 	}
+        
 	public static void updateCarType(CarTypeVO carType) throws FinderException, NamingException, DuplicateKeyException {
 		if (!checkCarType(carType))
 			throw new DuplicateKeyException("Тип с таким названием уже существует");
@@ -105,6 +109,9 @@ public class TaxiBeanEmulator {
 		final CarTypeEntityBeanLocal carTypeEntity = home.findByPrimaryKey(Id);
 		carTypeEntity.remove();
 	}
+        
+        //--------------------------- Orders --------------------------
+        
 	public static OrderVO getOrder(Integer Id) throws FinderException, NamingException {
 		final OrderEntityBeanLocalHome home = BeanProvider.getOrderHome();
 		final OrderEntityBeanLocal orderEntity = home.findByPrimaryKey(Id);

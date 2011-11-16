@@ -1,7 +1,10 @@
 package ru.dreamjteam.entity;
 
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.*;
+import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
@@ -132,7 +135,7 @@ public class OrderEntityBean implements EntityBean {
 			st.setInt(1, startPoint);
 			st.setInt(2, passengers);
 			st.setString(3, phone);
-			st.setString(9, status);
+			st.setString(4, status);
 			if (st.executeUpdate() != 1)
 				throw new CreateException();
 			st = conn.prepareStatement("select orders_seq.currval from dual");
@@ -332,10 +335,10 @@ public class OrderEntityBean implements EntityBean {
 
 	public OrderVO getOrderVO(Boolean withDependences) throws FinderException, NamingException {
 		final OrderVO orderVO = new OrderVO(id, cost, phone, distance, passengers, timeDone, timeOrd, startPoint, carId, status);
-		/*if (!withDependences) return orderVO;
-		final LocalCarEntityHome carHome = BeanProvider.getCarHome();
-		final LocalCarEntity carEntity = carHome.findByPrimaryKey(carId);
-		orderVO.setCar(carEntity.getCarVO(false));*/
+		if (!withDependences) return orderVO;
+		final CarEntityBeanLocalHome carHome = lookupCarEntityBeanLocal();
+		final CarEntityBeanLocal carEntity = carHome.findByPrimaryKey(carId);
+		orderVO.setCar(carEntity.getCarVO(false));
 		return orderVO;
 	}
 
@@ -351,5 +354,16 @@ public class OrderEntityBean implements EntityBean {
 		setCarId(value.getCarId());
 		setStatus(value.getStatus());
 	}
+
+        private CarEntityBeanLocalHome lookupCarEntityBeanLocal() {
+            try {
+                Context c = new InitialContext();
+                CarEntityBeanLocalHome rv = (CarEntityBeanLocalHome) c.lookup("java:comp/env/CarEntityBean");
+                return rv;
+            } catch (NamingException ne) {
+                Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
+                throw new RuntimeException(ne);
+            }
+        }
 
 }

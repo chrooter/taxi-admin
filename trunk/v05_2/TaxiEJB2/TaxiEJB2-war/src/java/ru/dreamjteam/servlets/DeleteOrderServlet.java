@@ -1,9 +1,6 @@
 package ru.dreamjteam.servlets;
 
-import ru.dreamjteam.BeanProvider;
-import ru.dreamjteam.TaxiBeanEmulator;
-import ru.dreamjteam.entity.LocalOrderEntity;
-import ru.dreamjteam.entity.LocalOrderEntityHome;
+import ru.dreamjteam.beans.TaxiBeanEmulator;
 
 import javax.ejb.FinderException;
 import javax.ejb.ObjectNotFoundException;
@@ -15,10 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-/**
- * @author abolmasov (11.10.2011 10:16:13)
- * @version $Revision: 84 $
- */
+
 public class DeleteOrderServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

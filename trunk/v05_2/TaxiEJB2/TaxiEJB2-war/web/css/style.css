@@ -601,6 +601,22 @@ tr.tr_1 td.b_table_l_td, tr.tr_2 td.b_table_l_td{
 	margin-bottom:5px;
 	background:url(../i/del.png) 0 0 no-repeat;
 }
+.cancel{
+	float:left;
+	width:17px;
+	height:17px;
+	margin-right:10px;
+	margin-bottom:5px;
+	background:url(../i/cancel.png) 0 0 no-repeat;
+}
+.play{
+	float:left;
+	width:17px;
+	height:17px;
+	margin-right:10px;
+	margin-bottom:5px;
+	background:url(../i/play.png) 0 0 no-repeat;
+}
 .green_ok{
 	float:left;
 	width:17px;

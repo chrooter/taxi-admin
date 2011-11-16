@@ -6,7 +6,7 @@
 */
 package ru.dreamjteam.servlets;
 
-import ru.dreamjteam.TaxiBeanEmulator;
+import ru.dreamjteam.beans.TaxiBeanEmulator;
 import ru.dreamjteam.entity.CarVO;
 import ru.dreamjteam.entity.OrderVO;
 
@@ -23,20 +23,16 @@ import java.text.SimpleDateFormat;
 import java.util.LinkedList;
 import java.util.List;
 
-/**
- * @author abolmasov (18.10.2011 11:24:17)
- * @version $Revision: 84 $
- */
+
 public class OrderServlet extends HttpServlet {
 	protected OrderVO getOrder(HttpServletRequest request) {
 		final String strId = request.getParameter("id");
 		final int id = strId == null || strId.trim().isEmpty() ? 0 : Integer.valueOf(strId);
-		final String addrDep = request.getParameter("addrdep");
-		final String addrDest = request.getParameter("addrdest");
+		final String strStartPoint = request.getParameter("startpoint");
+                final int startPoint = strStartPoint == null || strId.trim().isEmpty() ? 0 : Integer.valueOf(strStartPoint);
 		final String strCarId = request.getParameter("carid");
 		final int carId = strCarId == null || strCarId.trim().isEmpty() ? 0 : Integer.valueOf(strCarId);
-		final String completedStr = request.getParameter("completed");
-		final Boolean completed = Boolean.valueOf(completedStr);
+		final String status = request.getParameter("status");
 		final String strCost = request.getParameter("cost");
 		final int cost = strCost == null || strCost.trim().isEmpty() ? 0 : Integer.valueOf(strCost);
 		final String strDistance = request.getParameter("distance");
@@ -48,9 +44,9 @@ public class OrderServlet extends HttpServlet {
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy HH:mm");
 
 		final String timedest = request.getParameter("timedest");
-		Timestamp timeDest;
+		Timestamp timeDone;
 		try {
-			timeDest = timedest == null || timedest.trim().isEmpty() ? null : new Timestamp(dateFormatter.parse(timedest).getTime());
+			timeDone = timedest == null || timedest.trim().isEmpty() ? null : new Timestamp(dateFormatter.parse(timedest).getTime());
 		} catch (ParseException e) {
 			throw new IllegalStateException(e);
 		}
@@ -61,19 +57,19 @@ public class OrderServlet extends HttpServlet {
 		} catch (ParseException e) {
 			throw new IllegalStateException(e);
 		}
-		return new OrderVO(id, cost, phone, distance, passengers, timeDest, timeOrd, addrDep, addrDest, carId, completed);
+		return new OrderVO(id, cost, phone, distance, passengers, timeDone, timeOrd, startPoint, carId, status);
 	}
 
 	protected List<String> validate(OrderVO order) {
 		List<String> result = new LinkedList<String>();
-		if (order.getAddrDep() == null || order.getAddrDep().trim().isEmpty())
+		/*if (order.getAddrDep() == null || order.getAddrDep().trim().isEmpty())
 			result.add("Введите адрес отправления");
 		if (order.getAddrDest() == null || order.getAddrDest().trim().isEmpty())
-			result.add("Введите адрес прибытия");
+			result.add("Введите адрес прибытия");*/
 		if (order.getPhone() == null || order.getPhone().trim().isEmpty())
 			result.add("Введите телефон клиента");
-        if (!order.getCompleted())
-            return result;
+        /*if (!order.getCompleted())
+            return result;*/
         if (order.getDistance() <= 0)
 			result.add("Введите дальность поездки");
         if (order.getCost() <= 0)
