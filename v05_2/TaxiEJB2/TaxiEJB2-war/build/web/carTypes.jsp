@@ -43,7 +43,7 @@
 				</div></div></div>
 				<div class="text_content box">
 					<div id="neworders_list">
-						<%--<jsp:include page="newOrders.jsp"/>--%>
+						<jsp:include page="newOrders.jsp"/>
 					</div>
 					<div class="box txt_wrap">
 						<div class="txt pr zoom after">
@@ -80,19 +80,19 @@
 											<td class="b_div">
 												<a href="#" class="b_div_link close_b_div_link" title="Развернуть"></a>
 												<div class="box close_b_div">
-													<%--<c:if test="${!empty carType.carVOs}">
+													<c:if test="${!empty carType.carVOs}">
 														<c:forEach var="car" items="${carType.carVOs}">
 															<div><a href="<%=request.getContextPath()%>/EditCar?id=${car.id}"><c:out value="${car.model}"/> (<c:out value="${car.govNumber}"/>)</a></div>
 														</c:forEach>
 													</c:if>
 													<c:if test="${empty carType.carVOs}">
 														Нет автомобилей данного типа
-													</c:if>--%>
+													</c:if>
 												</div>
 											</td>
 											<td class="b_div b_table_l_td">
 												<c:if test="${pageScope.isAdmin}">
-													<a href="<%=request.getContextPath()%>/EditCarType?id=${carType.id}" class="green_edit" title="Редактировать"></a>
+													<a href="<%=request.getContextPath()%>/EditCarType?id=${carType.id}" class="blue_edit" title="Редактировать"></a>
 													<a href="<%=request.getContextPath()%>/DeleteCarType?id=${carType.id}" class="red_del" onclick="return confirm('Хотите удалить тип автомобиля?')" title="Удалить"></a>
 												</c:if>
 											</td>
@@ -117,7 +117,7 @@
 			</div>
 		</div>
 		<div class="footer"></div>
-		<%--<script type="text/javascript">
+		<script type="text/javascript">
 			$(function() {
 				UpdateNewOrderList('<%=request.getContextPath()%>/newOrders.jsp');
 			});
@@ -135,6 +135,6 @@
 					buttons.addClass('close_b_div_link');
 				});
 			});
-		</script>--%>
+		</script>
 	</body>
 </html>

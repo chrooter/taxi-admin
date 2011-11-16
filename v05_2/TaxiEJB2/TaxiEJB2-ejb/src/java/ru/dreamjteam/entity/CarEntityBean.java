@@ -1,13 +1,17 @@
 package ru.dreamjteam.entity;
 
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.*;
+import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Locale;
 
 
@@ -125,11 +129,12 @@ public class CarEntityBean implements EntityBean {
 		PreparedStatement st = null;
 		try {
 			openConnection();
-			st = conn.prepareStatement("INSERT INTO CARS (ID, MODEL, GOV_NUMBER, COLOR, TYPE_ID) VALUES(taxiseq.nextval, ?, ?, ?, ?)");
-			st.setString(1, govNumber);
-			st.setString(2, color);
-			st.setInt(3, carTypeId);
-			st.setString(4, model);
+			st = conn.prepareStatement("INSERT INTO CARS (ID, MODEL, GOV_NUMBER, COLOR, TYPE_ID) VALUES(cars_seq.nextval, ?, ?, ?, ?)");
+			st.setString(1, model);
+                        st.setString(2, govNumber);
+			st.setString(3, color);
+			st.setInt(4, carTypeId);
+			
 			if (st.executeUpdate() != 1)
 				throw new CreateException();
 			st = conn.prepareStatement("select cars_seq.currval from dual");
@@ -278,22 +283,25 @@ public class CarEntityBean implements EntityBean {
 
 	public CarVO getCarVO(Boolean withDependences) throws NamingException, FinderException {
 		final CarVO carVO = new CarVO(id, model, govNumber, color, carTypeId);
-		/*if (!withDependences) return carVO;
-		final LocalCarTypeEntityHome carTypeHome = BeanProvider.getCarTypeHome();
-		final LocalCarTypeEntity carTypeEntity = carTypeHome.findByPrimaryKey(carTypeId);
+		if (!withDependences) return carVO;
+                
+		final CarTypeEntityBeanLocalHome carTypeHome = lookupCarTypeEntityBeanLocal();
+		final CarTypeEntityBeanLocal carTypeEntity = carTypeHome.findByPrimaryKey(carTypeId);
 		carVO.setCarTypeVO(carTypeEntity.getCarTypeVO(false));
-		final LocalOrderEntityHome orderHome = BeanProvider.getOrderHome();
+                
+		final OrderEntityBeanLocalHome orderHome = lookupOrderEntityBeanLocal();
 		Collection list = orderHome.findByCar(id);
 		ArrayList<OrderVO> orders = new ArrayList<OrderVO>(list.size());
 		for (Object o : list)
-			orders.add(((LocalOrderEntity) o).getOrderVO(false));
+			orders.add(((OrderEntityBeanLocal) o).getOrderVO(false));
 		carVO.setOrderVOs(Collections.unmodifiableList(orders));
 		orders.clear();
-		list = orderHome.findByCarAndCompleted(id, false);
+                
+		list = orderHome.findByCarAndCompleted(id, "done");
 		orders = new ArrayList<OrderVO>(list.size()); 
 		for (Object o : list)
-			orders.add(((LocalOrderEntity) o).getOrderVO(false));
-		carVO.setCurrentOrderVOs(Collections.unmodifiableList(orders));*/
+			orders.add(((OrderEntityBeanLocal) o).getOrderVO(false));
+		carVO.setCurrentOrderVOs(Collections.unmodifiableList(orders));
 		return carVO;
 	}
 
@@ -304,5 +312,27 @@ public class CarEntityBean implements EntityBean {
 		setModel(value.getModel());
 		setCarTypeId(value.getCarTypeId());
 	}
+
+        private CarTypeEntityBeanLocalHome lookupCarTypeEntityBeanLocal() {
+            try {
+                Context c = new InitialContext();
+                CarTypeEntityBeanLocalHome rv = (CarTypeEntityBeanLocalHome) c.lookup("java:comp/env/CarTypeEntityBean");
+                return rv;
+            } catch (NamingException ne) {
+                Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
+                throw new RuntimeException(ne);
+            }
+        }
+
+        private OrderEntityBeanLocalHome lookupOrderEntityBeanLocal() {
+            try {
+                Context c = new InitialContext();
+                OrderEntityBeanLocalHome rv = (OrderEntityBeanLocalHome) c.lookup("java:comp/env/OrderEntityBean");
+                return rv;
+            } catch (NamingException ne) {
+                Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
+                throw new RuntimeException(ne);
+            }
+        }
 	
 }

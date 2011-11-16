@@ -11,6 +11,20 @@
             <persistence-type>Bean</persistence-type>
             <prim-key-class>java.lang.Integer</prim-key-class>
             <reentrant>false</reentrant>
+            <ejb-local-ref>
+                <ejb-ref-name>CarTypeEntityBean</ejb-ref-name>
+                <ejb-ref-type>Entity</ejb-ref-type>
+                <local-home>ru.dreamjteam.entity.CarTypeEntityBeanLocalHome</local-home>
+                <local>ru.dreamjteam.entity.CarTypeEntityBeanLocal</local>
+                <ejb-link>CarTypeEntityBean</ejb-link>
+            </ejb-local-ref>
+            <ejb-local-ref>
+                <ejb-ref-name>OrderEntityBean</ejb-ref-name>
+                <ejb-ref-type>Entity</ejb-ref-type>
+                <local-home>ru.dreamjteam.entity.OrderEntityBeanLocalHome</local-home>
+                <local>ru.dreamjteam.entity.OrderEntityBeanLocal</local>
+                <ejb-link>OrderEntityBean</ejb-link>
+            </ejb-local-ref>
             <resource-ref>
                 <description>jdbc:oracle:thin:@localhost:1521:XE</description>
                 <res-ref-name>taxiref</res-ref-name>
@@ -28,6 +42,13 @@
             <persistence-type>Bean</persistence-type>
             <prim-key-class>java.lang.Integer</prim-key-class>
             <reentrant>false</reentrant>
+            <ejb-local-ref>
+                <ejb-ref-name>CarEntityBean</ejb-ref-name>
+                <ejb-ref-type>Entity</ejb-ref-type>
+                <local-home>ru.dreamjteam.entity.CarEntityBeanLocalHome</local-home>
+                <local>ru.dreamjteam.entity.CarEntityBeanLocal</local>
+                <ejb-link>CarEntityBean</ejb-link>
+            </ejb-local-ref>
             <resource-ref>
                 <description>jdbc:oracle:thin:@localhost:1521:XE</description>
                 <res-ref-name>taxiref</res-ref-name>
@@ -45,6 +66,13 @@
             <persistence-type>Bean</persistence-type>
             <prim-key-class>java.lang.Integer</prim-key-class>
             <reentrant>false</reentrant>
+            <ejb-local-ref>
+                <ejb-ref-name>CarEntityBean</ejb-ref-name>
+                <ejb-ref-type>Entity</ejb-ref-type>
+                <local-home>ru.dreamjteam.entity.CarEntityBeanLocalHome</local-home>
+                <local>ru.dreamjteam.entity.CarEntityBeanLocal</local>
+                <ejb-link>CarEntityBean</ejb-link>
+            </ejb-local-ref>
             <resource-ref>
                 <description>jdbc:oracle:thin:@localhost:1521:XE</description>
                 <res-ref-name>taxiref</res-ref-name>

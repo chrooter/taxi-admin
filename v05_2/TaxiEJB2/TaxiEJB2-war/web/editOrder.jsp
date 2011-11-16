@@ -55,7 +55,7 @@
 							<div class="txt_content">
 								<form action="<%=request.getContextPath()%>/EditOrder" method="POST" accept-charset="UTF-8">
 									<input type="hidden" name="id" value="${requestScope.order.id}"/>
-                                    <input type="hidden" name="completed" value="${requestScope.order.completed}"/>
+                                    <input type="hidden" name="completed" value="${requestScope.order.status}"/>
 									<h2>Редактирования заказа</h2>
 									<div class="edit_box"><div class="box">
 										<div>

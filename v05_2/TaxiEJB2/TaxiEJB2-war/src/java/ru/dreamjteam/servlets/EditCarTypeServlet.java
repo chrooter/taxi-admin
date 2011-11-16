@@ -1,7 +1,7 @@
 package ru.dreamjteam.servlets;
 
-import ru.dreamjteam.TaxiBeanEmulator;
-import ru.dreamjteam.entity.*;
+import ru.dreamjteam.beans.TaxiBeanEmulator;
+import ru.dreamjteam.entity.CarTypeVO;
 
 import javax.ejb.DuplicateKeyException;
 import javax.ejb.FinderException;
@@ -14,10 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-/**
- * @author abolmasov (11.10.2011 10:16:13)
- * @version $Revision: 84 $
- */
+
 public class EditCarTypeServlet extends CarTypeServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

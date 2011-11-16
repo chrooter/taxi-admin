@@ -44,7 +44,7 @@
 				</div></div></div>
 				<div class="text_content box">
 					<div id="neworders_list">
-						<%--<jsp:include page="newOrders.jsp"/>--%>
+						<jsp:include page="newOrders.jsp"/>
 					</div>
 					<div class="box txt_wrap">
 						<div class="txt pr zoom after">
@@ -68,8 +68,8 @@
 											<th><div class="th_div b_div">Номер заказа</div></th>
 											<th><div class="th_div b_div">Дата и время заказа</div></th>
 											<th><div class="th_div b_div">Автомобиль</div></th>
-											<th><div class="th_div b_div">Стоимость</div></th>
 											<th><div class="b_div">Телефон клиента</div></th>
+                                                                                        <th><div class="th_div b_div">Статус</div></th>
 											<th>&nbsp;</th>
 										</tr>
 										<% int i = 0; %>
@@ -77,16 +77,33 @@
 										<tr class="<%=(i++ % 2) == 0 ? "tr_1" : "tr_2"%> autotest" id="at${order.id}">
 											<td><fmt:formatNumber groupingUsed="false" value="${order.id}" minIntegerDigits="4"/></td>
 											<td><fmt:formatDate value="${order.timeOrd}" type="both" dateStyle="long" timeStyle="short"/></td>
-											<%--<td><c:out value="${order.car}"/></td>--%><td>Ooops</td>
-											<td><c:out value="${order.cost}"/></td>
+											<td><c:out value="${order.car}"/></td>
 											<td><c:out value="${order.phone}"/></td>
+                                                                                        <c:choose>
+                                                                                            <c:when test="${order.status=='new'}">
+                                                                                                <td>Новый</td>
+                                                                                            </c:when>
+                                                                                            <c:when test="${order.status=='executing'}">
+                                                                                                <td>Выполняется</td>
+                                                                                            </c:when>
+                                                                                            <c:when test="${order.status=='done'}">
+                                                                                                <td>Выполнен</td>
+                                                                                            </c:when>
+                                                                                            <c:when test="${order.status=='canceled'}">
+                                                                                                <td>Отменен</td>
+                                                                                            </c:when>
+                                                                                         </c:choose>
 											<td class="b_div b_table_l_td">
 												<c:if test="${pageScope.isAdmin}">
 													<a href="<%=request.getContextPath()%>/EditOrder?id=${order.id}" class="blue_edit" title="Редактировать"></a>
 													<c:if test="${order.status=='new'}">
-														<a href="<%=request.getContextPath()%>/DeleteOrder?id=${order.id}" class="blue_del" onclick="return confirm('Хотите удалить заказ?')" title="Удалить"></a>
-                                                                                                                <a href="<%=request.getContextPath()%>/EditOrder?id=${order.id}&completed=true" class="green_ok" title="Выполнено"></a>
+														<a href="<%=request.getContextPath()%>/DeleteOrder?id=${order.id}" class="red_del" onclick="return confirm('Хотите удалить заказ?')" title="Удалить"></a>
+                                                                                                                <a href="<%=request.getContextPath()%>/EditOrder?id=${order.id}" class="play" title="Запустить"></a>
 													</c:if>
+                                                                                                        <c:if test="${order.status=='executing'}">
+                                                                                                                <a href="<%=request.getContextPath()%>/EditOrder?id=${order.id}" class="cancel" title="Отменить"></a>
+                                                                                                                <a href="<%=request.getContextPath()%>/EditOrder?id=${order.id}" class="green_ok" title="Выполнено"></a>
+                                                                                                        </c:if>
 												</c:if>
 											</td>
 										</tr>
@@ -110,7 +127,7 @@
 			</div>
 		</div>
 		<div class="footer"></div>
-		<%--<script type="text/javascript">
+		<script type="text/javascript">
 			$(function() {
 				UpdateNewOrderList('<%=request.getContextPath()%>/newOrders.jsp');
 			});
@@ -128,6 +145,6 @@
 					buttons.addClass('close_b_div_link');
 				});
 			});
-		</script>--%>
+		</script>
 	</body>
 </html>

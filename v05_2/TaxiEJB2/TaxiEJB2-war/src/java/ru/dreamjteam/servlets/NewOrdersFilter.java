@@ -8,14 +8,10 @@ import javax.ejb.FinderException;
 import javax.naming.NamingException;
 import javax.servlet.*;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-/**
- * @author abolmasov (11.10.2011 16:28:07)
- * @version $Revision: 84 $
- */
+
 public class NewOrdersFilter implements Filter {
 	public void destroy() {
 	}

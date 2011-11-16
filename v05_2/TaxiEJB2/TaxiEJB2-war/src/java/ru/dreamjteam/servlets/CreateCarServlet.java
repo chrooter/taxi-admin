@@ -1,7 +1,7 @@
 package ru.dreamjteam.servlets;
 
-import ru.dreamjteam.TaxiBeanEmulator;
-import ru.dreamjteam.entity.*;
+import ru.dreamjteam.beans.TaxiBeanEmulator;
+import ru.dreamjteam.entity.CarVO;
 
 import javax.ejb.CreateException;
 import javax.ejb.DuplicateKeyException;
@@ -13,10 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-/**
- * @author abolmasov (11.10.2011 10:16:13)
- * @version $Revision: 84 $
- */
+
 public class CreateCarServlet extends CarServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
