@@ -150,4 +150,11 @@
         <local>ru.dreamjteam.entity.CarTypeEntityBeanLocal</local>
         <ejb-link>TaxiEJB2-ejb.jar#CarTypeEntityBean</ejb-link>
     </ejb-local-ref>
+    <ejb-local-ref>
+        <ejb-ref-name>PointEntityBean</ejb-ref-name>
+        <ejb-ref-type>Entity</ejb-ref-type>
+        <local-home>ru.dreamjteam.entity.PointEntityBeanLocalHome</local-home>
+        <local>ru.dreamjteam.entity.PointEntityBeanLocal</local>
+        <ejb-link>TaxiEJB2-ejb.jar#PointEntityBean</ejb-link>
+    </ejb-local-ref>
 </web-app>
