@@ -25,5 +25,13 @@
         <jndi-name>java:/jdbc/taxi</jndi-name>
       </resource-ref>
     </entity>
+    <entity>
+      <ejb-name>PointEntityBean</ejb-name>
+      <jndi-name>PointEntityBean</jndi-name>
+      <resource-ref>
+        <res-ref-name>taxiref</res-ref-name>
+        <jndi-name>java:/jdbc/taxi</jndi-name>
+      </resource-ref>
+    </entity>
   </enterprise-beans>
 </jboss>
