@@ -1,9 +1,3 @@
-/*
-	Copyright 2011 Open Code Ltd.
-    http://www.o-code.ru
- 
-    $Id: OrderServlet.java 84 2011-10-18 07:58:24Z graf.abolmasov@gmail.com $
-*/
 package ru.dreamjteam.servlets;
 
 import ru.dreamjteam.beans.TaxiBeanEmulator;

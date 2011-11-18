@@ -67,7 +67,6 @@
 											<th><div class="th_div b_div">Название</div></th>
 											<th><div class="th_div b_div">Вместимость</div></th>
 											<th><div class="th_div b_div">Стоимость за 1 км</div></th>
-											<%--<th><div class="th_div b_div">Автомбо</div></th>--%>
 											<th><div class="b_div">Имеющиеся автомобили</div></th>
 											<th>&nbsp;</th>
 										</tr>
@@ -94,6 +93,7 @@
 												<c:if test="${pageScope.isAdmin}">
 													<a href="<%=request.getContextPath()%>/EditCarType?id=${carType.id}" class="blue_edit" title="Редактировать"></a>
 													<a href="<%=request.getContextPath()%>/DeleteCarType?id=${carType.id}" class="red_del" onclick="return confirm('Хотите удалить тип автомобиля?')" title="Удалить"></a>
+                                                                                                        
 												</c:if>
 											</td>
 										</tr>
@@ -135,6 +135,7 @@
 					buttons.addClass('close_b_div_link');
 				});
 			});
+                        <c:if test="${!empty requestScope.error}">alert('${requestScope.error}')</c:if>
 		</script>
 	</body>
 </html>

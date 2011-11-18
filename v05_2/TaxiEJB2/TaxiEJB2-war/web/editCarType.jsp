@@ -68,7 +68,7 @@
 											</div>
 											<div class="edit_side_block">
 												<h2><label for="seatcap">Вместимость</label></h2>
-												<div class="box"><input type="text" class="db edit_txt" name="seatcap" maxlength="255" id="seatcap" value="<c:out value="${requestScope.carType.seatCapacity}"/>"/></div>
+												<div class="box"><input type="text" class="db edit_txt" name="seatcap" maxlength="255" id="seatcap" value="<c:out value="${requestScope.carType.capacity}"/>"/></div>
 											</div>
 											<div class="edit_side_block">
 												<h2><label for="costperkm">Стоимость за 1 км</label></h2>

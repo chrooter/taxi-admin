@@ -27,10 +27,14 @@ public class CarServlet extends HttpServlet {
 
 	protected List<String> validate(final CarVO car) {
 		List<String> result = new LinkedList<String>();
+                if (car.getModel().trim().isEmpty())
+			result.add("Введите модель");
+                if (car.getGovNumber().trim().isEmpty())
+			result.add("Введите гос. номер");
+                if (car.getColor().trim().isEmpty())
+			result.add("Введите цвет");
 		if (car.getCarTypeId() == 0)
 			result.add("Не выбран тип машины");
-		if (car.getGovNumber().trim().isEmpty())
-			result.add("Введите гос. номер");
 		return result;
 	}
 

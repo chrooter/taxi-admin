@@ -97,6 +97,7 @@
 												<c:if test="${pageScope.isAdmin}">
 													<a href="<%=request.getContextPath()%>/EditCar?id=${car.id}" class="blue_edit" title="Редактировать"></a>
 													<a href="<%=request.getContextPath()%>/DeleteCar?id=${car.id}" class="red_del" onclick="return confirm('Хотите удалить автомобиль?')" title="Удалить"></a>
+                                                                                                        <c:if test="${!empty requestScope.error}">alert('${requestScope.error}')</c:if>
 												</c:if>
 											</td>
 										</tr>

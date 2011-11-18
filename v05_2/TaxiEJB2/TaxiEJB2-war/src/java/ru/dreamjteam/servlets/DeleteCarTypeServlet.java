@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLIntegrityConstraintViolationException;
+import javax.servlet.RequestDispatcher;
 
 
 public class DeleteCarTypeServlet extends HttpServlet {
@@ -20,9 +22,17 @@ public class DeleteCarTypeServlet extends HttpServlet {
 		if (id != null && !id.trim().isEmpty()) {
 			try {
 				TaxiBeanEmulator.deleteCarType(Integer.valueOf(id));
+                                
 			} catch (ObjectNotFoundException e) {
 				resp.sendRedirect(req.getContextPath() + "/ViewOrderList");
-			} catch (FinderException e) {
+                                return;
+			} catch (SQLIntegrityConstraintViolationException e) {
+                                final RequestDispatcher requestDispatcher = req.getRequestDispatcher("/ViewCarTypeList");
+                                String error = e.getLocalizedMessage();
+                                req.setAttribute("error", error);
+                                requestDispatcher.forward(req, resp);
+                                return;
+                        } catch (FinderException e) {
 				throw new ServletException(e);
 			} catch (NamingException e) {
 				throw new ServletException(e);
@@ -31,5 +41,9 @@ public class DeleteCarTypeServlet extends HttpServlet {
 			}
 		}
 		resp.sendRedirect(req.getContextPath() + "/ViewCarTypeList");
+                
+                /*final RequestDispatcher requestDispatcher = req.getRequestDispatcher("/carTypes.jsp");
+		requestDispatcher.include(req, resp);
+                return;*/
 	}
 }
