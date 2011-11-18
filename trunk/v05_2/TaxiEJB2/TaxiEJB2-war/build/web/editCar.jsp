@@ -62,17 +62,17 @@
 											</c:forEach>
 										</div>
 										<div class="fl edit_side1">
-											<div class="edit_side_block">
-												<h2><label for="govnum">Гос. Номер</label></h2>
-												<div class="box"><input type="text" class="db edit_txt" name="govnum" maxlength="9" id="govnum" value="${requestScope.car.govNumber}"/></div>
-											</div>
-											<div class="edit_side_block">
+                                                                                        <div class="edit_side_block">
 												<h2><label for="model">Модель</label></h2>
 												<div class="box"><input type="text" class="db edit_txt" name="model" maxlength="255" id="model" value="${requestScope.car.model}"/></div>
 											</div>
 											<div class="edit_side_block">
-												<h2><label for="running">Пробег</label></h2>
-												<div class="box"><input type="text" class="db edit_txt" name="running" maxlength="6" id="running" value="${requestScope.car.running}"/></div>
+												<h2><label for="govnum">Гос. Номер</label></h2>
+												<div class="box"><input type="text" class="db edit_txt" name="govnum" maxlength="10" id="govnum" value="${requestScope.car.govNumber}"/></div>
+											</div>
+											<div class="edit_side_block">
+												<h2><label for="color">Цвет</label></h2>
+												<div class="box"><input type="text" class="db edit_txt" name="color" maxlength="255" id="color" value="${requestScope.car.color}"/></div>
 											</div>
 											<div class="edit_side_block">
 												<h2><label for="cartype">Тип</label></h2>

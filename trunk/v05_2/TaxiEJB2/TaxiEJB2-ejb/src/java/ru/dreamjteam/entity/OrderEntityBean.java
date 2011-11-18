@@ -47,7 +47,7 @@ public class OrderEntityBean implements EntityBean {
 		}
 	}
         
-        public Collection ejbFindByCarAndCompleted(Integer carId, String status) throws FinderException {
+        public Collection ejbFindByCarAndStatus(Integer carId, String status) throws FinderException {
 		
 		PreparedStatement st = null;
 		try {
@@ -74,6 +74,25 @@ public class OrderEntityBean implements EntityBean {
 			openConnection();
 			st = conn.prepareStatement("SELECT ID FROM ORDERS WHERE CAR_ID = ?");
 			st.setInt(1, carId);
+			ResultSet rs = st.executeQuery();
+			Collection<Integer> result = new ArrayList<Integer>();
+			while (rs.next())
+				result.add(rs.getInt("ID"));
+			return result;
+		} catch (SQLException e) {
+			throw new EJBException(e);
+		} finally {
+			closeConnection(st);
+		}
+	}
+        
+        public Collection ejbFindByStatus(String status) throws FinderException {
+		
+		PreparedStatement st = null;
+		try {
+			openConnection();
+			st = conn.prepareStatement("SELECT ID FROM ORDERS WHERE STATUS = ?");
+			st.setString(1, status);
 			ResultSet rs = st.executeQuery();
 			Collection<Integer> result = new ArrayList<Integer>();
 			while (rs.next())

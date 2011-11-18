@@ -68,8 +68,8 @@
 											<th><div class="th_div b_div">Номер заказа</div></th>
 											<th><div class="th_div b_div">Дата и время заказа</div></th>
 											<th><div class="th_div b_div">Автомобиль</div></th>
-											<th><div class="b_div">Телефон клиента</div></th>
-                                                                                        <th><div class="th_div b_div">Статус</div></th>
+											<th><div class="th_div b_div">Телефон клиента</div></th>
+                                                                                        <th><div class="b_div">Статус</div></th>
 											<th>&nbsp;</th>
 										</tr>
 										<% int i = 0; %>

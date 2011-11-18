@@ -1,5 +1,6 @@
 package ru.dreamjteam.beans;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import ru.dreamjteam.entity.*;
 
 import javax.ejb.CreateException;
@@ -100,13 +101,15 @@ public class TaxiBeanEmulator {
 		if (!checkCarType(carType))
 			throw new DuplicateKeyException("Тип с таким названием уже существует");
 		final CarTypeEntityBeanLocalHome home = BeanProvider.getCarTypeHome();
-		final CarTypeEntityBeanLocal carEntity = home.findByPrimaryKey(carType.getId());
-		carEntity.setCarTypeVO(carType);
+		final CarTypeEntityBeanLocal carTypeEntity = home.findByPrimaryKey(carType.getId());
+		carTypeEntity.setCarTypeVO(carType);
 	}
         
-	public static void deleteCarType(Integer Id) throws FinderException, NamingException, RemoveException {
+	public static void deleteCarType(Integer Id) throws FinderException, NamingException, RemoveException, SQLIntegrityConstraintViolationException {
 		final CarTypeEntityBeanLocalHome home = BeanProvider.getCarTypeHome();
 		final CarTypeEntityBeanLocal carTypeEntity = home.findByPrimaryKey(Id);
+                if (!carTypeEntity.getCarTypeVO(true).getCarVOs().isEmpty())
+			throw new SQLIntegrityConstraintViolationException("Удаление невозможно. Существуют автомобили данного типа.");
 		carTypeEntity.remove();
 	}
         
@@ -139,6 +142,15 @@ public class TaxiBeanEmulator {
 		List<OrderVO> orders = new LinkedList<OrderVO>();
 		final OrderEntityBeanLocalHome home = BeanProvider.getOrderHome();
 		final Collection orderEntities = home.findAll();
+		for (Object orderEntity : orderEntities)
+			orders.add(((OrderEntityBeanLocal) orderEntity).getOrderVO(true));
+		return orders;
+	}
+        
+        public static List<OrderVO> getNewOrders() throws NamingException, FinderException {
+		List<OrderVO> orders = new LinkedList<OrderVO>();
+		final OrderEntityBeanLocalHome home = BeanProvider.getOrderHome();
+		final Collection orderEntities = home.findByStatus("new");
 		for (Object orderEntity : orderEntities)
 			orders.add(((OrderEntityBeanLocal) orderEntity).getOrderVO(true));
 		return orders;

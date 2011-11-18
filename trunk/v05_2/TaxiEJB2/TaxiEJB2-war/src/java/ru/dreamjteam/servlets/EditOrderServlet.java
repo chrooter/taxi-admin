@@ -24,7 +24,7 @@ public class EditOrderServlet extends OrderServlet {
 		}
 		try {
 			final OrderVO order = TaxiBeanEmulator.getOrder(Integer.valueOf(id));
-            order.setStatus(req.getParameter("status"));
+                        order.setStatus(req.getParameter("status"));
 			req.setAttribute("order", order);
 			final RequestDispatcher requestDispatcher = req.getRequestDispatcher("/editOrder.jsp");
 			requestDispatcher.forward(req, resp);

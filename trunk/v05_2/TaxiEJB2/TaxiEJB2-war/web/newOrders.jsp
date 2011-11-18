@@ -7,9 +7,9 @@
 <div class="fl pr l_side">
 	<div class="l_side_inner">
 		<h2>необработанные заявки</h2>
-		<c:forEach items="${requestScope.newOrders}" var="order">
+		<c:forEach items="${requestScope.newOrders}" var="order" varStatus="status">
 			<div class="l_side_div box">
-				<div class="fl l_side_div_numb">1.</div>
+				<div class="fl l_side_div_numb">${status.count}.</div>
 				<div class="box">
                     <%
                         Date now = new Date();

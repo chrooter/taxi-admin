@@ -87,7 +87,7 @@ public class CarEntityBean implements EntityBean {
 		PreparedStatement st = null;
 		try {
 			openConnection();
-			st = conn.prepareStatement("SELECT ID FROM CARS");
+			st = conn.prepareStatement("SELECT ID FROM CARS WHERE DELETED!=1");
 			ResultSet rs = st.executeQuery();
 			Collection<Integer> result = new ArrayList<Integer>();
 			while (rs.next())
@@ -297,7 +297,7 @@ public class CarEntityBean implements EntityBean {
 		carVO.setOrderVOs(Collections.unmodifiableList(orders));
 		orders.clear();
                 
-		list = orderHome.findByCarAndCompleted(id, "done");
+		list = orderHome.findByCarAndStatus(id, "executing");
 		orders = new ArrayList<OrderVO>(list.size()); 
 		for (Object o : list)
 			orders.add(((OrderEntityBeanLocal) o).getOrderVO(false));
