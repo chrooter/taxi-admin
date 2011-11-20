@@ -19,56 +19,59 @@ import java.util.List;
 
 
 public class OrderServlet extends HttpServlet {
+    
+        List<String> result;
+    
 	protected OrderVO getOrder(HttpServletRequest request) {
+                result = new LinkedList<String>();
+                int passengers = 0;
+                
 		final String strId = request.getParameter("id");
 		final int id = strId == null || strId.trim().isEmpty() ? 0 : Integer.valueOf(strId);
+                
 		final String strStartPoint = request.getParameter("startpoint");
-                final int startPoint = strStartPoint == null || strId.trim().isEmpty() ? 0 : Integer.valueOf(strStartPoint);
+                final int startPoint = strStartPoint == null || strStartPoint.trim().isEmpty() ? 0 : Integer.valueOf(strStartPoint);
+                if (strStartPoint.trim().isEmpty())
+                    result.add("Введите адрес отправления");
+                
+                final String phone = request.getParameter("phone");
+                if (phone.trim().isEmpty())
+                    result.add("Введите номер телефона");
+                
+                final String strPassengers = request.getParameter("passengers");
+                if (!strPassengers.matches("[1-9][0-9]*")) 
+                    result.add("Значение в поле \"Число пассажиров\" должно быть положительным целым числом");
+                else passengers = Integer.valueOf(strPassengers);
+                
 		final String strCarId = request.getParameter("carid");
 		final int carId = strCarId == null || strCarId.trim().isEmpty() ? 0 : Integer.valueOf(strCarId);
+                
 		final String status = request.getParameter("status");
+                
 		final String strCost = request.getParameter("cost");
 		final int cost = strCost == null || strCost.trim().isEmpty() ? 0 : Integer.valueOf(strCost);
+                
 		final String strDistance = request.getParameter("distance");
 		final int distance = strDistance == null || strDistance.trim().isEmpty() ? 0 : Integer.parseInt(strDistance);
-		final String strPassengers = request.getParameter("passengers");
-		final int passengers = strPassengers == null || strPassengers.trim().isEmpty() ? 0 : Integer.parseInt(strPassengers);
-		final String phone = request.getParameter("phone");
-
+                
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy HH:mm");
 
-		final String timedest = request.getParameter("timedest");
+		final String strTimeDone = request.getParameter("strTimeDone");
 		Timestamp timeDone;
 		try {
-			timeDone = timedest == null || timedest.trim().isEmpty() ? null : new Timestamp(dateFormatter.parse(timedest).getTime());
+			timeDone = strTimeDone == null || strTimeDone.trim().isEmpty() ? null : new Timestamp(dateFormatter.parse(strTimeDone).getTime());
 		} catch (ParseException e) {
 			throw new IllegalStateException(e);
 		}
-		final String timeord = request.getParameter("timeord");
+                
+		final String strTimeOrd = request.getParameter("strTimeOrd");
 		Timestamp timeOrd;
 		try {
-			timeOrd = timeord == null || timeord.trim().isEmpty() ? null : new Timestamp(dateFormatter.parse(timeord).getTime());
+			timeOrd = strTimeOrd == null || strTimeOrd.trim().isEmpty() ? null : new Timestamp(dateFormatter.parse(strTimeOrd).getTime());
 		} catch (ParseException e) {
 			throw new IllegalStateException(e);
 		}
 		return new OrderVO(id, cost, phone, distance, passengers, timeDone, timeOrd, startPoint, carId, status);
-	}
-
-	protected List<String> validate(OrderVO order) {
-		List<String> result = new LinkedList<String>();
-		/*if (order.getAddrDep() == null || order.getAddrDep().trim().isEmpty())
-			result.add("Введите адрес отправления");
-		if (order.getAddrDest() == null || order.getAddrDest().trim().isEmpty())
-			result.add("Введите адрес прибытия");*/
-		if (order.getPhone() == null || order.getPhone().trim().isEmpty())
-			result.add("Введите телефон клиента");
-        /*if (!order.getCompleted())
-            return result;*/
-        if (order.getDistance() <= 0)
-			result.add("Введите дальность поездки");
-        if (order.getCost() <= 0)
-			result.add("Введите стоимость поездки");
-		return result;
 	}
 
 	protected void putCarIn2Req(HttpServletRequest req) throws ServletException {
@@ -87,4 +90,14 @@ public class OrderServlet extends HttpServlet {
 		putCarIn2Req(req);
 		super.service(req, resp);
 	}
+        
+        protected List<String> getErrors()
+        {
+            return result;
+        }
+        
+        protected void clearErrors()
+        {
+            result = null;
+        }
 }

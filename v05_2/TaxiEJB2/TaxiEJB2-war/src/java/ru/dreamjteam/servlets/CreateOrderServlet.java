@@ -23,11 +23,12 @@ public class CreateOrderServlet extends OrderServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		final OrderVO order = getOrder(req);
-		final List<String> errors = validate(order);
+		final List<String> errors = getErrors();
 		if (!errors.isEmpty()) {
 			final RequestDispatcher requestDispatcher = req.getRequestDispatcher("/createOrder.jsp");
 			req.setAttribute("errors", errors);
 			req.setAttribute("order", order);
+                        clearErrors();
 			requestDispatcher.forward(req, resp);
 			return;
 		}
