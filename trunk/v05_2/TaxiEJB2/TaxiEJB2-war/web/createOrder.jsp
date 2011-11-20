@@ -64,17 +64,24 @@
 										<div class="fl edit_side1">
 											<div class="edit_side_block">
 												<h2><label for="addrdep">Адрес отправления</label></h2>
-												<div class="box"><input type="text" class="db edit_txt" name="addrdep" maxlength="255" id="addrdep" value="${requestScope.order.addrDep}"/></div>
+												<div class="box"><input type="text" class="db edit_txt" name="startpoint" maxlength="255" id="addrdep" value="${requestScope.order.startPoint}"/></div>
 											</div>
 											<div class="edit_side_block">
 												<h2><label for="addrdest">Адрес доставки</label></h2>
-												<div class="box"><input type="text" class="db edit_txt" name="addrdest" maxlength="255" id="addrdest" value="${requestScope.order.addrDest}"/></div>
+												<div class="box"><input type="text" class="db edit_txt" name="addrdest" maxlength="255" id="addrdest" value=""/></div>
 											</div>
 											<div class="edit_side_block">
 												<h2><label for="phone">Телефон</label></h2>
 												<div class="box"><input type="text" class="db edit_txt" name="phone" maxlength="12" id="phone" value="${requestScope.order.phone}"/></div>
 											</div>
-											<div class="edit_side_block">
+                                                                                        <div class="edit_side_block">
+												<h2><label for="passengers">Число пассажиров</label></h2>
+												<div class="box"><input type="text" class="db edit_txt" name="passengers" maxlength="6" id="passengers" value="${requestScope.order.passengers}"/></div>
+											</div>
+										</div>
+
+										<div class="box edit_side2">
+                                                                                        <div class="edit_side_block">
 												<h2><label for="car">Автомобиль</label></h2>
 												<div class="box">
 													<select name="carid" id="car">
@@ -84,20 +91,13 @@
 													</select>
 												</div>
 											</div>
-										</div>
-
-										<div class="box edit_side2">
 											<div class="edit_side_block">
 												<h2><label for="cost">Стоимость поездки</label></h2>
-												<div class="box"><input type="text" class="db edit_txt" name="cost" maxlength="6" id="cost" value="${requestScope.order.cost}"/></div>
-											</div>
-											<div class="edit_side_block">
-												<h2><label for="passengers">Число пассажиров</label></h2>
-												<div class="box"><input type="text" class="db edit_txt" name="passengers" maxlength="6" id="passengers" value="${requestScope.order.passengers}"/></div>
+												<div class="box"><input readonly="readonly" type="text" class="db edit_txt" name="cost" maxlength="6" id="cost" value="${requestScope.order.cost}"/></div>
 											</div>
 											<div class="edit_side_block">
 												<h2><label for="distance">Расстояние поездки</label></h2>
-												<div class="box"><input type="text" class="db edit_txt" name="distance" maxlength="6" id="distance" value="${requestScope.order.distance}"/></div>
+												<div class="box"><input readonly="readonly" type="text" class="db edit_txt" name="distance" maxlength="6" id="distance" value="${requestScope.order.distance}"/></div>
 											</div>
 											<div class="edit_side_block">
 												<h2><label for="timeOrd">Время создания заявки</label></h2>

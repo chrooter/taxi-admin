@@ -40,11 +40,12 @@ public class EditCarTypeServlet extends CarTypeServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		final CarTypeVO carType = getCarType(req);
-		final List<String> errors = validate(carType);
+		final List<String> errors = getErrors();
 		if (!errors.isEmpty()) {
 			final RequestDispatcher requestDispatcher = req.getRequestDispatcher("/editCarType.jsp");
 			req.setAttribute("errors", errors);
 			req.setAttribute("carType", carType);
+                        clearErrors();
 			requestDispatcher.forward(req, resp);
 			return;
 		}
