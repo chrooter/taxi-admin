@@ -56,9 +56,9 @@
 							<div class="txt_content">
 								<c:if test="${!empty requestScope.orders}">
 								<table class="c_table b_table">
-									<col width="15%"/>
-									<col width="15%"/>
-									<col width="15%"/>
+									<col width="10%"/>
+									<col width="25%"/>
+									<col width="25%"/>
 									<col width="15%"/>
 									<col width="*"/>
 									<col width="110px"/>
@@ -77,7 +77,8 @@
 										<tr class="<%=(i++ % 2) == 0 ? "tr_1" : "tr_2"%> autotest" id="at${order.id}">
 											<td><fmt:formatNumber groupingUsed="false" value="${order.id}" minIntegerDigits="4"/></td>
 											<td><fmt:formatDate value="${order.timeOrd}" type="both" dateStyle="long" timeStyle="short"/></td>
-											<td><c:out value="${order.car}"/></td>
+											<c:if test="${!empty order.car}"><td><c:out value="${order.car}"/></td></c:if>
+                                                                                        <c:if test="${empty order.car}"><td>Машина не назначена</td></c:if>
 											<td><c:out value="${order.phone}"/></td>
                                                                                         <c:choose>
                                                                                             <c:when test="${order.status=='new'}">
@@ -97,12 +98,14 @@
 												<c:if test="${pageScope.isAdmin}">
 													<a href="<%=request.getContextPath()%>/EditOrder?id=${order.id}" class="blue_edit" title="Редактировать"></a>
 													<c:if test="${order.status=='new'}">
-														<a href="<%=request.getContextPath()%>/DeleteOrder?id=${order.id}" class="red_del" onclick="return confirm('Хотите удалить заказ?')" title="Удалить"></a>
-                                                                                                                <a href="<%=request.getContextPath()%>/EditOrder?id=${order.id}" class="play" title="Запустить"></a>
+                                                                                                                <a href="<%=request.getContextPath()%>/EditOrder?id=${order.id}&status=executing" class="play" title="Запустить"></a>
 													</c:if>
                                                                                                         <c:if test="${order.status=='executing'}">
-                                                                                                                <a href="<%=request.getContextPath()%>/EditOrder?id=${order.id}" class="cancel" title="Отменить"></a>
-                                                                                                                <a href="<%=request.getContextPath()%>/EditOrder?id=${order.id}" class="green_ok" title="Выполнено"></a>
+                                                                                                                <a href="<%=request.getContextPath()%>/EditOrder?id=${order.id}&status=done" class="green_ok" title="Выполнено"></a>
+                                                                                                                <a href="<%=request.getContextPath()%>/EditOrder?id=${order.id}&status=canceled" class="cancel" onclick="return confirm('Хотите отменить заказ?')" title="Отменить"></a>
+                                                                                                        </c:if>
+                                                                                                        <c:if test="${order.status!='executing'}">
+                                                                                                            <a href="<%=request.getContextPath()%>/DeleteOrder?id=${order.id}" class="red_del" onclick="return confirm('Хотите удалить заказ?')" title="Удалить"></a>
                                                                                                         </c:if>
 												</c:if>
 											</td>

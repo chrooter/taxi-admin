@@ -621,6 +621,8 @@ tr.tr_1 td.b_table_l_td, tr.tr_2 td.b_table_l_td{
 	float:left;
 	width:17px;
 	height:17px;
+	margin-right:10px;
+	margin-bottom:5px;
 	background:url(../i/ok.png) 0 0 no-repeat;
 }
 .green_processing{
@@ -679,7 +681,7 @@ tr.tr_1 td.b_table_l_td, tr.tr_2 td.b_table_l_td{
 	padding:15px;
 }
 .edit_side1{
-	width:35%;
+	width:50%;
 	margin-right:5%;
 	color:#3661a3
 }

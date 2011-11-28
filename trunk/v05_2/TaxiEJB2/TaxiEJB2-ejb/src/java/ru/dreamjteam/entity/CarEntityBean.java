@@ -27,6 +27,7 @@ public class CarEntityBean implements EntityBean {
 	private DataSource dataSource;
         private Connection conn;
 
+        private boolean isModified;
 
 	public Integer ejbFindByPrimaryKey(Integer key) throws FinderException {
 		PreparedStatement st = null;
@@ -111,7 +112,7 @@ public class CarEntityBean implements EntityBean {
 	}
 
         public void unsetEntityContext() throws EJBException {
-            context = null;
+            this.context = null;
 	}
 
 	public void ejbActivate() throws EJBException {
@@ -169,7 +170,7 @@ public class CarEntityBean implements EntityBean {
 	}
 
 	public void ejbLoad() throws EJBException {
-		id = ((Integer) context.getPrimaryKey());
+		id = (Integer) context.getPrimaryKey();
 		
 		PreparedStatement st = null;
 		try {
@@ -183,6 +184,7 @@ public class CarEntityBean implements EntityBean {
 			color = rs.getString("COLOR");
 			model = rs.getString("MODEL");
 			carTypeId = rs.getInt("TYPE_ID");
+                        isModified = false;
 		} catch (SQLException e) {
 			throw new EJBException(e);
 		} finally {
@@ -191,6 +193,7 @@ public class CarEntityBean implements EntityBean {
 	}
 
 	public void ejbStore() throws EJBException {
+                if (!isModified) return;
 		id = (Integer) context.getPrimaryKey();
 		
 		PreparedStatement st = null;
@@ -217,6 +220,7 @@ public class CarEntityBean implements EntityBean {
 
 	public void setGovNumber(String govNumber) {
 		this.govNumber = govNumber;
+                isModified = true;
 	}
 
 	public String getColor() {
@@ -225,6 +229,7 @@ public class CarEntityBean implements EntityBean {
 
 	public void setColor(String color) {
 		this.color = color;
+                isModified = true;
 	}
 
 	public Integer getId() {
@@ -233,6 +238,7 @@ public class CarEntityBean implements EntityBean {
 
 	public void setId(Integer id) {
 		this.id = id;
+                isModified = true;
 	}
 
 	public String getModel() {
@@ -241,6 +247,7 @@ public class CarEntityBean implements EntityBean {
 
 	public void setModel(String model) {
 		this.model = model;
+                isModified = true;
 	}
 
 	public Integer getCarTypeId() {
@@ -249,6 +256,7 @@ public class CarEntityBean implements EntityBean {
 
 	public void setCarTypeId(Integer carTypeId) {
 		this.carTypeId = carTypeId;
+                isModified = true;
 	}
 
 	
@@ -278,9 +286,6 @@ public class CarEntityBean implements EntityBean {
 	}
 
 	
-
-	
-
 	public CarVO getCarVO(Boolean withDependences) throws NamingException, FinderException {
 		final CarVO carVO = new CarVO(id, model, govNumber, color, carTypeId);
 		if (!withDependences) return carVO;
@@ -295,13 +300,14 @@ public class CarEntityBean implements EntityBean {
 		for (Object o : list)
 			orders.add(((OrderEntityBeanLocal) o).getOrderVO(false));
 		carVO.setOrderVOs(Collections.unmodifiableList(orders));
-		orders.clear();
+		//orders.clear();
                 
-		list = orderHome.findByCarAndStatus(id, "executing");
-		orders = new ArrayList<OrderVO>(list.size()); 
-		for (Object o : list)
-			orders.add(((OrderEntityBeanLocal) o).getOrderVO(false));
-		carVO.setCurrentOrderVOs(Collections.unmodifiableList(orders));
+                final OrderEntityBeanLocalHome orderHome2 = lookupOrderEntityBeanLocal();
+		Collection list2 = orderHome2.findByCarAndStatus(id, "executing");
+		ArrayList<OrderVO> orders2 = new ArrayList<OrderVO>(list2.size()); 
+		for (Object o : list2)
+			orders2.add(((OrderEntityBeanLocal) o).getOrderVO(false));
+		carVO.setCurrentOrderVOs(Collections.unmodifiableList(orders2));
 		return carVO;
 	}
 

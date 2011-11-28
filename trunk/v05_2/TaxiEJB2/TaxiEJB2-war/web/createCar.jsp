@@ -79,6 +79,7 @@
 												<h2><label for="cartype">Тип</label></h2>
 												<div class="box">
 													<select name="typeid" id="cartype">
+                                                                                                            <option disabled>Выберите тип автомобиля</option>
 														<c:forEach items="${requestScope.carTypes}" var="carType">
 															<option value="${carType.id}" <c:if test="${requestScope.car.carTypeId eq carType.id}">selected="selected"</c:if>><c:out value="${carType.name}"/></option>
 														</c:forEach>

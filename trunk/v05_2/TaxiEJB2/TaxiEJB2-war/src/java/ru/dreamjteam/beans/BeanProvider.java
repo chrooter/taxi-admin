@@ -24,5 +24,10 @@ public class BeanProvider {
 		InitialContext ic = new InitialContext();
 		return (OrderEntityBeanLocalHome) ic.lookup("java:comp/env/OrderEntityBean");
 	}
+        
+        public static PointEntityBeanLocalHome getPointHome() throws NamingException {
+		InitialContext ic = new InitialContext();
+		return (PointEntityBeanLocalHome) ic.lookup("java:comp/env/PointEntityBean");
+	}
 
 }

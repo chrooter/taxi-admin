@@ -25,6 +25,8 @@ public class CarTypeEntityBean implements EntityBean {
 	private DataSource dataSource;
         private Connection conn;
 
+        private boolean isModified;
+        
         public Integer ejbFindByPrimaryKey(Integer key) throws FinderException {
 		
 		PreparedStatement st = null;
@@ -159,6 +161,7 @@ public class CarTypeEntityBean implements EntityBean {
 			costPerKm = resultSet.getInt("COST_PER_KM");
 			capacity = resultSet.getInt("CAPACITY");
 			name = resultSet.getString("NAME");
+                        isModified = false;
 		} catch (SQLException e) {
 			throw new EJBException(e);
 		} finally {
@@ -167,6 +170,7 @@ public class CarTypeEntityBean implements EntityBean {
 	}
         
 	public void ejbStore() throws EJBException {
+                if (!isModified) return;
 		id = (Integer) context.getPrimaryKey();
 		
 		PreparedStatement st = null;
@@ -216,24 +220,28 @@ public class CarTypeEntityBean implements EntityBean {
 	}
 	public void setId(Integer id) {
 		this.id = id;
+                isModified = true;
 	}
 	public Integer getCapacity() {
 		return capacity;
 	}
 	public void setCapacity(Integer capacity) {
 		this.capacity = capacity;
+                isModified = true;
 	}
 	public Integer getCostPerKm() {
 		return costPerKm;
 	}
 	public void setCostPerKm(Integer costPerKm) {
 		this.costPerKm = costPerKm;
+                isModified = true;
 	}
 	public String getName() {
 		return name;
 	}
 	public void setName(String name) {
 		this.name = name;
+                isModified = true;
 	}
 
 	public CarTypeVO getCarTypeVO(Boolean withDependences) throws NamingException, FinderException {
