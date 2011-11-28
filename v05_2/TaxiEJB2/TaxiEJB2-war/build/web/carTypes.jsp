@@ -55,10 +55,9 @@
 							<div class="txt_content">
 								<c:if test="${!empty requestScope.carTypes}">
 								<table class="c_table b_table">
-									<col width="15%"/>
-									<col width="15%"/>
-									<col width="15%"/>
-									<%--<col width="15%"/>--%>
+									<col width="20%"/>
+									<col width="20%"/>
+									<col width="20%"/>
 									<col width="*"/>
 									<col width="80px"/>
 
@@ -93,7 +92,6 @@
 												<c:if test="${pageScope.isAdmin}">
 													<a href="<%=request.getContextPath()%>/EditCarType?id=${carType.id}" class="blue_edit" title="Редактировать"></a>
 													<a href="<%=request.getContextPath()%>/DeleteCarType?id=${carType.id}" class="red_del" onclick="return confirm('Хотите удалить тип автомобиля?')" title="Удалить"></a>
-                                                                                                        
 												</c:if>
 											</td>
 										</tr>

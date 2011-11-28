@@ -2,6 +2,7 @@ package ru.dreamjteam.entity;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.List;
 
 
 public class OrderVO implements Serializable {
@@ -75,8 +76,8 @@ public class OrderVO implements Serializable {
         }
 
         public CarVO getCar() {
-		if (carVO == null)
-			throw new IllegalStateException("carVO == null cause lazy initialization");
+		//if (carVO == null)
+			//throw new IllegalStateException("carVO == null cause lazy initialization");
 		return carVO;
 	}
 

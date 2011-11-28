@@ -1,5 +1,6 @@
 <%@ taglib prefix="html" uri="http://struts.apache.org/tags-html" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <c:set var="isAdmin" value="true"/>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
@@ -59,6 +60,7 @@
 									<col width="15%"/>
 									<col width="15%"/>
 									<col width="15%"/>
+                                                                        <col width="15%"/>
 									<col width="*"/>
 									<col width="80px"/>
 
@@ -85,7 +87,7 @@
 												<div class="box close_b_div">
 													<c:if test="${!empty car.currentOrderVOs}">
 														<c:forEach var="order" items="${car.currentOrderVOs}">
-															<div><a href="<%=request.getContextPath()%>/EditOrder?id=${order.id}">Заказ # <c:out value="${order.id}"/></a> (<c:out value="${order.startPoint}"/>)</div>
+															<div><a href="<%=request.getContextPath()%>/EditOrder?id=${order.id}">Заказ # <fmt:formatNumber groupingUsed="false" value="${order.id}" minIntegerDigits="4"/></a> (<c:out value="${order.startPoint}"/>)</div>
 														</c:forEach>
 													</c:if>
 													<c:if test="${empty car.currentOrderVOs}">
@@ -97,7 +99,6 @@
 												<c:if test="${pageScope.isAdmin}">
 													<a href="<%=request.getContextPath()%>/EditCar?id=${car.id}" class="blue_edit" title="Редактировать"></a>
 													<a href="<%=request.getContextPath()%>/DeleteCar?id=${car.id}" class="red_del" onclick="return confirm('Хотите удалить автомобиль?')" title="Удалить"></a>
-                                                                                                        <c:if test="${!empty requestScope.error}">alert('${requestScope.error}')</c:if>
 												</c:if>
 											</td>
 										</tr>
@@ -139,6 +140,7 @@
 					buttons.addClass('close_b_div_link');
 				});
 			});
+                        <c:if test="${!empty requestScope.error}">alert('${requestScope.error}')</c:if>
 		</script>
 	</body>
 </html>

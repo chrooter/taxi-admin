@@ -1,5 +1,6 @@
 package ru.dreamjteam.servlets;
 
+import javax.ejb.CreateException;
 import ru.dreamjteam.beans.TaxiBeanEmulator;
 import ru.dreamjteam.entity.OrderVO;
 
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import ru.dreamjteam.entity.PointVO;
 
 
 public class EditOrderServlet extends OrderServlet {
@@ -24,9 +26,21 @@ public class EditOrderServlet extends OrderServlet {
 		}
 		try {
 			final OrderVO order = TaxiBeanEmulator.getOrder(Integer.valueOf(id));
-                        order.setStatus(req.getParameter("status"));
-			req.setAttribute("order", order);
-			final RequestDispatcher requestDispatcher = req.getRequestDispatcher("/editOrder.jsp");
+                        final List<PointVO> chain = TaxiBeanEmulator.getChain(order.getStartPoint());
+                        final String status = req.getParameter("status");
+                        if (status != null)
+                        {
+                            order.setStatus(status);
+                            if (status.equals("canceled"))
+                            {
+                                TaxiBeanEmulator.updateOrder(order);
+                                resp.sendRedirect(req.getContextPath() + "/ViewOrderList");
+                                return;
+                            }
+                        }
+                        req.setAttribute("order", order);
+                        req.setAttribute("chain", chain);
+                        final RequestDispatcher requestDispatcher = req.getRequestDispatcher("/editOrder.jsp");
 			requestDispatcher.forward(req, resp);
 		} catch (ObjectNotFoundException e) {
 			resp.sendError(HttpServletResponse.SC_NOT_FOUND);
@@ -39,19 +53,25 @@ public class EditOrderServlet extends OrderServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		final OrderVO order = getOrder(req);
-		final List<String> errors = validate(order);
-		if (!errors.isEmpty()) {
-			final RequestDispatcher requestDispatcher = req.getRequestDispatcher("/editOrder.jsp");
-			req.setAttribute("errors", errors);
-            req.setAttribute("order", order);
-			requestDispatcher.forward(req, resp);
-			return;
-		}
-		try {
+                try {
+                        final OrderVO order = getOrder(req);
+                        final List<String> errors = getErrors();
+                        final List<PointVO> chain = getChain();
+                        if (!errors.isEmpty()) {
+                                final RequestDispatcher requestDispatcher = req.getRequestDispatcher("/editOrder.jsp");
+                                req.setAttribute("errors", errors);
+                                req.setAttribute("order", order);
+                                req.setAttribute("chain", chain);
+                                clearErrors();
+                                requestDispatcher.forward(req, resp);
+                                return;
+                        }
+		
 			TaxiBeanEmulator.updateOrder(order);
 			resp.sendRedirect(req.getContextPath() + "/ViewOrderList");
-		} catch (ObjectNotFoundException e) {
+		} catch (CreateException e) {
+                        throw new ServletException(e);
+                } catch (ObjectNotFoundException e) {
 			resp.sendError(HttpServletResponse.SC_NOT_FOUND);
 		} catch (FinderException e) {
 			throw new ServletException(e);

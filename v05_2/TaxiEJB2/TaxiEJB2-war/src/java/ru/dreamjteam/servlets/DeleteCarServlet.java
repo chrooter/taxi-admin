@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLIntegrityConstraintViolationException;
+import javax.servlet.RequestDispatcher;
 
 
 public class DeleteCarServlet extends HttpServlet {
@@ -22,6 +24,13 @@ public class DeleteCarServlet extends HttpServlet {
 				TaxiBeanEmulator.deleteCar(Integer.valueOf(id));
 			} catch (ObjectNotFoundException e) {
 				resp.sendRedirect(req.getContextPath() + "/ViewCarList");
+                                return;
+                        } catch (SQLIntegrityConstraintViolationException e) {
+                                final RequestDispatcher requestDispatcher = req.getRequestDispatcher("/ViewCarList");
+                                String error = e.getLocalizedMessage();
+                                req.setAttribute("error", error);
+                                requestDispatcher.forward(req, resp);
+                                return;
 			} catch (FinderException e) {
 				throw new ServletException(e);
 			} catch (NamingException e) {

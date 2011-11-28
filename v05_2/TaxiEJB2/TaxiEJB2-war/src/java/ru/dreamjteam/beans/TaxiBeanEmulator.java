@@ -57,9 +57,14 @@ public class TaxiBeanEmulator {
 		carEntity.setCarVO(car);
 	}
         
-	public static void deleteCar(Integer Id) throws FinderException, NamingException, RemoveException {
+	public static void deleteCar(Integer Id) throws FinderException, NamingException, RemoveException, SQLIntegrityConstraintViolationException {
 		final CarEntityBeanLocalHome home = BeanProvider.getCarHome();
 		final CarEntityBeanLocal carEntity = home.findByPrimaryKey(Id);
+                CarVO car = carEntity.getCarVO(true);
+                if (!car.getOrderVOs().isEmpty())
+			throw new SQLIntegrityConstraintViolationException("Удаление невозможно. Удалите все заявки, связанные с автомобилем.");
+                if (!car.getCurrentOrderVOs().isEmpty())
+			throw new SQLIntegrityConstraintViolationException("Удаление невозможно. Данный автомобиль выполняет заявку.");
 		carEntity.remove();
 	}
         
@@ -152,7 +157,39 @@ public class TaxiBeanEmulator {
 		final OrderEntityBeanLocalHome home = BeanProvider.getOrderHome();
 		final Collection orderEntities = home.findByStatus("new");
 		for (Object orderEntity : orderEntities)
-			orders.add(((OrderEntityBeanLocal) orderEntity).getOrderVO(true));
+			orders.add(((OrderEntityBeanLocal) orderEntity).getOrderVO(false));
 		return orders;
+	}
+        
+        //--------------------------- Points --------------------------
+        
+        public static int createChain(List<PointVO> chain) throws CreateException, NamingException {
+		final PointEntityBeanLocalHome home = BeanProvider.getPointHome();
+		PointEntityBeanLocal endPoint = home.createPoint(chain.get(chain.size()-1).getAddress(), null);
+                int nextId = endPoint.getId();
+                
+                for (int i=chain.size()-2; i>=0; i--)
+                    nextId = home.createPoint(chain.get(i).getAddress(), nextId).getId();
+                return nextId;
+	}
+        
+        public static void updateChain(Integer id, List<PointVO> chain) throws FinderException, NamingException {
+		final PointEntityBeanLocalHome home = BeanProvider.getPointHome();
+                Integer nextId = id;
+                for (PointVO pointVO : chain)
+                {
+                    PointEntityBeanLocal pointEntity = home.findByPrimaryKey(nextId);
+                    nextId = pointEntity.getNextId();
+                    pointEntity.setPointVO(new PointVO(pointEntity.getId(), pointVO.getAddress(), nextId));
+                }
+	}
+        
+        public static List<PointVO> getChain(Integer Id) throws FinderException, NamingException {
+                List<PointVO> chain = new LinkedList<PointVO>();
+		final PointEntityBeanLocalHome home = BeanProvider.getPointHome();
+		final Collection pointEntities = home.findChain(Id);
+                for (Object pointEntity : pointEntities)
+			chain.add(((PointEntityBeanLocal) pointEntity).getPointVO());
+		return chain;
 	}
 }

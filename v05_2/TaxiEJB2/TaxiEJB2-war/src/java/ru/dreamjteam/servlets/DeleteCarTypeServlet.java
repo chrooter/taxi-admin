@@ -42,8 +42,5 @@ public class DeleteCarTypeServlet extends HttpServlet {
 		}
 		resp.sendRedirect(req.getContextPath() + "/ViewCarTypeList");
                 
-                /*final RequestDispatcher requestDispatcher = req.getRequestDispatcher("/carTypes.jsp");
-		requestDispatcher.include(req, resp);
-                return;*/
 	}
 }

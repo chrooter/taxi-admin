@@ -28,6 +28,7 @@ public class OrderEntityBean implements EntityBean {
 	private DataSource dataSource;
         private Connection conn;
 
+        private boolean isModified;
 
 	public Integer ejbFindByPrimaryKey(Integer key) throws FinderException {
 		
@@ -143,8 +144,8 @@ public class OrderEntityBean implements EntityBean {
 		this.passengers = passengers;
 		this.phone = phone;
 		this.status = "new";
-		//final java.util.Date now = new java.util.Date();
-		//this.timeOrd = new Timestamp(now.getTime());
+		final java.util.Date now = new java.util.Date();
+		this.timeOrd = new Timestamp(now.getTime());
 		
 		PreparedStatement st = null;
 		try {
@@ -214,6 +215,7 @@ public class OrderEntityBean implements EntityBean {
 			phone = rs.getString("PHONE");
                         status = rs.getString("STATUS");
 			carId = rs.getInt("CAR_ID");
+                        isModified = false;
 		} catch (SQLException e) {
 			throw new EJBException(e);
 		} finally {
@@ -222,28 +224,43 @@ public class OrderEntityBean implements EntityBean {
 	}
 
 	public void ejbStore() throws EJBException {
+                if (!isModified) return;
 		id = (Integer) context.getPrimaryKey();
 		
 		PreparedStatement st = null;
 		try {
 			openConnection();
-			st = conn.prepareStatement("UPDATE ORDERS SET TIME_ORD = ?, TIME_DONE = ?, START_POINT = ?, PASSENGERS = ?, DISTANCE = ?, COST = ?, PHONE = ?, STATUS = ?, CAR_ID = ? WHERE ID = ?");
+                        
+                        String query1 = "UPDATE ORDERS SET TIME_ORD = ?, TIME_DONE = ?, START_POINT = ?, PASSENGERS = ?, DISTANCE = ?, COST = ?, PHONE = ?, STATUS = ?, CAR_ID = ? WHERE ID = ?";
+                        String query2 = "UPDATE ORDERS SET TIME_ORD = ?, TIME_DONE = ?, START_POINT = ?, PASSENGERS = ?, DISTANCE = ?, COST = ?, PHONE = ?, STATUS = ? WHERE ID = ?";
+                        
+                            if (carId == 0)
+                            {
+                                st = conn.prepareStatement(query2);
+                                st.setInt(9, id);
+                            }
+                                else
+                                {
+                                    st = conn.prepareStatement(query1);
+                                    st.setInt(9, carId);
+                                    st.setInt(10, id);
+                                }
+                        
 			st.setTimestamp(1, timeOrd);
 			st.setTimestamp(2, timeDone);
 			st.setInt(3, startPoint);
 			st.setInt(4, passengers);
-			st.setInt(5, distance);
-			st.setInt(6, cost);
+                        st.setInt(5, distance);
+                        st.setInt(6, cost);
 			st.setString(7, phone);
                         st.setString(8, status);
-			st.setInt(9, carId);
-			st.setInt(10, id);
+			
 			if (st.executeUpdate() < 1)
 				throw new NoSuchEntityException("Row for id " + id + " not found in database");
 		} catch (SQLException e) {
 			throw new EJBException(e);
 		} finally {
-			closeConnection(st);
+			closeConnection(st); 
 		}
 	}
 
@@ -254,6 +271,7 @@ public class OrderEntityBean implements EntityBean {
 
 	public void setId(Integer id) {
 		this.id = id;
+                isModified = true;
 	}
 
 	public Integer getCost() {
@@ -262,6 +280,7 @@ public class OrderEntityBean implements EntityBean {
 
 	public void setCost(Integer cost) {
 		this.cost = cost;
+                isModified = true;
 	}
 
 	public String getPhone() {
@@ -270,6 +289,7 @@ public class OrderEntityBean implements EntityBean {
 
 	public void setPhone(String phone) {
 		this.phone = phone;
+                isModified = true;
 	}
 
 	public Integer getDistance() {
@@ -278,6 +298,7 @@ public class OrderEntityBean implements EntityBean {
 
 	public void setDistance(Integer distance) {
 		this.distance = distance;
+                isModified = true;
 	}
 
 	public Integer getPassengers() {
@@ -286,6 +307,7 @@ public class OrderEntityBean implements EntityBean {
 
 	public void setPassengers(Integer passengers) {
 		this.passengers = passengers;
+                isModified = true;
 	}
 
 	public Timestamp getTimeDone() {
@@ -294,6 +316,7 @@ public class OrderEntityBean implements EntityBean {
 
 	public void setTimeDone(Timestamp timeDone) {
 		this.timeDone = timeDone;
+                isModified = true;
 	}
 
 	public Timestamp getTimeOrd() {
@@ -302,6 +325,7 @@ public class OrderEntityBean implements EntityBean {
 
 	public void setTimeOrd(Timestamp timeOrd) {
 		this.timeOrd = timeOrd;
+                isModified = true;
 	}
 
 	public String getStatus() {
@@ -310,6 +334,7 @@ public class OrderEntityBean implements EntityBean {
 
 	public void setStatus(String status) {
 		this.status = status;
+                isModified = true;
 	}
 
 	public Integer getStartPoint() {
@@ -318,6 +343,7 @@ public class OrderEntityBean implements EntityBean {
 
 	public void setStartPoint(Integer startPoint) {
 		this.startPoint = startPoint;
+                isModified = true;
 	}
 
 	public Integer getCarId() {
@@ -326,6 +352,7 @@ public class OrderEntityBean implements EntityBean {
 
 	public void setCarId(Integer carId) {
 		this.carId = carId;
+                isModified = true;
 	}
 
         private void openConnection(){
@@ -355,9 +382,12 @@ public class OrderEntityBean implements EntityBean {
 	public OrderVO getOrderVO(Boolean withDependences) throws FinderException, NamingException {
 		final OrderVO orderVO = new OrderVO(id, cost, phone, distance, passengers, timeDone, timeOrd, startPoint, carId, status);
 		if (!withDependences) return orderVO;
-		final CarEntityBeanLocalHome carHome = lookupCarEntityBeanLocal();
-		final CarEntityBeanLocal carEntity = carHome.findByPrimaryKey(carId);
-		orderVO.setCar(carEntity.getCarVO(false));
+                if (carId!=0)
+                {
+                    final CarEntityBeanLocalHome carHome = lookupCarEntityBeanLocal();
+                    final CarEntityBeanLocal carEntity = carHome.findByPrimaryKey(carId);
+                    orderVO.setCar(carEntity.getCarVO(false));
+                }
 		return orderVO;
 	}
 

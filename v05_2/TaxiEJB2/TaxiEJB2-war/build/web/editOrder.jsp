@@ -55,8 +55,9 @@
 							<div class="txt_content">
 								<form action="<%=request.getContextPath()%>/EditOrder" method="POST" accept-charset="UTF-8">
 									<input type="hidden" name="id" value="${requestScope.order.id}"/>
-                                    <input type="hidden" name="completed" value="${requestScope.order.status}"/>
-									<h2>Редактирования заказа</h2>
+                                                                        <input type="hidden" name="status" value="${requestScope.order.status}"/>
+                                                                        <input type="hidden" name="startpointid" value="${requestScope.order.startPoint}"/>
+									<h2>Редактирование заказа</h2>
 									<div class="edit_box"><div class="box">
 										<div>
 											<c:forEach items="${requestScope.errors}" var="error">
@@ -64,42 +65,49 @@
 											</c:forEach>
 										</div>
 										<div class="fl edit_side1">
-											<div class="edit_side_block">
+                                                                                        <c:forEach items="${requestScope.chain}" var="pointVO" varStatus="status">
+                                                                                        <div class="edit_side_block">
+												<h2><label for="addrdep">Адрес ${status.count}</label></h2>
+												<div class="box"><input type="text" class="db edit_txt" name="point${status.count}" maxlength="255" id="addrdep" value="${pointVO.address}"/></div>
+											</div>
+                                                                                        </c:forEach>
+											<%--<div class="edit_side_block">
 												<h2><label for="addrdep">Адрес отправления</label></h2>
-												<div class="box"><input type="text" class="db edit_txt" name="addrdep" maxlength="255" id="addrdep" value="${requestScope.order.addrDep}"/></div>
+												<div class="box"><input type="text" class="db edit_txt" name="startpoint" maxlength="255" id="addrdep" value="${requestScope.order.startPoint}"/></div>
 											</div>
 											<div class="edit_side_block">
 												<h2><label for="addrdest">Адрес доставки</label></h2>
-												<div class="box"><input type="text" class="db edit_txt" name="addrdest" maxlength="255" id="addrdest" value="${requestScope.order.addrDest}"/></div>
-											</div>
+												<div class="box"><input type="text" class="db edit_txt" name="addrdest" maxlength="255" id="addrdest" value=""/></div>
+											</div>--%>
 											<div class="edit_side_block">
 												<h2><label for="phone">Телефон</label></h2>
 												<div class="box"><input type="text" class="db edit_txt" name="phone" maxlength="12" id="phone" value="${requestScope.order.phone}"/></div>
 											</div>
-											<div class="edit_side_block">
+                                                                                        <div class="edit_side_block">
+												<h2><label for="passengers">Число пассажиров</label></h2>
+												<div class="box"><input type="text" class="db edit_txt" name="passengers" maxlength="6" id="passengers" value="${requestScope.order.passengers}"/></div>
+											</div>
+										</div>
+
+										<div class="box edit_side2">
+                                                                                    <div class="edit_side_block">
 												<h2><label for="car">Автомобиль</label></h2>
 												<div class="box">
-													<select name="carid" id="car">
+													<select name="carid" id="car" <c:if test="${requestScope.order.status=='new'}">disabled</c:if>>
+                                                                                                            <option disabled>Выберите автомобиль</option>
 														<c:forEach items="${requestScope.cars}" var="car">
 															<option value="${car.id}" <c:if test="${requestScope.order.carId eq car.id}">selected="selected"</c:if>><c:out value="${car}"/></option>
 														</c:forEach>
 													</select>
 												</div>
 											</div>
-										</div>
-
-										<div class="box edit_side2">
+                                                                                        <div class="edit_side_block">
+												<h2><label for="distance">Расстояние поездки</label></h2>
+												<div class="box"><input <c:if test="${requestScope.order.status!='done'}">readonly="readonly"</c:if> type="text" class="db edit_txt" name="distance" maxlength="6" id="distance" value="${requestScope.order.distance}"/></div>
+											</div>
 											<div class="edit_side_block">
 												<h2><label for="cost">Стоимость поездки</label></h2>
-												<div class="box"><input type="text" class="db edit_txt" name="cost" maxlength="6" id="cost" value="${requestScope.order.cost}"/></div>
-											</div>
-											<div class="edit_side_block">
-												<h2><label for="passengers">Число пассажиров</label></h2>
-												<div class="box"><input type="text" class="db edit_txt" name="passengers" maxlength="6" id="passengers" value="${requestScope.order.passengers}"/></div>
-											</div>
-											<div class="edit_side_block">
-												<h2><label for="distance">Расстояние поездки</label></h2>
-												<div class="box"><input type="text" class="db edit_txt" name="distance" maxlength="6" id="distance" value="${requestScope.order.distance}"/></div>
+                                                                                                <div class="box"><input readonly="readonly" type="text" class="db edit_txt" name="cost" maxlength="6" id="cost" value="${requestScope.order.cost}"/></div>
 											</div>
 											<div class="edit_side_block">
 												<h2><label for="timeOrd">Время создания заявки</label></h2>
@@ -107,7 +115,7 @@
 											</div>
 											<div class="edit_side_block">
 												<h2><label for="timeDest">Время выполнения заявки</label></h2>
-												<div class="box"><input readonly="readonly" type="text" class="db edit_txt" name="timedest" maxlength="6" id="timeDest" value="<fmt:formatDate value="${requestScope.order.timeDest}" pattern="dd.MM.yyyy HH:mm"/>"/></div>
+												<div class="box"><input readonly="readonly" type="text" class="db edit_txt" name="timedone" maxlength="6" id="timeDest" value="<fmt:formatDate value="${requestScope.order.timeDone}" pattern="dd.MM.yyyy HH:mm"/>"/></div>
 											</div>
 										</div>
 									</div></div>
