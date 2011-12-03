@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jboss>
+  <enterprise-beans>
+    <entity>
+      <ejb-name>CarEntityBean</ejb-name>
+      <jndi-name>CarEntityBean</jndi-name>
+      <resource-ref>
+        <res-ref-name>taxiref</res-ref-name>
+        <jndi-name>java:/jdbc/taxi</jndi-name>
+      </resource-ref>
+    </entity>
+    <entity>
+      <ejb-name>OrderEntityBean</ejb-name>
+      <jndi-name>OrderEntityBean</jndi-name>
+      <resource-ref>
+        <res-ref-name>taxiref</res-ref-name>
+        <jndi-name>java:/jdbc/taxi</jndi-name>
+      </resource-ref>
+    </entity>
+    <entity>
+      <ejb-name>CarTypeEntityBean</ejb-name>
+      <jndi-name>CarTypeEntityBean</jndi-name>
+      <resource-ref>
+        <res-ref-name>taxiref</res-ref-name>
+        <jndi-name>java:/jdbc/taxi</jndi-name>
+      </resource-ref>
+    </entity>
+    <entity>
+      <ejb-name>PointEntityBean</ejb-name>
+      <jndi-name>PointEntityBean</jndi-name>
+      <resource-ref>
+        <res-ref-name>taxiref</res-ref-name>
+        <jndi-name>java:/jdbc/taxi</jndi-name>
+      </resource-ref>
+    </entity>
+  </enterprise-beans>
+</jboss>
