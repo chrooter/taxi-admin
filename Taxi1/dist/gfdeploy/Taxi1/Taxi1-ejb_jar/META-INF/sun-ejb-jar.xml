@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sun-ejb-jar PUBLIC "-//Sun Microsystems, Inc.//DTD Application Server 8.1 EJB 2.1//EN" "http://www.sun.com/software/appserver/dtds/sun-ejb-jar_2_1-1.dtd">
+<sun-ejb-jar>
+  <enterprise-beans>
+    <ejb>
+      <ejb-name>OrderEntityBean</ejb-name>
+      <resource-ref>
+        <res-ref-name>taxi</res-ref-name>
+        <jndi-name>taxi</jndi-name>
+      </resource-ref>
+    </ejb>
+    <ejb>
+      <ejb-name>PointEntityBean</ejb-name>
+      <resource-ref>
+        <res-ref-name>taxi</res-ref-name>
+        <jndi-name>taxi</jndi-name>
+      </resource-ref>
+    </ejb>
+    <ejb>
+      <ejb-name>CarEntityBean</ejb-name>
+      <resource-ref>
+        <res-ref-name>taxi</res-ref-name>
+        <jndi-name>taxi</jndi-name>
+      </resource-ref>
+    </ejb>
+    <ejb>
+      <ejb-name>CarTypeEntityBean</ejb-name>
+      <resource-ref>
+        <res-ref-name>taxi</res-ref-name>
+        <jndi-name>taxi</jndi-name>
+      </resource-ref>
+    </ejb>
+    <ejb>
+      <ejb-name>Receiver</ejb-name>
+      <jndi-name>jms/taxiQueue</jndi-name>
+      <mdb-connection-factory>
+        <jndi-name>jms/taxiQueueFactory</jndi-name>
+      </mdb-connection-factory>
+    </ejb>
+    <ejb>
+      <ejb-name>PutToLog</ejb-name>
+      <resource-ref>
+        <res-ref-name>taxi</res-ref-name>
+        <jndi-name>taxi</jndi-name>
+      </resource-ref>
+    </ejb>
+  </enterprise-beans>
+</sun-ejb-jar>
