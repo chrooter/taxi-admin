@@ -1,0 +1,56 @@
+package ru.dreamjteam.beans;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.ejb.CreateException;
+import javax.naming.Context;
+import ru.dreamjteam.entity.*;
+
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import session.XMLSessionBeanLocal;
+import session.XMLSessionBeanLocalHome;
+
+public class BeanProvider {
+    
+	public static CarEntityBeanLocalHome getCarHome() throws NamingException {
+		InitialContext ic = new InitialContext();
+        return (CarEntityBeanLocalHome) ic.lookup("java:comp/env/CarEntityBean");
+	}
+
+	public static CarTypeEntityBeanLocalHome getCarTypeHome() throws NamingException {
+		InitialContext ic = new InitialContext();
+		return (CarTypeEntityBeanLocalHome) ic.lookup("java:comp/env/CarTypeEntityBean");
+	}
+
+	public static OrderEntityBeanLocalHome getOrderHome() throws NamingException {
+		InitialContext ic = new InitialContext();
+		return (OrderEntityBeanLocalHome) ic.lookup("java:comp/env/OrderEntityBean");
+	}
+        
+        public static PointEntityBeanLocalHome getPointHome() throws NamingException {
+		InitialContext ic = new InitialContext();
+		return (PointEntityBeanLocalHome) ic.lookup("java:comp/env/PointEntityBean");
+	}
+
+        public static XMLSessionBeanLocal getXMLHome() throws NamingException, CreateException {
+            Context ic = new InitialContext();
+            XMLSessionBeanLocalHome rv = (XMLSessionBeanLocalHome) ic.lookup("java:comp/env/XMLSessionBean");
+            return rv.create();
+        }
+
+    private XMLSessionBeanLocal lookupXMLSessionBeanLocal() {
+        try {
+            Context c = new InitialContext();
+            XMLSessionBeanLocalHome rv = (XMLSessionBeanLocalHome) c.lookup("java:comp/env/XMLSessionBean");
+            return rv.create();
+        } catch (NamingException ne) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
+            throw new RuntimeException(ne);
+        } catch (CreateException ce) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ce);
+            throw new RuntimeException(ce);
+        }
+    }
+
+}
