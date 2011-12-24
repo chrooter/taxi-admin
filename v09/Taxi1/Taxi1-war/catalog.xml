@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <system systemId="file:/C:/Users/диман/Documents/NetBeansProjects/Taxi1/Taxi1-war/../../../../Desktop/загрузка/schema.xsd" uri="src/conf/xml-resources/jaxb/taxi/schema.xsd"/>
+</catalog>
