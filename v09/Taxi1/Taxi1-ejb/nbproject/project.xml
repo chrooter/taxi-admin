@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://www.netbeans.org/ns/project/1">
+    <type>org.netbeans.modules.j2ee.ejbjarproject</type>
+    <configuration>
+        <data xmlns="http://www.netbeans.org/ns/j2ee-ejbjarproject/3">
+            <name>Taxi1-ejb</name>
+            <minimum-ant-version>1.6.5</minimum-ant-version>
+            <included-library dirs="200">file.reference.activation.jar</included-library>
+            <included-library dirs="200">file.reference.antlr.jar</included-library>
+            <included-library dirs="200">file.reference.avalon-framework.jar</included-library>
+            <included-library dirs="200">file.reference.commons-logging.jar</included-library>
+            <included-library dirs="200">file.reference.concurrent.jar</included-library>
+            <included-library dirs="200">file.reference.ejb3-persistence.jar</included-library>
+            <included-library dirs="200">file.reference.FastInfoset.jar</included-library>
+            <included-library dirs="200">file.reference.getopt.jar</included-library>
+            <included-library dirs="200">file.reference.hibernate-annotations.jar</included-library>
+            <included-library dirs="200">file.reference.jacorb.jar</included-library>
+            <included-library dirs="200">file.reference.javassist.jar</included-library>
+            <included-library dirs="200">file.reference.jaxb-api.jar</included-library>
+            <included-library dirs="200">file.reference.jaxb-impl.jar</included-library>
+            <included-library dirs="200">file.reference.jaxb-xjc.jar</included-library>
+            <included-library dirs="200">file.reference.jaxws-rt.jar</included-library>
+            <included-library dirs="200">file.reference.jaxws-tools.jar</included-library>
+            <included-library dirs="200">file.reference.jboss-aop-client.jar</included-library>
+            <included-library dirs="200">file.reference.jboss-appclient.jar</included-library>
+            <included-library dirs="200">file.reference.jboss-aspect-jdk50-client.jar</included-library>
+            <included-library dirs="200">file.reference.jboss-client.jar</included-library>
+            <included-library dirs="200">file.reference.jboss-common-core.jar</included-library>
+            <included-library dirs="200">file.reference.jboss-deployers-client-spi.jar</included-library>
+            <included-library dirs="200">file.reference.jboss-deployers-client.jar</included-library>
+            <included-library dirs="200">file.reference.jboss-deployers-core-spi.jar</included-library>
+            <included-library dirs="200">file.reference.jboss-deployers-core.jar</included-library>
+            <included-library dirs="200">file.reference.jboss-deployers-vfs-spi.jar</included-library>
+            <included-library dirs="200">file.reference.jboss-deployers-vfs.jar</included-library>
+            <included-library dirs="200">file.reference.jboss-deployment.jar</included-library>
+            <included-library dirs="200">file.reference.jboss-ejb3-common-client.jar</included-library>
+            <included-library dirs="200">file.reference.jboss-ejb3-core-client.jar</included-library>
+            <included-library dirs="200">file.reference.jboss-ejb3-ext-api-impl.jar</included-library>
+            <included-library dirs="200">file.reference.jboss-ejb3-ext-api.jar</included-library>
+            <included-library dirs="200">file.reference.jboss-ejb3-proxy-clustered-client.jar</included-library>
+            <included-library dirs="200">file.reference.jboss-ejb3-proxy-impl-client.jar</included-library>
+            <included-library dirs="200">file.reference.jboss-ejb3-proxy-spi-client.jar</included-library>
+            <included-library dirs="200">file.reference.jboss-ejb3-security-client.jar</included-library>
+            <included-library dirs="200">file.reference.jboss-ha-client.jar</included-library>
+            <included-library dirs="200">file.reference.jboss-ha-legacy-client.jar</included-library>
+            <included-library dirs="200">file.reference.jboss-iiop-client.jar</included-library>
+            <included-library dirs="200">file.reference.jboss-integration.jar</included-library>
+            <included-library dirs="200">file.reference.jboss-j2se.jar</included-library>
+            <included-library dirs="200">file.reference.jboss-jaspi-api.jar</included-library>
+            <included-library dirs="200">file.reference.jboss-javaee.jar</included-library>
+            <included-library dirs="200">file.reference.jboss-jsr77-client.jar</included-library>
+            <included-library dirs="200">file.reference.jboss-logging-jdk.jar</included-library>
+            <included-library dirs="200">file.reference.jboss-logging-log4j.jar</included-library>
+            <included-library dirs="200">file.reference.jboss-logging-spi.jar</included-library>
+            <included-library dirs="200">file.reference.jboss-main-client.jar</included-library>
+            <included-library dirs="200">file.reference.jboss-mdr.jar</included-library>
+            <included-library dirs="200">file.reference.jboss-messaging-client.jar</included-library>
+            <included-library dirs="200">file.reference.jboss-metadata.jar</included-library>
+            <included-library dirs="200">file.reference.jboss-remoting.jar</included-library>
+            <included-library dirs="200">file.reference.jboss-security-spi.jar</included-library>
+            <included-library dirs="200">file.reference.jboss-serialization.jar</included-library>
+            <included-library dirs="200">file.reference.jboss-srp-client.jar</included-library>
+            <included-library dirs="200">file.reference.jboss-system-client.jar</included-library>
+            <included-library dirs="200">file.reference.jboss-system-jmx-client.jar</included-library>
+            <included-library dirs="200">file.reference.jboss-xml-binding.jar</included-library>
+            <included-library dirs="200">file.reference.jbossall-client.jar</included-library>
+            <included-library dirs="200">file.reference.jbosscx-client.jar</included-library>
+            <included-library dirs="200">file.reference.jbossjmx-ant.jar</included-library>
+            <included-library dirs="200">file.reference.jbossjts-integration.jar</included-library>
+            <included-library dirs="200">file.reference.jbossjts.jar</included-library>
+            <included-library dirs="200">file.reference.jbosssx-as-client.jar</included-library>
+            <included-library dirs="200">file.reference.jbosssx-client.jar</included-library>
+            <included-library dirs="200">file.reference.jbossws-common.jar</included-library>
+            <included-library dirs="200">file.reference.jbossws-framework.jar</included-library>
+            <included-library dirs="200">file.reference.jbossws-jboss50.jar</included-library>
+            <included-library dirs="200">file.reference.jbossws-native-client.jar</included-library>
+            <included-library dirs="200">file.reference.jbossws-native-core.jar</included-library>
+            <included-library dirs="200">file.reference.jbossws-native-jaxrpc.jar</included-library>
+            <included-library dirs="200">file.reference.jbossws-native-jaxws-ext.jar</included-library>
+            <included-library dirs="200">file.reference.jbossws-native-jaxws.jar</included-library>
+            <included-library dirs="200">file.reference.jbossws-native-saaj.jar</included-library>
+            <included-library dirs="200">file.reference.jbossws-spi.jar</included-library>
+            <included-library dirs="200">file.reference.jettison.jar</included-library>
+            <included-library dirs="200">file.reference.jmx-client.jar</included-library>
+            <included-library dirs="200">file.reference.jmx-invoker-adaptor-client.jar</included-library>
+            <included-library dirs="200">file.reference.jnp-client.jar</included-library>
+            <included-library dirs="200">file.reference.log4j.jar</included-library>
+            <included-library dirs="200">file.reference.logkit.jar</included-library>
+            <included-library dirs="200">file.reference.mail.jar</included-library>
+            <included-library dirs="200">file.reference.policy.jar</included-library>
+            <included-library dirs="200">file.reference.scout.jar</included-library>
+            <included-library dirs="200">file.reference.slf4j-api.jar</included-library>
+            <included-library dirs="200">file.reference.slf4j-jboss-logging.jar</included-library>
+            <included-library dirs="200">file.reference.stax-api.jar</included-library>
+            <included-library dirs="200">file.reference.stax-ex.jar</included-library>
+            <included-library dirs="200">file.reference.streambuffer.jar</included-library>
+            <included-library dirs="200">file.reference.trove.jar</included-library>
+            <included-library dirs="200">file.reference.wsdl4j.jar</included-library>
+            <included-library dirs="200">file.reference.wstx.jar</included-library>
+            <included-library dirs="200">file.reference.xmlsec.jar</included-library>
+            <included-library dirs="200">reference.Change.jar</included-library>
+            <source-roots>
+                <root id="src.dir" name="Source Packages"/>
+            </source-roots>
+            <test-roots>
+                <root id="test.src.dir" name="Test Packages"/>
+            </test-roots>
+        </data>
+        <references xmlns="http://www.netbeans.org/ns/ant-project-references/1">
+            <reference>
+                <foreign-project>Change</foreign-project>
+                <artifact-type>jar</artifact-type>
+                <script>build.xml</script>
+                <target>jar</target>
+                <clean-target>clean</clean-target>
+                <id>jar</id>
+            </reference>
+        </references>
+    </configuration>
+</project>
