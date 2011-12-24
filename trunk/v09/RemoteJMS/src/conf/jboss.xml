@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jboss>
+  <enterprise-beans>
+    <session>
+      <ejb-name>PutToLog</ejb-name>
+      <jndi-name>PutToLog</jndi-name>
+      <resource-ref>
+        <res-ref-name>taxi</res-ref-name>
+        <jndi-name>java:/taxi</jndi-name>
+      </resource-ref>
+    </session>
+    <message-driven>
+      <ejb-name>Reciever</ejb-name>
+      <destination-jndi-name>queue/SampleServerQueue</destination-jndi-name>
+    </message-driven>
+  </enterprise-beans>
+</jboss>
